@@ -1,4 +1,4 @@
-package no.ntnu.IDATA2304.Group1.server.communicator;
+package no.ntnu.idata2304.group1.server.communicator;
 
 import java.io.Closeable;
 import java.io.IOException;

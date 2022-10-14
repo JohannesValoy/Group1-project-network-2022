@@ -1,4 +1,4 @@
-package no.ntnu.IDATA2304.Group1.server.messages;
+package no.ntnu.idata2304.group1.server.messages;
 
 class LogOutputter{
     

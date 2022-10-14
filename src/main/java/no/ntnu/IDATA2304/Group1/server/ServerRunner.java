@@ -1,7 +1,7 @@
-package no.ntnu.IDATA2304.Group1.server;
+package no.ntnu.idata2304.group1.server;
 import java.io.IOException;
 
-import no.ntnu.IDATA2304.Group1.server.communicator.TCPListener;
+import no.ntnu.idata2304.group1.server.communicator.TCPListener;
 
 public class ServerRunner {
 

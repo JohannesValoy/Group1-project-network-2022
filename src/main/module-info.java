@@ -1,7 +1,7 @@
-module no.ntnu.IDATA2304.Group1.server {
+module no.ntnu.idata2304.group1.server {
     requires transitive org.json;
-    opens no.ntnu.IDATA2304.Group1.server;
-    opens no.ntnu.IDATA2304.Group1.server.communicator;
-    exports no.ntnu.IDATA2304.Group1.server.communicator;
-    opens no.ntnu.IDATA2304.Group1.server.messages;
+    opens no.ntnu.idata2304.group1.server;
+    opens no.ntnu.idata2304.group1.server.communicator;
+    exports no.ntnu.idata2304.group1.server.communicator;
+    opens no.ntnu.idata2304.group1.server.messages;
 }
