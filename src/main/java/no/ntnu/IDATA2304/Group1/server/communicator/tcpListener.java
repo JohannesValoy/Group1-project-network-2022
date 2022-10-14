@@ -21,10 +21,9 @@ public class TCPListener extends Thread implements Closeable {
         while (true) {
             try {
                 Socket client = socket.accept();
-                new ServerThread(client).start();
+                new ClientThread(client).start();
             } catch (Exception e) {
-            }
-            ;
+            };
 
         }
     }

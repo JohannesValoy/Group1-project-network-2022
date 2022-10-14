@@ -1,4 +1,4 @@
-module no.ntnu.idata2304.group1.server {
+module Server {
     requires transitive org.json;
     opens no.ntnu.idata2304.group1.server;
     opens no.ntnu.idata2304.group1.server.communicator;
