@@ -18,7 +18,7 @@ public class RainSensor {
     }
 
     public Integer getCurrentLevel() {
-        this.currentLevel = this.currentLevel + (3 - randomGen.nextInt(6));
+        this.currentLevel = this.currentLevel + (randomGen.nextInt(6));
         historyLog.add(this.currentLevel);
         return this.currentLevel;
     }

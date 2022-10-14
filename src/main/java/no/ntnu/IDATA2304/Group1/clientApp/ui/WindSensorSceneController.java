@@ -50,10 +50,4 @@ public class WindSensorSceneController {
     this.windDirectionText.setText(Integer.toString(this.windSensor.getWindDirection()));
   }
 
-  public void returnHome(ActionEvent actionEvent) {
-    Stage primaryStage = (Stage)((Node) actionEvent.getSource()).getScene().getWindow();
-    primaryStage.hide();
-    primaryStage.setScene(this.mainScene);
-    primaryStage.show();
-  }
 }

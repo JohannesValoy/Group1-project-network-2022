@@ -11,7 +11,9 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import jfxtras.scene.control.gauge.linear.SimpleMetroArcGauge;
 import no.ntnu.IDATA2304.Group1.clientApp.weatherstation.RainSensor;
+import no.ntnu.IDATA2304.Group1.clientApp.weatherstation.WindSensor;
 
 import java.util.List;
 
@@ -24,9 +26,16 @@ public class RainSensorController {
     private RainSensor rainSensor;
 
     private Scene mainScene;
+    private WindSensor windSensor;
+    @FXML
+    private SimpleMetroArcGauge windSpeedDial;
 
     public void initialize() {
 
+    }
+
+    public RainSensor getRainSensor(RainSensor rainSensor) {
+        return this.rainSensor;
     }
 
     public void setRainSensor(RainSensor rainSensor) {
@@ -37,20 +46,14 @@ public class RainSensorController {
     this.mainScene = scene;
   }
 
-    public void returnHome(ActionEvent actionEvent) {
-        Stage primaryStage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        primaryStage.hide();
-        primaryStage.setScene(this.mainScene);
-        primaryStage.show();
-    }
-
     public void updateRainLevel(MouseEvent mouseEvent) {
         Integer currentLevel = this.rainSensor.getCurrentLevel();
-        this.rainLevelText.setText(currentLevel.toString());
 
         // Update the Chart
         this.rainSensorChart.getData().clear();
         this.rainSensorChart.getData().addAll(getChartData());
+
+        this.windSpeedDial.setValue(currentLevel);
     }
 
     /**

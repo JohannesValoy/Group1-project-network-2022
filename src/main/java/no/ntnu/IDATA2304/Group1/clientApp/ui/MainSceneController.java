@@ -1,38 +1,44 @@
 package no.ntnu.IDATA2304.Group1.clientApp.ui;
-
-import javafx.event.ActionEvent;
-import javafx.scene.Node;
+import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
+
 public class MainSceneController {
-
-  private Scene windSensorScene;
+  @FXML
+  public GridPane gridPane;
+  @FXML
   private Scene rainSensorScene;
+  @FXML
+  private Scene windSensorScene;
 
-  public void setWindSensorScene(Scene windSensorScene) {
-    this.windSensorScene = windSensorScene;
+  public MainSceneController(){
   }
 
   public void setRainSensorScene(Scene rainSensorScene) {
     this.rainSensorScene = rainSensorScene;
   }
 
-
-  public void openWindSensorScene(ActionEvent actionEvent) {
-    Stage primaryStage = (Stage)((Node) actionEvent.getSource()).getScene().getWindow();
-    this.setScene(primaryStage, this.windSensorScene);
+  public void setWindSensorScene(Scene windSensorScene) {
+    this.windSensorScene = windSensorScene;
   }
 
-  public void openRainSensorScene(ActionEvent actionEvent) {
-    Stage primaryStage = (Stage)((Node) actionEvent.getSource()).getScene().getWindow();
-    this.setScene(primaryStage, this.rainSensorScene);
+  public void openRainSensorScene() {
+    this.setScene(new Stage(), this.rainSensorScene);
   }
 
-  private void setScene(Stage primaryStage, Scene newScene) {
+  public void openWindSensorScene() {
+    this.setScene(new Stage(), this.windSensorScene);
+  }
+
+  void setScene(Stage primaryStage, Scene newScene) {
     primaryStage.hide();
     primaryStage.setScene(newScene);
     primaryStage.show();
   }
 
+  public GridPane getGridPane() {
+    return this.gridPane;
+  }
 }
