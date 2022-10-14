@@ -1,45 +1,44 @@
 package no.ntnu.IDATA2304.Group1.clientApp.app2;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.InetAddress;
+import java.io.*;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
+/**
+ * Socket class on client side to connect and read from server
+ */
 public class ClientSocket {
-    public void run() {
-        try {
-            int serverPort = 4020;
-            InetAddress host = InetAddress.getByName("localhost");
-            System.out.println("Connecting to server on port " + serverPort);
 
-            Socket socket = new Socket(host,serverPort);
-            //Socket socket = new Socket("127.0.0.1", serverPort);
-            System.out.println("Just connected to " + socket.getRemoteSocketAddress());
-
-            PrintWriter toServer =
-                    new PrintWriter(socket.getOutputStream(),true);
-
-            BufferedReader fromServer =
-                    new BufferedReader(
-                            new InputStreamReader(socket.getInputStream()));
-            toServer.println("Hello from " + socket.getLocalSocketAddress());
-
-            String line = fromServer.readLine();
-            System.out.println("Client received: " + line + " from Server");
-            toServer.close();
-            fromServer.close();
-            socket.close();
-
-        } catch(IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
+    /**
+     * Template
+     */
     public static void main(String[] args) {
-        ClientSocket client = new ClientSocket();
-        client.run();
+
+        String hostname = "time.nist.gov";
+        int port = 13;
+
+        try (Socket socket = new Socket(hostname, port)) {
+
+            InputStream input = socket.getInputStream();
+            InputStreamReader reader = new InputStreamReader(input);
+
+            int character;
+            StringBuilder data = new StringBuilder();
+
+            while ((character = reader.read()) != -1) {
+                data.append((char) character);
+            }
+
+            System.out.println(data);
+
+        } catch (UnknownHostException ex) {
+
+            System.out.println("Server not found: " + ex.getMessage());
+
+        } catch (IOException ex) {
+
+            System.out.println("I/O error: " + ex.getMessage());
+        }
     }
 }
 
