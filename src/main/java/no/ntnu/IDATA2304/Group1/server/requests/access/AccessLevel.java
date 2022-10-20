@@ -4,23 +4,23 @@ public enum AccessLevel {
     /**
      * Read Access
      */
-    User(0),
+    USER(0),
     /**
      * Add temp values
      */
-    Node(1),
+    NODE(1),
     /**
      * Add, Remove rooms
      */
-    Admin(2);
+    ADMIN(2);
 
     private int level;
 
-    AccessLevel(int level){
+    AccessLevel(int level) {
         this.level = level;
     }
 
-    public int getLevel(){
+    public int getLevel() {
         return level;
     }
 

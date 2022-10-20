@@ -1,8 +1,5 @@
 package no.ntnu.idata2304.group1.server.database;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.runtime.SwitchBootstraps;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -11,23 +8,26 @@ public class SQLCommandFactory {
     /**
      * Supported Commands to SQL
      */
-    public enum Commands {
-        GET();
+    public static enum Command {
+        GET(0);
+        private int id;
+        Command(int id){
+            this.id = id;
+        };
+        public int getId(){
+            return id;
+        }
     }
 
 
     private SQLCommandFactory() {};
-
-    public static String createSQLCommand(Commands command, JSONObject jsonObject)
-            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    //TODO: Translate a JSONObject over to a SQL Command
+    public static String createSQLCommand(JSONObject jsonObject){
         String string;
-        switch (command) {
-            case SQLCommandFactory.Commands.GET:
-                string = getSQL(jsonObject);
-                break;
-        }
+        throw new RuntimeException("Not Implemented"); 
     }
 
+    //TODO: Translate the GET command to SQL and fetch the response
     private static String getSQL(JSONObject object) {
         try {
             JSONArray rooms = object.getJSONArray("room");

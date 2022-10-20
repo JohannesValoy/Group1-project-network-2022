@@ -12,8 +12,8 @@ import no.ntnu.idata2304.group1.server.requests.access.User;
 
 /**
  * This thread is responsible to handle client connection.
- *
- * @author www.codejava.net
+ * A modified version of www.codejava.net example
+ * @author Mathias J. Kirkeby
  */
 
 public class ClientThread extends Thread{
@@ -24,6 +24,7 @@ public class ClientThread extends Thread{
         this.socket = socket;
     }
 
+    //TODO: Implement Login
     public void run() {
         try {
             InputStream input = socket.getInputStream();

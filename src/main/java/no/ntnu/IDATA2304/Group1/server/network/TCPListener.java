@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import javax.net.ssl.SSLServerSocketFactory;
 
 public class TCPListener extends Thread implements Closeable {
     private ServerSocket socket;
@@ -13,7 +14,7 @@ public class TCPListener extends Thread implements Closeable {
 
     public TCPListener(int port) throws IOException {
         this.port = port;
-        this.socket = new ServerSocket(port);
+        this.socket = SSLServerSocketFactory.getDefault().createServerSocket(port);
         this.clients = new ArrayList<>();
     }
 
@@ -23,7 +24,7 @@ public class TCPListener extends Thread implements Closeable {
                 Socket client = socket.accept();
                 new ClientThread(client).start();
             } catch (Exception e) {
-            };
+            } ;
         }
     }
 

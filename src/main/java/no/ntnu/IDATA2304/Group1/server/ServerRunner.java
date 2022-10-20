@@ -14,9 +14,10 @@ public class ServerRunner {
         // throw new IllegalArgumentException("Need one argument for the port number");
         // }
         // int port = Integer.parseInt(args[1]);
-        final DBConnector database = new DBConnector();
+        DBConnector database = new DBConnector();
         try (TCPListener listener = new TCPListener(port)) {
             listener.run();
         }
+        database.close();
     }
 }
