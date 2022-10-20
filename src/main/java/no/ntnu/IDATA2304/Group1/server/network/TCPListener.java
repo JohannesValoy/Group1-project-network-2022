@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.server.communicator;
+package no.ntnu.idata2304.group1.server.network;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -24,7 +24,6 @@ public class TCPListener extends Thread implements Closeable {
                 new ClientThread(client).start();
             } catch (Exception e) {
             };
-
         }
     }
 
