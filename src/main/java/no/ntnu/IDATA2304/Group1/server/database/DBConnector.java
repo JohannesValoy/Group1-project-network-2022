@@ -34,7 +34,7 @@ public class DBConnector {
                 + "name text NOT NULL" + ")";
         String nodeSQL = "CREATE TABLE IF NOT EXISTS nodes (" + "id integer PRIMARY KEY,"
                 + "name text," + "key text," + "roomid integer" + ")";
-        String data = "CREATE TABLE IF NOT EXISTS nodes (\n" + "roomID integer," + "temp integer,"
+        String data = "CREATE TABLE IF NOT EXISTS logs (\n" + "roomID integer," + "temp integer,"
                 + "date DateTime" + ")";
         execute(roomSQL);
         execute(nodeSQL);
