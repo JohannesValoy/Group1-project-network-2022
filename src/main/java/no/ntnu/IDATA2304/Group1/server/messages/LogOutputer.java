@@ -22,7 +22,7 @@ public class LogOutputer {
         }
     }
 
-    public static void print(MessageType type, String message) {
+    public static synchronized void print(MessageType type, String message) {
         if (type == null) {
             type = MessageType.INFO;
         }
