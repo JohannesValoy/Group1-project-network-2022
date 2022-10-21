@@ -1,11 +1,15 @@
 package no.ntnu.idata2304.group1.server.database;
 
+import java.io.Closeable;
+import java.io.IOException;
+import java.lang.String;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class DBConnector {
+public class DBConnector implements Closeable {
 
     private Connection conn;
 
@@ -18,15 +22,8 @@ public class DBConnector {
             path = getClass().getResource("").toString() + "data.db";
         }
         String uri = "jdbc:sqlite:" + path.toString().replace("%20", " ");
-        try {
-            this.conn = DriverManager.getConnection(uri);
-        } catch (SQLException e) {
-            throw e;
-        } finally {
-            if (this.conn != null) {
-                setup(exist);
-            }
-        }
+        this.conn = DriverManager.getConnection(uri);
+        setup(exist);
     }
 
     private void setup(Boolean exist) throws SQLException {
@@ -44,5 +41,21 @@ public class DBConnector {
     public synchronized void execute(String sqlStatement) throws SQLException {
         Statement statement = conn.createStatement();
         statement.execute(sqlStatement);
+    }
+
+    // TODO: Implement a better exception system
+    public synchronized ResultSet executeQuery(String sqlStatement) throws SQLException {
+        Statement statement = conn.createStatement();
+        statement.execute(sqlStatement);
+        return statement.getResultSet();
+    }
+
+    @Override
+    public void close() throws IOException {
+        try {
+            conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
