@@ -5,30 +5,28 @@ import org.json.JSONObject;
 
 public class SQLCommandFactory {
 
-    /**
-     * Supported Commands to SQL
-     */
-    public static enum Command {
-        GET(0);
-        private int id;
-        Command(int id){
-            this.id = id;
-        };
-        public int getId(){
-            return id;
-        }
-    }
 
+    enum Tables {
+        NODE("node"), ROOM("room"), TEMP("temprature");
+
+        private String table;
+
+        Tables(String tablename) {
+            this.table = tablename;
+        }
+
+    }
 
     private SQLCommandFactory() {};
-    //TODO: Translate a JSONObject over to a SQL Command
-    public static String createSQLCommand(JSONObject jsonObject){
+
+    // TODO: Translate a JSONObject over to a SQL Command
+    public static String createSQLCommand() {
         String string;
-        throw new RuntimeException("Not Implemented"); 
+        throw new RuntimeException("Not Implemented");
     }
 
-    //TODO: Translate the GET command to SQL and fetch the response
-    private static String getSQL(JSONObject object) {
+    // TODO: Translate the GET command to SQL and fetch the response
+    private static String get(JSONObject object) {
         try {
             JSONArray rooms = object.getJSONArray("room");
 

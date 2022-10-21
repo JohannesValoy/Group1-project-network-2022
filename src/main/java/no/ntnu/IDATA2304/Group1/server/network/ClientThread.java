@@ -5,50 +5,49 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.Socket;
 
-import org.json.JSONObject;
-import no.ntnu.idata2304.group1.server.requests.access.User;
+import java.net.Socket;
+import java.util.Iterator;
+import java.util.stream.Stream;
+import no.ntnu.idata2304.group1.server.requests.RequestHandler;
+import no.ntnu.idata2304.group1.server.messages.LogOutputer;
+import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
 
 /**
- * This thread is responsible to handle client connection.
- * A modified version of www.codejava.net example
+ * Responsible for sending and receiving network packages
+ * 
  * @author Mathias J. Kirkeby
  */
 
-public class ClientThread extends Thread{
+public class ClientThread extends Thread {
     private Socket socket;
-    private User access;
+    private RequestHandler handler;
+    private BufferedReader reader;
+    private OutputStream output;
 
-    public ClientThread(Socket socket) {
+    public ClientThread(Socket socket) throws IOException {
         this.socket = socket;
+        this.handler = new RequestHandler();
+        this.output = socket.getOutputStream();
+        this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 
-    //TODO: Implement Login
+    // TODO: Implement Login
     public void run() {
         try {
-            InputStream input = socket.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-
-            OutputStream output = socket.getOutputStream();
-
             while (this.socket.isConnected() && reader.ready()) {
-                String firstline = reader.readLine();
-                try {
-                    int length = Integer.parseInt(firstline);
-                    char[] buffer = new char[length];
-                    reader.read();
-                    System.out.println("Received: " + new String(buffer));
-                    JSONObject messageJSON = new JSONObject(new String(buffer));
-                } catch (Exception e) {
-                    if (firstline.equals("null")) {
-                        socket.close();
+                String request = reader.readLine();
+                if (!request.isEmpty()) {
+                    StringBuilder messageBuilder = new StringBuilder(request);
+                    Iterator<String> requestIterator = reader.lines().iterator();
+                    while (requestIterator.hasNext()) {
+                        messageBuilder.append(requestIterator.next());
                     }
-                    else{
-                        String message = "{'response': 'Error','Reason':'The request was invalid'}";
-                        int length = message.length();
-                        output.write((length+"\n"+message).getBytes());
-                    }
+                    request = messageBuilder.toString();
+                    LogOutputer.print(MessageType.INFO, "The request was: " + request);
+                    String response = handler.getResponse(request);
+                    LogOutputer.print(MessageType.INFO, "Replying with: " + response);
+                    output.write(response.getBytes());
                 }
             }
         } catch (IOException ex) {

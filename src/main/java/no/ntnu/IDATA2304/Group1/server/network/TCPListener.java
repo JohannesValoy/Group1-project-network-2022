@@ -4,26 +4,25 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import javax.net.ssl.SSLServerSocketFactory;
+import no.ntnu.idata2304.group1.server.messages.LogOutputer;
+import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
 
 public class TCPListener extends Thread implements Closeable {
     private ServerSocket socket;
-    private int port;
-    private ArrayList<Socket> clients;
 
     public TCPListener(int port) throws IOException {
-        this.port = port;
         this.socket = SSLServerSocketFactory.getDefault().createServerSocket(port);
-        this.clients = new ArrayList<>();
     }
 
     public void run() {
         while (true) {
+            LogOutputer.print(MessageType.INFO, "Starting to listening for clients");
             try {
                 Socket client = socket.accept();
                 new ClientThread(client).start();
-            } catch (Exception e) {
+            } catch (IOException e) {
+                LogOutputer.print(MessageType.ERROR, "Error connecting to a client");
             } ;
         }
     }

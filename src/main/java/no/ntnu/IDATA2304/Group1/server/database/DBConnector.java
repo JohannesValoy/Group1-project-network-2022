@@ -13,7 +13,7 @@ public class DBConnector implements Closeable {
 
     private Connection conn;
 
-    public DBConnector() throws SQLException {
+    public DBConnector() {
         String path;
         boolean exist = true;
         try {
@@ -22,8 +22,13 @@ public class DBConnector implements Closeable {
             path = getClass().getResource("").toString() + "data.db";
         }
         String uri = "jdbc:sqlite:" + path.toString().replace("%20", " ");
-        this.conn = DriverManager.getConnection(uri);
-        setup(exist);
+        try {
+            this.conn = DriverManager.getConnection(uri);
+            setup(exist);
+        } catch (SQLException e) {
+            throw new IllegalAccessError("Seems like there is a error");
+        }
+
     }
 
     private void setup(Boolean exist) throws SQLException {
