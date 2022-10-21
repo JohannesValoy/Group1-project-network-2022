@@ -1,19 +1,38 @@
 package no.ntnu.IDATA2304.Group1.clientApp.app2.logic;
 
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
 /**
- * Receives data from sensor using https request.
+ * Represents a rain sensor measuring rain per day measured in millimeters.
  */
 public class Sensor {
-    private int humidity;
-    private int temperature;
+    private List<Integer> historyLog;
+    private Integer currentLevel = 0; // Current rain level in mm
+    private Random randomGen;
+    private String type;
+    private int id;
 
-    public getName(int type) {
-        if(type == 1) {
-            System.out.println(humidity);
-        }
-        if (type == 2) {
-            System.out.println(temperature);
-        }
-
+    public Sensor(String type, int id) {
+        this.historyLog = new LinkedList<>();
+        this.randomGen = new Random();
     }
+
+    public String getName(){
+        return this.type;
+    }
+
+    public int getCurrentLevel() {
+        this.currentLevel = this.currentLevel + (3 - randomGen.nextInt(6));
+        historyLog.add(this.currentLevel);
+        return this.currentLevel;
+    }
+
+    public List<Integer> getHistoryLog() {
+        return this.historyLog;
+    }
+
+
 }
