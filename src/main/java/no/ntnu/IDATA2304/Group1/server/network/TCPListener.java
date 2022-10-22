@@ -14,6 +14,7 @@ public class TCPListener extends Thread implements Closeable {
         this.socket = new ServerSocket(port);
     }
 
+    @Override
     public void run() {
         while (true) {
             LogOutputer.print(MessageType.INFO, "Starting to listening for clients");

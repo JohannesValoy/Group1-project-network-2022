@@ -5,8 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-
+import java.lang.reflect.Array;
 import java.net.Socket;
+import java.util.Arrays;
 import no.ntnu.idata2304.group1.server.requests.RequestHandler;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
@@ -32,7 +33,7 @@ public class ClientThread extends Thread {
         this.reader = new BufferedReader(new InputStreamReader(input));
     }
 
-    // TODO: Implement Login
+    @Override
     public void run() {
         while (socket.isConnected()) {
             try {
@@ -40,7 +41,7 @@ public class ClientThread extends Thread {
                     String request = reader.readLine();
                     char[] buffer = new char[Integer.parseInt(request)];
                     reader.read(buffer);
-                    request = buffer.toString();
+                    request = Arrays.toString(buffer);
                     LogOutputer.print(MessageType.INFO, "The request was: " + request);
                     String response = handler.getResponse(request);
                     LogOutputer.print(MessageType.INFO, "Replying with: " + response);

@@ -13,6 +13,7 @@ public class RequestHandler {
         this.connector = new DBConnector();
     }
 
+    // TODO: Implement Login
     public String getResponse(String clientRequest) {
         String response;
         try {
@@ -21,11 +22,9 @@ public class RequestHandler {
             connector.executeQuery(sqlQuery);
             response = "";
         } catch (JSONException e) {
-            response =
-                    "{ \"code\":\"error\", \"message\" : \"Is not a JSON message or did not contain a command key.\"}";
+            response = "{ \"code\":\"error\", \"message\" : \"Is not a JSON message\"}";
         } catch (IllegalArgumentException e) {
-            response =
-                    "{ \"code\":\"error\",\"message\" : \"The parameters were either invalid or you didn't assign any. Please check the documentation for the commands\"}";
+            response = "{ \"code\":\"error\",\"message\" : \"" + e.getMessage() + "\"}";
         } catch (NotImplementedException e) {
             response =
                     "{ \"code\":\"error\",\"message\" : \"'This command is not implemented. Please check the documentation for commands.'\"}";
@@ -36,7 +35,23 @@ public class RequestHandler {
         return response;
     }
 
-    private String createSQLQuery(JSONObject object) throws NotImplementedException, JSONException {
-        throw new NotImplementedException();
+    private String createSQLQuery(JSONObject object)
+            throws NotImplementedException, IllegalArgumentException {
+        String sqlQuery;
+        String command;
+        try {
+            command = object.getString("command");
+        } catch (Exception e) {
+            throw new IllegalArgumentException(
+                    "This JSON object does not contain a command keyword.");
+        }
+        switch (command.toLowerCase()) {
+            case "getroomtemp":
+                sqlQuery = "";
+                break;
+            default:
+                throw new IllegalArgumentException("This is not a recognized command keyword");
+        }
+        return sqlQuery;
     }
 }

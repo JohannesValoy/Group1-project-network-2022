@@ -13,10 +13,7 @@ public class ServerRunner {
 
     public static void main(String[] args) throws IOException, SQLException {
         LogOutputer.print(MessageType.INFO, "Starting the server");
-        // if (args.length != 1){
-        // throw new IllegalArgumentException("Need one argument for the port number");
-        // }
-        // int port = Integer.parseInt(args[1]);
+        int port = Integer.parseInt(args[1]);
         DBConnector database = new DBConnector();
         LogOutputer.print(MessageType.INFO, "Connected to the database to the database");
         try (TCPListener listener = new TCPListener(port)) {

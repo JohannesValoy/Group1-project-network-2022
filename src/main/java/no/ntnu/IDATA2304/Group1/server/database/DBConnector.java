@@ -15,7 +15,6 @@ public class DBConnector implements Closeable {
 
     public DBConnector() {
         String path;
-        boolean exist = true;
         try {
             path = getClass().getResource("Data.db").toString();
         } catch (NullPointerException e) {
@@ -24,14 +23,14 @@ public class DBConnector implements Closeable {
         String uri = "jdbc:sqlite:" + path.toString().replace("%20", " ");
         try {
             this.conn = DriverManager.getConnection(uri);
-            setup(exist);
+            setup();
         } catch (SQLException e) {
             throw new IllegalAccessError("Seems like there is a error");
         }
 
     }
 
-    private void setup(Boolean exist) throws SQLException {
+    private void setup() throws SQLException {
         String roomSQL = "CREATE TABLE IF NOT EXISTS rooms (" + "id integer PRIMARY KEY,"
                 + "name text NOT NULL" + ")";
         String nodeSQL = "CREATE TABLE IF NOT EXISTS nodes (" + "id integer PRIMARY KEY,"
@@ -44,15 +43,17 @@ public class DBConnector implements Closeable {
     }
 
     public synchronized void execute(String sqlStatement) throws SQLException {
-        Statement statement = conn.createStatement();
-        statement.execute(sqlStatement);
+        try (Statement statement = conn.createStatement()) {
+            statement.execute(sqlStatement);
+        }
     }
 
     // TODO: Implement a better exception system
     public synchronized ResultSet executeQuery(String sqlStatement) throws SQLException {
-        Statement statement = conn.createStatement();
-        statement.execute(sqlStatement);
-        return statement.getResultSet();
+        try (Statement statement = conn.createStatement()) {
+            statement.execute(sqlStatement);
+            return statement.getResultSet();
+        }
     }
 
     @Override

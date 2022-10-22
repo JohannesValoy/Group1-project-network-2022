@@ -1,40 +1,41 @@
 package no.ntnu.idata2304.group1.server.database;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class SQLCommandFactory {
 
 
-    enum Tables {
-        NODE("node"), ROOM("room"), TEMP("temprature");
+    private enum Tables {
+        NODE("node"), ROOM("room"), TEMP("logs");
 
         private String table;
 
-        Tables(String tablename) {
-            this.table = tablename;
+        Tables(String tableName) {
+            this.table = tableName;
         }
 
+        public String getTable() {
+            return table;
+        }
     }
+
 
     private SQLCommandFactory() {};
 
-    // TODO: Translate a JSONObject over to a SQL Command
-    public static String createSQLCommand() {
-        String string;
-        throw new RuntimeException("Not Implemented");
+
+    public static String getTemperature(Integer roomID) throws IllegalArgumentException {
+        return buildGetCommand(Tables.TEMP, "temp", "roomID", Integer.toString(roomID));
     }
 
-    // TODO: Translate the GET command to SQL and fetch the response
-    private static String get(JSONObject object) {
-        try {
-            JSONArray rooms = object.getJSONArray("room");
+    private static String buildGetCommand(Tables table, String toFetch) {
+        return buildGetCommand(table, toFetch, "", "");
+    }
 
-        } catch (Exception e) {
-            // TODO: handle exception
+    private static String buildGetCommand(Tables table, String toFetch, String columnToCheck,
+            String value) {
+        String sqlCommand = "SELECT " + toFetch + " FROM " + table.getTable();
+        if (!(toFetch.isEmpty() || columnToCheck.isEmpty())) {
+            sqlCommand += "WHERE " + columnToCheck + " LIKE " + value;
         }
-        return "";
+        return sqlCommand;
     }
-
-
 }
