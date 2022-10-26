@@ -73,6 +73,11 @@ public class RoomWindowController {
         return seriesList;
     }
 
+    /**
+     * Called when the user clicks on the line chart.
+     *
+     * @param mouseEvent mouse event when line chart is clicked.
+     */
     @FXML
     public void lineChartClicked(MouseEvent mouseEvent) {
         updateRainLevelChart();

@@ -34,5 +34,12 @@ public class Sensor {
         return this.historyLog;
     }
 
+    public int getId() {
+        return this.id;
+    }
+
+    public String getType() {
+        return this.type;
+    }
 
 }
