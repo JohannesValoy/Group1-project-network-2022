@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox  xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.IDATA2304.Group1.clientApp.app2.ui.MainWindowController">
+<VBox  xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idata2304.group1.clientapp.app2.ui.MainWindowController">
    <BorderPane fx:id="BorderPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
       <top>
          <Label alignment="CENTER" text="Weather station 1.0">

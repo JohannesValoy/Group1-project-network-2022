@@ -57,7 +57,7 @@
                         <!-- Usage: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>no.ntnu.idata2304.group1.clientApp.logic.ui.WindowController</mainClass>
+                            <mainClass>no.ntnu.idata2304.group1.clientapp.logic.ui.WindowController</mainClass>
                         </configuration>
                     </execution>
                 </executions>
