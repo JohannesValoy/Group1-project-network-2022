@@ -1,4 +1,4 @@
-package no.ntnu.IDATA2304.Group1.clientApp.app2;
+package no.ntnu.idata2304.group1.clientApp.app2;
 
 import java.io.*;
 import java.net.Socket;
@@ -14,8 +14,8 @@ public class ClientSocket {
      */
     public static void main(String[] args) {
 
-        String hostname = "time.nist.gov";
-        int port = 13;
+        String hostname = "localhost";
+        int port = 6008;
 
         try (Socket socket = new Socket(hostname, port)) {
 

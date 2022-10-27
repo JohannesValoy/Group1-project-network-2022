@@ -20,7 +20,7 @@ public class TCPListener extends Thread implements Closeable {
             LogOutputer.print(MessageType.INFO, "Starting to listening for clients");
             try {
                 Socket client = socket.accept();
-                new ClientThread(client).run();
+                new ClientThread(client).start();
             } catch (IOException e) {
                 LogOutputer.print(MessageType.ERROR, "Error connecting to a client");
             } ;

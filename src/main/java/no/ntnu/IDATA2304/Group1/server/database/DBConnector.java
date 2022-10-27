@@ -2,7 +2,6 @@ package no.ntnu.idata2304.group1.server.database;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.lang.String;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -12,6 +11,7 @@ import java.sql.Statement;
 public class DBConnector implements Closeable {
 
     private Connection conn;
+    private String uri;
 
     public DBConnector() {
         String path;
@@ -20,7 +20,7 @@ public class DBConnector implements Closeable {
         } catch (NullPointerException e) {
             path = getClass().getResource("").toString() + "data.db";
         }
-        String uri = "jdbc:sqlite:" + path.toString().replace("%20", " ");
+        this.uri = "jdbc:sqlite:" + path.toString().replace("%20", " ");
         try {
             this.conn = DriverManager.getConnection(uri);
             setup();
@@ -29,6 +29,18 @@ public class DBConnector implements Closeable {
         }
 
     }
+
+    public DBConnector(String path) {
+        this.uri = "jdbc:sqlite:" + path.toString().replace("%20", " ");
+        try {
+            this.conn = DriverManager.getConnection(uri);
+            setup();
+        } catch (SQLException e) {
+            throw new IllegalAccessError("Seems like there is a error");
+        }
+
+    }
+
 
     private void setup() throws SQLException {
         String roomSQL = "CREATE TABLE IF NOT EXISTS rooms (" + "id integer PRIMARY KEY,"
@@ -51,9 +63,12 @@ public class DBConnector implements Closeable {
     // TODO: Implement a better exception system
     public synchronized ResultSet executeQuery(String sqlStatement) throws SQLException {
         try (Statement statement = conn.createStatement()) {
-            statement.execute(sqlStatement);
-            return statement.getResultSet();
+            return statement.executeQuery(sqlStatement);
         }
+    }
+
+    public String getPath() {
+        return uri;
     }
 
     @Override
