@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.clientApp.app2.ui;
+package no.ntnu.idata2304.group1.clientapp.app2.ui;
 
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
@@ -19,7 +19,6 @@ public class MainWindowController {
     private LineChart<Integer, Integer> sensorChart;
 
     public MainWindowController(){
-
     }
 
     /**

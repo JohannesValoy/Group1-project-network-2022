@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.clientApp.app2.logic;
+package no.ntnu.idata2304.group1.clientapp.app2.logic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,16 +13,20 @@ public class Room {
 
     private String name;
     private int roomNumber;
-    public ArrayList<Sensor> sensorList = new ArrayList<>();
+    private List<Sensor> sensorList = new ArrayList<>();
 
     /**
-     * creates a room with a name and a roomnumber
+     * creates a room with a name and a room number
      * @param name name of the room
      * @param roomNumber number of the room
      */
     public Room(int roomNumber, String name){
         this.name = name;
         this.roomNumber = roomNumber;
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 
     /**
@@ -65,7 +69,7 @@ public class Room {
         return sensorList;
     }
 
-    public void setSensorList(ArrayList<Sensor> sensorList){
+    public void setSensorList(List<Sensor> sensorList){
         this.sensorList = sensorList;
     }
 }
