@@ -1,4 +1,4 @@
-package no.ntnu.IDATA2304.Group1.clientApp.app2.ui;
+package no.ntnu.idata2304.group1.clientApp.app2.ui;
 
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
@@ -16,7 +16,7 @@ public class MainWindowController {
     public ScrollPane scrollPane;
 
     @FXML
-    private LineChart<Integer, Integer> rainSensorChart;
+    private LineChart<Integer, Integer> sensorChart;
 
     public MainWindowController(){
 

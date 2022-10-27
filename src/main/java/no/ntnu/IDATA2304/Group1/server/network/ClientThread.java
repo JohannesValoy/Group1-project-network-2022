@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.Arrays;
 import no.ntnu.idata2304.group1.server.requests.RequestHandler;

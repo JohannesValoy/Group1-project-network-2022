@@ -1,4 +1,4 @@
-package no.ntnu.IDATA2304.Group1.clientApp.app2;
+package no.ntnu.idata2304.group1.clientApp.app2;
 
 import java.io.*;
 import java.net.Socket;

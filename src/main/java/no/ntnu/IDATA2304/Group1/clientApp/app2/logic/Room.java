@@ -1,6 +1,4 @@
-package no.ntnu.IDATA2304.Group1.clientApp.app2.logic;
-
-import no.ntnu.IDATA2304.Group1.clientApp.app2.logic.Sensor;
+package no.ntnu.idata2304.group1.clientApp.app2.logic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +21,6 @@ public class Room {
      * @param roomNumber number of the room
      */
     public Room(int roomNumber, String name){
-        sensorList.add(new Sensor("Temperature", roomNumber));
         this.name = name;
         this.roomNumber = roomNumber;
     }
@@ -68,4 +65,7 @@ public class Room {
         return sensorList;
     }
 
+    public void setSensorList(ArrayList<Sensor> sensorList){
+        this.sensorList = sensorList;
+    }
 }

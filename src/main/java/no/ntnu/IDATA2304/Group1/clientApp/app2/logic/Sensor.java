@@ -1,4 +1,4 @@
-package no.ntnu.IDATA2304.Group1.clientApp.app2.logic;
+package no.ntnu.idata2304.group1.clientApp.app2.logic;
 
 
 import java.util.LinkedList;
@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Represents a rain sensor measuring rain per day measured in millimeters.
+ * Represents a sensor measuring a certain value specified by the type.
  */
 public class Sensor {
     private List<Integer> historyLog;
-    private Integer currentLevel = 0; // Current rain level in mm
+    private Integer currentLevel = 0; // Current reading
     private Random randomGen;
     private String type;
     private int id;
@@ -18,6 +18,11 @@ public class Sensor {
     public Sensor(String type, int id) {
         this.historyLog = new LinkedList<>();
         this.randomGen = new Random();
+        this.type = type;
+        this.id = id;
+        for(int i = 0; i < 1000; i++){
+            getCurrentLevel();
+        }
     }
 
     public String getName(){
