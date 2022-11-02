@@ -84,12 +84,8 @@ public class MainController extends Application {
      * @param mainWindowController the main window controller;
      */
     private void contractPane(MainWindowController mainWindowController) {
-        int count = 0;
-        while (count < roomWindowControllers.size()){
+        for (int count = 0; count < roomWindowControllers.size(); count++){
             roomWindowControllers.get(count).contractRoomView();
-            Pane currentPane = (Pane) mainWindowController.getFlowPane().getChildren().get(count);
-            currentPane.setPrefSize(420, 420);
-            count++;
         }
     }
 
@@ -128,7 +124,7 @@ public class MainController extends Application {
 
     public void addExampleSensorsLive(int number) {
         ArrayList<Sensor> sensorList = new ArrayList<>();
-        for(int count = 0; count < 2; count++) {
+        for(int count = 0; count < 3; count++) {
             Sensor sensor = new Sensor("Rain in mm", number);
             sensor.setName("Sensor from addExampleSensorsLive " + count);
             sensorList.add(sensor);

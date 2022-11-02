@@ -33,10 +33,8 @@ public class RoomWindowController {
 
     boolean autoUpdate = true;
 
-    LineChart sensorChart2 = new LineChart<>(new NumberAxis(), new NumberAxis()) {};
 
     public RoomWindowController(){
-        autoUpdateChart();
     }
 
     public void setRoom(Room room) {
@@ -46,28 +44,37 @@ public class RoomWindowController {
         pane.setStyle(
                 "-fx-background-color: grey;" +
                         "-fx-background-radius: 30;");
+
+        autoUpdateChart(sensorChart, 0);
     }
 
     public void expandRoomView(double height, double width){
         sensorChart.setPrefSize(width*10/21, height/2);
-        HBox.getChildren().add(sensorChart2);
         HBox.setPrefWidth(width);
-        sensorChart2.setPrefSize(width*10/21, height/2);
+        for(int i = 1; i < room.getListOfSensors().size(); i++) {
+            LineChart sensorChart2 = new LineChart<>(new NumberAxis(), new NumberAxis()) {};
+            HBox.getChildren().add(sensorChart2);
+            sensorChart2.setPrefSize(width*10/21, height/2);
+            autoUpdateChart(sensorChart2, i);
+        }
     }
 
     public void contractRoomView(){
         sensorChart.setPrefSize(400, 350);
         pane.setPrefSize(420, 420);
-        HBox.getChildren().remove(sensorChart2);
+        HBox.setPrefSize(420, 420);
+        for(int i = 1; i < HBox.getChildren().size(); i++){
+            HBox.getChildren().remove(i);
+        }
     }
 
     @FXML
-    public void updateSensorChart(LineChart sensorChart) {
+    public void updateSensorChart(LineChart sensorChart, int sensorID) {
         if(this.room != null){
             if(sensorChart != null) {
                 sensorChart.getData().clear();
                 try {
-                    sensorChart.getData().addAll(getChartData(0));
+                    sensorChart.getData().addAll(getChartData(sensorID));
                 } catch (Exception e) {
                     autoUpdate = false;
                     new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
@@ -119,22 +126,22 @@ public class RoomWindowController {
     /**
      * Updates the chart every second
      */
-    private void autoUpdateChart() {
+    private void autoUpdateChart(LineChart sensorChart, int sensorID) {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> {
                     if(autoUpdate) {
-                        updateStandardSensorChart();
+                        updateStandardSensorChart(sensorChart, sensorID);
                     }
                 });
             }
         }, 1, 2000 );
     }
 
-    public void updateStandardSensorChart(){
-        updateSensorChart(sensorChart);
+    public void updateStandardSensorChart(LineChart sensorChart, int sensorID){
+        updateSensorChart(sensorChart, sensorID);
     }
     public LineChart getSensorChart(){
         return this.sensorChart;
