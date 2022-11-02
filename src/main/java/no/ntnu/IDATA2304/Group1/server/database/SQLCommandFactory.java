@@ -29,6 +29,9 @@ public class SQLCommandFactory {
     private SQLCommandFactory() {};
 
     public static String getTemperature(Iterator<String> rooms) throws IllegalArgumentException {
+        if (rooms == null) {
+            throw new IllegalArgumentException("The rooms cannot be null");
+        }
         StringBuilder builder = new StringBuilder("SELECT * FROM " + Tables.TEMP.getTable()
                 + " INNER JOIN " + Tables.ROOMS.getTable() + " ON " + Tables.ROOMS.getTable()
                 + ".id = " + Tables.TEMP.getTable() + ".roomid ");
@@ -50,6 +53,12 @@ public class SQLCommandFactory {
 
     public static String getTemperature(Iterator<String> rooms, Date from, Date to)
             throws IllegalArgumentException {
+        if (rooms == null) {
+            throw new IllegalArgumentException("The rooms cannot be null");
+        }
+        if (from == null || to == null) {
+            throw new IllegalArgumentException("The dates cannot be null");
+        }
         StringBuilder builder = new StringBuilder(getTemperature(rooms));
         builder.append(" AND ");
         builder.append(Tables.TEMP.getTable() + ".date BETWEEN " + from.getTime() + " AND "
