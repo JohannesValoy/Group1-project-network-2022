@@ -2,6 +2,7 @@ package no.ntnu.idata2304.group1.server.requests;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import no.ntnu.idata2304.group1.data.RoomRecord;
 import no.ntnu.idata2304.group1.data.requests.ErrorMessage;
 import no.ntnu.idata2304.group1.data.requests.GetMessage;
 import no.ntnu.idata2304.group1.data.requests.Message;
@@ -11,10 +12,13 @@ import no.ntnu.idata2304.group1.data.requests.ResponseMessage;
 
 public class RequestHandler {
 
-    // TODO: Implement JSON support for requests that is not from Java
+
+    // TODO: Add this when the update/add request is implemented
+    // TODO: Implement Login
 
     private DBConnector connector;
-    // TODO: Add this when the update/add request is implemented
+
+
     // private Role role;
 
     public RequestHandler() {
@@ -25,8 +29,7 @@ public class RequestHandler {
         this.connector = connector;
     }
 
-    // TODO: Implement Login
-    // TODO: Work like your life deppends on it
+
     /**
      * @param request
      * @return
@@ -75,7 +78,8 @@ public class RequestHandler {
                 ResultSet result = connector.executeQuery(sqlQuery);
                 response = new ResponseMessage("Temperature data");
                 while (result.next()) {
-                    response.addData(result.getString("room"), result.getDouble("temperature"));
+                    response.addData(result.getString("room"), new RoomRecord(
+                            result.getTimestamp("timestamp"), result.getDouble("temperature")));
                 }
                 break;
             case ROOM_HUMIDITY:

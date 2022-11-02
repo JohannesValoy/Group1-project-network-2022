@@ -1,6 +1,6 @@
 package no.ntnu.idata2304.group1.server.database;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import org.json.JSONObject;
 
@@ -45,6 +45,16 @@ public class SQLCommandFactory {
         return sqlQuery;
     }
 
+    public static String getTemperature(Iterator<String> rooms, Date from, Date to)
+            throws IllegalArgumentException {
+        StringBuilder builder = new StringBuilder(getTemperature(rooms));
+        builder.append(" AND ");
+        builder.append(Tables.TEMP.getTable() + ".date BETWEEN " + from.getTime() + " AND "
+                + to.getTime());
+        return builder.toString();
+    }
+
+    @Deprecated
     public static String login(JSONObject object) throws IllegalArgumentException {
         String sqlQuery = "";
         if (object.has("APIKey")) {

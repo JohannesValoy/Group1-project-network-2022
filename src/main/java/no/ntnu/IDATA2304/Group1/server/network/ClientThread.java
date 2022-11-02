@@ -17,6 +17,7 @@ import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
  * @author Mathias J. Kirkeby
  */
 
+// TODO: Implement JSON support for requests that is not from Java
 public class ClientThread extends Thread {
     private Socket socket;
     private RequestHandler handler;

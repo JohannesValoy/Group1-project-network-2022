@@ -8,7 +8,7 @@ public abstract class Message {
 
     }
 
-    private Message.Types type;
+    private final Message.Types type;
 
     protected Message(Message.Types type) {
         this.type = type;

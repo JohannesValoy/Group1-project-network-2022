@@ -1,38 +1,64 @@
 package no.ntnu.idata2304.group1.data.requests;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.Iterator;
 
 public class GetMessage extends Message {
-    // TODO: Is there a better way to restrict the type of the parameters?
     public enum Types {
         ROOM_TEMP(), ROOM_HUMIDITY();
     }
 
     private GetMessage.Types command;
-    private HashMap<String, Object> parameters;
+    private ArrayList<String> rooms;
+    private Date from;
+    private Date to;
 
     // TODO: Find a way to pass parameters to the request
-
-    // private HashMap<String, Object> parameters;
 
     public GetMessage(GetMessage.Types command) {
         super(Message.Types.GET);
         this.command = command;
-        this.parameters = new HashMap<>();
-        parameters.put("rooms", new ArrayList<String>());
+        this.rooms = new ArrayList<>();
+    }
+
+    public GetMessage(GetMessage.Types command, ArrayList<String> rooms) {
+        super(Message.Types.GET);
+        this.command = command;
+        this.rooms = rooms;
+    }
+
+    public GetMessage(GetMessage.Types command, ArrayList<String> rooms, Date from, Date to) {
+        super(Message.Types.GET);
+        this.command = command;
+        this.rooms = rooms;
+        this.from = from;
+        this.to = to;
+    }
+
+    public GetMessage(GetMessage.Types command, String room) {
+        super(Message.Types.GET);
+        this.command = command;
+        this.rooms = new ArrayList<>();
+        this.rooms.add(room);
     }
 
     public GetMessage.Types getCommand() {
         return command;
     }
 
-    public void addRoom(String roomName) {
-        ((ArrayList<String>) parameters.get("rooms")).add(roomName);
+    public void addRoom(String room) {
+        if (room == null || room.isEmpty() || room.contains(" ")) {
+            throw new IllegalArgumentException("Room cannot be null, empty or contain spaces");
+        }
+        if (rooms.contains(room)) {
+            throw new IllegalArgumentException("Room already added");
+        }
+        rooms.add(room);
     }
 
     public Iterator<String> getRooms() {
-        return ((ArrayList<String>) parameters.get("rooms")).iterator();
+        return rooms.iterator();
     }
+
 }
