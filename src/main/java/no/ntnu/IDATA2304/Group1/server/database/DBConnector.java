@@ -42,6 +42,9 @@ public class DBConnector implements Closeable {
      * @param path the path for the database
      */
     public DBConnector(String path) {
+        if (path == null || path.isEmpty()) {
+            throw new IllegalArgumentException("The path cannot be null or empty");
+        }
         this.uri = "jdbc:sqlite:" + path.toString().replace("%20", " ");
         try {
             this.conn = DriverManager.getConnection(uri);
@@ -76,6 +79,9 @@ public class DBConnector implements Closeable {
      * @throws SQLException if the statement could not be executed
      */
     public synchronized void execute(String sqlStatement) throws SQLException {
+        if (sqlStatement == null || sqlStatement.isEmpty()) {
+            throw new IllegalArgumentException("The SQL statement cannot be null or empty");
+        }
         try (Statement statement = conn.createStatement()) {
             statement.execute(sqlStatement);
         }
@@ -89,6 +95,9 @@ public class DBConnector implements Closeable {
      * @throws SQLException if the query could not be executed
      */
     public synchronized ResultSet executeQuery(String sqlStatement) throws SQLException {
+        if (sqlStatement == null || sqlStatement.isEmpty()) {
+            throw new IllegalArgumentException("The SQL statement cannot be null or empty");
+        }
         try (Statement statement = conn.createStatement()) {
             return statement.executeQuery(sqlStatement);
         }

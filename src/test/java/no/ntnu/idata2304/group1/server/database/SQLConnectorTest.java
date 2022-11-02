@@ -13,8 +13,9 @@ public class SQLConnectorTest {
     @Test
     public void testSQLConnectorOnRightURL() {
         DBConnector connector = getTestConnector();
-        assertEquals(connector.getPath(),
-                "jdbc:sqlite:src/test/resources/no/ntnu/idata2304/group1/server/database/test.db");
+        assertEquals(
+                "jdbc:sqlite:src/test/resources/no/ntnu/idata2304/group1/server/database/test.db",
+                connector.getPath());
     }
 
     @Test

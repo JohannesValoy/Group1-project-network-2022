@@ -34,6 +34,9 @@ public class RequestHandler {
      * @param connector The database connector to use
      */
     public RequestHandler(DBConnector connector) {
+        if (connector == null) {
+            throw new IllegalArgumentException("The connector cannot be null");
+        }
         this.connector = connector;
     }
 
@@ -45,6 +48,9 @@ public class RequestHandler {
      * @return Message object containing the response
      */
     public Message getResponse(Message request) {
+        if (request == null) {
+            throw new IllegalArgumentException("The request cannot be null");
+        }
         Message response = null;
         try {
             switch (request.getType()) {
@@ -58,11 +64,11 @@ public class RequestHandler {
                     response = handleOk((ResponseMessage) request);
                     break;
                 default:
-                    response = new ResponseMessage("Unknown command");
+                    response = new ErrorMessage("Unknown command");
                     break;
             }
         } catch (IllegalArgumentException e) {
-            response = new ErrorMessage("Invalid request");
+            response = new ErrorMessage(e.getMessage());
         } catch (SQLException e) {
             response = new ErrorMessage("Database error");
         }
@@ -88,6 +94,9 @@ public class RequestHandler {
      * @return Message object containing the response
      */
     private Message handleGet(GetMessage request) throws IllegalArgumentException, SQLException {
+        if (request == null) {
+            throw new IllegalArgumentException("The request cannot be null");
+        }
         String sqlQuery = "";
         ResponseMessage response = null;
         switch (request.getCommand()) {
