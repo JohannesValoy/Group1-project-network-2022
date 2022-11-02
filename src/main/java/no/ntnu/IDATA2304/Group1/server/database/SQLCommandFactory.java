@@ -12,7 +12,7 @@ public class SQLCommandFactory {
      * Enum for linking the different kind of tables in the database
      */
     private enum Tables {
-        NODE("node"), ROOMS("rooms"), TEMP("logs"), USERS("users");
+        NODE("nodes"), ROOMS("rooms"), TEMP("logs"), USERS("users");
 
         private String table;
 
@@ -31,7 +31,7 @@ public class SQLCommandFactory {
     public static String getTemperature(Iterator<String> rooms) throws IllegalArgumentException {
         StringBuilder builder = new StringBuilder("SELECT * FROM " + Tables.TEMP.getTable()
                 + " INNER JOIN " + Tables.ROOMS.getTable() + " ON " + Tables.ROOMS.getTable()
-                + ".id = " + Tables.TEMP.getTable() + ".roomid");
+                + ".id = " + Tables.TEMP.getTable() + ".roomid ");
         String sqlQuery = "";
         builder.append("WHERE rooms.name IN (");
         while (rooms.hasNext()) {
