@@ -10,8 +10,8 @@
 
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.FlowPane?>
-<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:id="borderPane" fx:controller="no.ntnu.idata2304.group1.clientapp.app2.ui.RoomWindowController">
-    <center>
+<?import javafx.scene.layout.Pane?>
+<FlowPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:id="pane" fx:controller="no.ntnu.idata2304.group1.clientapp.app2.ui.RoomWindowController">
         <Label fx:id="title" text="Example Sensor" textAlignment="CENTER" textFill="white">
             <font>
                 <Font size="20.0" />
@@ -32,5 +32,4 @@
             </LineChart>
             <Label fx:id="CurrentTemperature" textAlignment="CENTER" />
         </FlowPane>
-    </center>
-</BorderPane>
+</FlowPane>

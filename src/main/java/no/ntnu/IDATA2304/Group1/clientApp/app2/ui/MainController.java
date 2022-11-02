@@ -32,14 +32,17 @@ public class MainController extends Application {
   */
   public void start(Stage stage) throws IOException {
       this.roomWindowControllers = new ArrayList<>();
+
       //Loads mainScene
       FXMLLoader mainWindowLoader = new FXMLLoader(MainController.class.getResource("MainScene.fxml"));
       Stage mainStage = makeStage(mainWindowLoader, stage, 1000, 700);
       mainStage.setTitle("Rooms");
       mainWindowController = mainWindowLoader.getController();
+
       //Initiates scrollPane and flowPane
       this.scrollPane = this.mainWindowController.scrollPane;
       this.flowPane = this.mainWindowController.flowPane;
+
       //Binds the flowPane to the stage dimensions
       this.flowPane.prefWidthProperty().bind(stage.widthProperty());
       this.flowPane.prefHeightProperty().bind(stage.heightProperty());
@@ -53,35 +56,27 @@ public class MainController extends Application {
      * @throws IOException if the fxml file could not be loaded;
      */
     public void addRoom(Room room, Stage stage) throws IOException {
-        //Loads the room window
-        Pane pane = new Pane();
         FXMLLoader roomWindowLoader = new FXMLLoader(MainController.class.getResource("RoomScene.fxml"));
-        pane.getChildren().add(roomWindowLoader.load());
+        flowPane.getChildren().add(roomWindowLoader.load());
         RoomWindowController roomWindowController = roomWindowLoader.getController();
         roomWindowControllers.add(roomWindowController);
         roomWindowController.setRoom(room);
         //Sets the pane size and style
-        pane.setStyle(
-                "-fx-background-color: grey;" +
-                        "-fx-background-radius: 30;"
-        );
-        pane.setPrefSize(420, 420);
+
+
+
         //Sets the on click event for the room
-        pane.setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent.getClickCount() == 2) {
-                contractPane(this.mainWindowController);
-                pane.setPrefSize(this.scrollPane.getWidth() -140, this.scrollPane.getHeight() - 140);
+        roomWindowController.getPane().setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getClickCount() == 2)
                 roomWindowController.expandRoomView(stage.getWidth(), stage.getHeight());
-            }
         });
+
         //Contracts the roomWindow if the room is clicked
         mainWindowController.getFlowPane().setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getClickCount() != 2) {
                 contractPane(mainWindowController);
             }
         });
-        //adds the room to the main window
-        this.mainWindowController.getFlowPane().getChildren().add(room.getRoomNumber(), pane);
     }
 
     /**
@@ -91,7 +86,7 @@ public class MainController extends Application {
     private void contractPane(MainWindowController mainWindowController) {
         int count = 0;
         while (count < roomWindowControllers.size()){
-            roomWindowControllers.get(count).getSensorChart().setPrefSize(400, 350);
+            roomWindowControllers.get(count).contractRoomView();
             Pane currentPane = (Pane) mainWindowController.getFlowPane().getChildren().get(count);
             currentPane.setPrefSize(420, 420);
             count++;

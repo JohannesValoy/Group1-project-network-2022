@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import no.ntnu.idata2304.group1.clientapp.app2.logic.Room;
 
 import java.util.List;
@@ -21,14 +22,18 @@ import java.util.TimerTask;
 
 public class RoomWindowController {
     public Label title;
-    public BorderPane borderPane;
+    @FXML
+    public FlowPane pane;
     public FlowPane HBox;
+    public Label CurrentTemperature;
     @FXML
     private LineChart sensorChart;
     private Room room;
     private int roomNumber;
 
     boolean autoUpdate = true;
+
+    LineChart sensorChart2 = new LineChart<>(new NumberAxis(), new NumberAxis()) {};
 
     public RoomWindowController(){
         autoUpdateChart();
@@ -37,14 +42,23 @@ public class RoomWindowController {
     public void setRoom(Room room) {
         this.room = room;
         this.roomNumber = room.getRoomNumber();
+        pane.setPrefSize(420, 420);
+        pane.setStyle(
+                "-fx-background-color: grey;" +
+                        "-fx-background-radius: 30;");
     }
 
     public void expandRoomView(double height, double width){
-        sensorChart.setPrefSize(width*5/11, height-400);
-        LineChart sensorChart2 = new LineChart<>(new NumberAxis(), new NumberAxis()) {};
+        sensorChart.setPrefSize(width*10/21, height/2);
         HBox.getChildren().add(sensorChart2);
         HBox.setPrefWidth(width);
-        sensorChart2.setPrefSize((width*5)/11, height);
+        sensorChart2.setPrefSize(width*10/21, height/2);
+    }
+
+    public void contractRoomView(){
+        sensorChart.setPrefSize(400, 350);
+        pane.setPrefSize(420, 420);
+        HBox.getChildren().remove(sensorChart2);
     }
 
     @FXML
@@ -74,12 +88,15 @@ public class RoomWindowController {
         return this.room;
     }
 
+    /**
+     * Updates observable for line chart
+     * @param sensorID the id of the sensor to get the data from
+     * @return returns observable list
+     * @throws NullPointerException if sensor requested does not exist
+     */
     private ObservableList<XYChart.Series<Integer, Integer>> getChartData(int sensorID) throws NullPointerException{
 
         XYChart.Series<Integer, Integer> series = new XYChart.Series<>();
-        if(this.room.getListOfSensors().isEmpty()){
-            throw new NullPointerException("Room " + roomNumber + " has no sensors");
-        }
         if(this.room.getListOfSensors().size() <= sensorID){
             throw new IllegalArgumentException("Requested sensor " + sensorID + " but room " + roomNumber + " has " +  this.room.getListOfSensors().size() + " sensors");
         }
@@ -93,6 +110,10 @@ public class RoomWindowController {
         seriesList.addAll(series);
 
         return seriesList;
+    }
+
+    public Pane getPane(){
+        return this.pane;
     }
 
     /**
