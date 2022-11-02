@@ -15,26 +15,23 @@ public class SQLConverter {
 
     private SQLConverter() {}
 
-    public static void getTempResult(ResultSet result) {
+    public static HashMap<String, ArrayList<RoomRecord>> getTempResult(ResultSet result) {
         HashMap<String, ArrayList<RoomRecord>> temp = new HashMap<>();
-
-
         if (result == null) {
             throw new IllegalArgumentException("Result can't be null");
         }
         try {
             while (result.next()) {
                 String room = result.getString("name");
-                if (!rooms.containsKey(room)) {
-                    rooms.put(room, new ArrayList<>());
+                if (!temp.containsKey(room)) {
+                    temp.put(room, new ArrayList<>());
                 }
-                HashMap<String, Object> temp = new HashMap<>();
-                temp.put("time", result.getTimestamp("time"));
-                temp.put("temp", result.getDouble("temp"));
-                rooms.get(room).add(temp);
+                temp.get(room).add(new RoomRecord(result.getTimestamp("date"),
+                        result.getDouble("temperature")));
             }
         } catch (Exception e) {
             // TODO: handle exception
         }
+        return temp;
     }
 }
