@@ -1,75 +1,114 @@
-package no.ntnu.IDATA2304.Group1.clientApp.app2.ui;
-
-import javafx.application.Application;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.stage.Stage;
-import no.ntnu.IDATA2304.Group1.clientApp.app2.logic.Room;
-import no.ntnu.IDATA2304.Group1.clientApp.app2.logic.Sensor;
+package no.ntnu.idata2304.group1.clientapp.app2.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import no.ntnu.idata2304.group1.clientapp.app2.logic.Room;
+import no.ntnu.idata2304.group1.clientapp.app2.logic.Sensor;
 
+/**
+ * Main controller for the UI.
+ * Creates and loads the main window and loads the room windows into the main window.
+ */
 public class MainController extends Application {
-    ArrayList<RoomWindowController> roomWindowControllers;
+  private MainWindowController mainWindowController;
+  private ArrayList<RoomWindowController> roomWindowControllers;
+  private ScrollPane scrollPane;
+  private FlowPane flowPane;
 
 
-
-    Button button;
-    @Override
-    public void start(Stage stage) throws IOException {
-        roomWindowControllers = new ArrayList<>();
-        //TODO: remove exampleCode
-        int n = 0;
-        while(n <= 100) {
-            RoomWindowController currentRoomWindowController = new RoomWindowController();
-            currentRoomWindowController.setRoom(new Room(n, "Room " + n));
-            roomWindowControllers.add(currentRoomWindowController);
-            n++;
-            currentRoomWindowController.getRoom().getRoomNumber();
-        }
-
-        FXMLLoader mainWindowLoader = new FXMLLoader(MainController.class.getResource("MainScene.fxml"));
-        Stage mainStage = makeStage(mainWindowLoader, stage, 1000, 700);
-        mainStage.setTitle("Rooms");
-        if(roomWindowControllers.size() > 10000){
-            throw new IllegalArgumentException("Amount of rooms are limited to 10000");
-        }
-        int i = 0;
-        while (i < roomWindowControllers.size()){
-            MainWindowController mainWindowController = (MainWindowController) mainWindowLoader.getController();
-            String roomName = "Room " + (i);
-            Button button = new Button(roomName);
-            button.prefHeight(300);
-            button.prefWidth(400);
-            int finalI = i;
-            button.setOnMouseClicked(mouseEvent -> {
-                try {
-                    loadRoomView(finalI, roomName);
-                } catch (IOException e){
-                throw new IllegalArgumentException("Could not load rooms");
-                }
-            });
-            mainWindowController.getFlowPane().getChildren().add(i, button);
-            i++;
-        }
-
+  /**
+  * starts the application.
+  *
+  * @param stage the stage
+  *
+  * @throws IOException if the fxml file could not be loaded
+  */
+  public void start(Stage stage) throws IOException {
+      this.roomWindowControllers = new ArrayList<>();
+      //Loads mainScene
+      FXMLLoader mainWindowLoader = new FXMLLoader(MainController.class.getResource("MainScene.fxml"));
+      Stage mainStage = makeStage(mainWindowLoader, stage, 1000, 700);
+      mainStage.setTitle("Rooms");
+      mainWindowController = mainWindowLoader.getController();
+      //Initiates scrollPane and flowPane
+      this.scrollPane = this.mainWindowController.scrollPane;
+      this.flowPane = this.mainWindowController.flowPane;
+      //Binds the flowPane to the stage dimensions
+      this.flowPane.prefWidthProperty().bind(stage.widthProperty());
+      this.flowPane.prefHeightProperty().bind(stage.heightProperty());
+      addExampleRooms(stage);
     }
 
-    @FXML
-    private void loadRoomView(int roomNumber, String roomName) throws IOException {
-        RoomWindowController roomWindowController = roomWindowControllers.get(roomNumber);
+
+    /**
+     * Loads the rooms into the main window
+     * @param stage the main stage
+     * @throws IOException if the fxml file could not be loaded;
+     */
+    public void addRoom(Room room, Stage stage) throws IOException {
+        //Loads the room window
+        Pane pane = new Pane();
         FXMLLoader roomWindowLoader = new FXMLLoader(MainController.class.getResource("RoomScene.fxml"));
-        Stage roomStage = makeStage(roomWindowLoader, new Stage(), 500, 350);
-        RoomWindowController roomWindowController1 = (RoomWindowController) roomWindowLoader.getController();
-        roomWindowController1.setRoom(roomWindowController.getRoom());
-        roomStage.setTitle(roomName);
-
+        pane.getChildren().add(roomWindowLoader.load());
+        RoomWindowController roomWindowController = roomWindowLoader.getController();
+        roomWindowControllers.add(roomWindowController);
+        roomWindowController.setRoom(room);
+        //Sets the pane size and style
+        pane.setStyle(
+                "-fx-background-color: grey;" +
+                        "-fx-background-radius: 30;"
+        );
+        pane.setPrefSize(420, 420);
+        //Sets the on click event for the room
+        pane.setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getClickCount() == 2) {
+                contractPane(this.mainWindowController);
+                pane.setPrefSize(this.scrollPane.getWidth() -140, this.scrollPane.getHeight() - 140);
+                roomWindowController.expandRoomView(stage.getWidth(), stage.getHeight());
+            }
+        });
+        //Contracts the roomWindow if the room is clicked
+        mainWindowController.getFlowPane().setOnMouseClicked(mouseEvent -> {
+            if (mouseEvent.getClickCount() != 2) {
+                contractPane(mainWindowController);
+            }
+        });
+        //adds the room to the main window
+        this.mainWindowController.getFlowPane().getChildren().add(room.getRoomNumber(), pane);
     }
 
+    /**
+     * Contracts the pane to the original size
+     * @param mainWindowController the main window controller;
+     */
+    private void contractPane(MainWindowController mainWindowController) {
+        int count = 0;
+        while (count < roomWindowControllers.size()){
+            roomWindowControllers.get(count).getSensorChart().setPrefSize(400, 350);
+            Pane currentPane = (Pane) mainWindowController.getFlowPane().getChildren().get(count);
+            currentPane.setPrefSize(420, 420);
+            count++;
+        }
+    }
+
+
+    /** Creates a stage from a loader, stage, width and height.
+     *
+     * @param fxmlLoader The loader to load the stage from.
+     * @param stage The stage to load the loader into.
+     * @param width The width of the stage.
+     * @param height The height of the stage.
+     * @return The stage.
+     *
+     * @throws IOException If the loader fails to load the stage.
+     */
     public Stage makeStage(FXMLLoader fxmlLoader, Stage stage, int width, int height) throws IOException {
         Scene scene = new Scene(fxmlLoader.load(), width, height);
         stage.setTitle("Hello!");
@@ -78,6 +117,33 @@ public class MainController extends Application {
         return stage;
     }
 
+    /**
+     * TODO: Remove example methods
+     * Adds 10 example rooms to the roomWindowControllers
+     */
+    public void addExampleRooms(Stage stage) throws IOException {
+        int n = 0;
+        while(n <= 2) {
+            Room room = new Room(n, "Room From AddExampleRooms" + n);
+            addRoom(room, stage);
+            addExampleSensorsLive(n);
+            n++;
+        }
+    }
+
+    public void addExampleSensorsLive(int number) {
+        ArrayList<Sensor> sensorList = new ArrayList<>();
+        for(int count = 0; count < 2; count++) {
+            Sensor sensor = new Sensor("Rain in mm", number);
+            sensor.setName("Sensor from addExampleSensorsLive " + count);
+            sensorList.add(sensor);
+        }
+        roomWindowControllers.get(number).getRoom().setSensorList(sensorList);
+    }
+
+    /**
+     * Main method
+     */
     public static void main(String[] args) {
         launch();
     }

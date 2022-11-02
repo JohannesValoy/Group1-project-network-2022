@@ -23,7 +23,7 @@ public class TCPListener extends Thread implements Closeable {
                 new ClientThread(client).start();
             } catch (IOException e) {
                 LogOutputer.print(MessageType.ERROR, "Error connecting to a client");
-            } ;
+            }
         }
     }
 
