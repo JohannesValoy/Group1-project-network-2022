@@ -2,12 +2,12 @@ package no.ntnu.idata2304.group1.server.network;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Arrays;
 import no.ntnu.idata2304.group1.server.requests.RequestHandler;
+import no.ntnu.idata2304.group1.data.requests.Message;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
 
@@ -17,18 +17,26 @@ import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
  * @author Mathias J. Kirkeby
  */
 
+// TODO: Implement JSON support for requests that is not from Java
+// TOOD: Implement SSL support
 public class ClientThread extends Thread {
     private Socket socket;
     private RequestHandler handler;
     private BufferedReader reader;
-    private OutputStream output;
-    private InputStream input;
+    private ObjectOutputStream output;
+    private ObjectInputStream input;
 
+    /**
+     * Creates a new client thread
+     * 
+     * @param socket The socket to use
+     * @throws IOException if the socket fails to connect
+     */
     public ClientThread(Socket socket) throws IOException {
         this.socket = socket;
         this.handler = new RequestHandler();
-        this.output = socket.getOutputStream();
-        this.input = socket.getInputStream();
+        this.output = new ObjectOutputStream(socket.getOutputStream());
+        this.input = new ObjectInputStream(socket.getInputStream());
         this.reader = new BufferedReader(new InputStreamReader(input));
     }
 
@@ -37,15 +45,13 @@ public class ClientThread extends Thread {
         while (socket.isConnected()) {
             try {
                 while (reader.ready() && input.available() > 0) {
-                    String request = reader.readLine();
-                    char[] buffer = new char[Integer.parseInt(request)];
-                    reader.read(buffer);
-                    request = Arrays.toString(buffer);
-                    LogOutputer.print(MessageType.INFO, "The request was: " + request);
-                    String response = handler.getResponse(request);
+                    // String request = reader.readLine()
+                    Message request = (Message) input.readObject();
+                    LogOutputer.print(MessageType.INFO,
+                            "The request was: " + request.getType().toString());
+                    Message response = handler.getResponse(request);
                     LogOutputer.print(MessageType.INFO, "Replying with: " + response);
-                    response = response.length() + "\n" + response;
-                    SendResponse(response);
+                    sendResponse(response);
                 }
             } catch (IOException ex) {
                 try {
@@ -53,27 +59,30 @@ public class ClientThread extends Thread {
                 } catch (Exception e) {
                 } ;
             } catch (NumberFormatException ne) {
-                try {
-                    input.skip(input.available());
-                    SendResponse(
-                            "{ \"code\":\"error\", \"message\" : \"The first line must consist of only a number that says how long the message is.\"}");
-                } catch (Exception e) {
-                    // I tried
-                }
+
+            } catch (ClassNotFoundException e) {
+
+            } catch (Exception e) {
+                // I tried
             }
         }
 
     }
 
-    public void SendResponse(String response) throws IOException {
-        response = response.length() + "\n" + response;
+    /**
+     * Sends a response to the client
+     * 
+     * @param response The response to send
+     * @throws IOException if the response fails to send
+     */
+    public void sendResponse(Message response) throws IOException {
         boolean notSent = true;
         for (int i = 0; i < 3 && notSent; i++) {
             try {
-                output.write(response.getBytes());
+                output.writeObject(response);
                 notSent = false;
             } catch (Exception e) {
-                if (!(i > 3)) {
+                if (i <= 3) {
                     throw new IOException("Tried 3 times and still failed");
                 }
             }

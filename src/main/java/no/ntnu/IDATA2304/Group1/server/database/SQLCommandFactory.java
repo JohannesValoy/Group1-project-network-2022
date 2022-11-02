@@ -1,11 +1,18 @@
 package no.ntnu.idata2304.group1.server.database;
 
+import java.util.Date;
+import java.util.Iterator;
 
+/**
+ * A class for creating SQL commands for different requests
+ */
 public class SQLCommandFactory {
 
-
+    /**
+     * Enum for linking the different kind of tables in the database
+     */
     private enum Tables {
-        NODE("node"), ROOM("room"), TEMP("logs");
+        NODE("node"), ROOMS("rooms"), TEMP("logs"), USERS("users");
 
         private String table;
 
@@ -21,21 +28,32 @@ public class SQLCommandFactory {
 
     private SQLCommandFactory() {};
 
-
-    public static String getTemperature(Integer roomID) throws IllegalArgumentException {
-        return buildGetCommand(Tables.TEMP, "temp", "roomID", Integer.toString(roomID));
-    }
-
-    private static String buildGetCommand(Tables table, String toFetch) {
-        return buildGetCommand(table, toFetch, "", "");
-    }
-
-    private static String buildGetCommand(Tables table, String toFetch, String columnToCheck,
-            String value) {
-        String sqlCommand = "SELECT " + toFetch + " FROM " + table.getTable();
-        if (!(toFetch.isEmpty() || columnToCheck.isEmpty())) {
-            sqlCommand += "WHERE " + columnToCheck + " LIKE " + value;
+    public static String getTemperature(Iterator<String> rooms) throws IllegalArgumentException {
+        StringBuilder builder = new StringBuilder("SELECT * FROM " + Tables.TEMP.getTable()
+                + " INNER JOIN " + Tables.ROOMS.getTable() + " ON " + Tables.ROOMS.getTable()
+                + ".id = " + Tables.TEMP.getTable() + ".roomid");
+        String sqlQuery = "";
+        builder.append("WHERE rooms.name IN (");
+        while (rooms.hasNext()) {
+            String room = rooms.next();
+            if (room.isEmpty() || room.isBlank() || room.contains(" ")) {
+                throw new IllegalArgumentException("Room name " + room + " is not valid");
+            }
+            builder.append("\"" + room + "\"");
+            if (rooms.hasNext()) {
+                builder.append(", ");
+            }
         }
-        return sqlCommand;
+        sqlQuery = builder.append(")").toString();
+        return sqlQuery;
+    }
+
+    public static String getTemperature(Iterator<String> rooms, Date from, Date to)
+            throws IllegalArgumentException {
+        StringBuilder builder = new StringBuilder(getTemperature(rooms));
+        builder.append(" AND ");
+        builder.append(Tables.TEMP.getTable() + ".date BETWEEN " + from.getTime() + " AND "
+                + to.getTime());
+        return builder.toString();
     }
 }

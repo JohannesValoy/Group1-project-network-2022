@@ -1,57 +1,121 @@
 package no.ntnu.idata2304.group1.server.requests;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import org.json.JSONException;
-import org.json.JSONObject;
+import no.ntnu.idata2304.group1.data.RoomRecord;
+import no.ntnu.idata2304.group1.data.requests.ErrorMessage;
+import no.ntnu.idata2304.group1.data.requests.GetMessage;
+import no.ntnu.idata2304.group1.data.requests.Message;
 import no.ntnu.idata2304.group1.server.database.DBConnector;
+import no.ntnu.idata2304.group1.server.database.SQLCommandFactory;
+import no.ntnu.idata2304.group1.data.requests.ResponseMessage;
 
+/**
+ * A class for handling requests from the client
+ */
 public class RequestHandler {
+
+
+    // TODO: Add this when the update/add request is implemented
+    // TODO: Implement Login
 
     private DBConnector connector;
 
+    /**
+     * Creates a new RequestHandler
+     */
     public RequestHandler() {
         this.connector = new DBConnector();
     }
 
-    // TODO: Implement Login
-    public String getResponse(String clientRequest) {
-        String response;
+    /**
+     * Creates a new request handler with a given database connector
+     * 
+     * @param connector The database connector to use
+     */
+    public RequestHandler(DBConnector connector) {
+        this.connector = connector;
+    }
+
+
+    /**
+     * Handles a given request and returns a response
+     * 
+     * @param request The request to handle
+     * @return Message object containing the response
+     */
+    public Message getResponse(Message request) {
+        Message response = null;
         try {
-            JSONObject requestJSON = new JSONObject(clientRequest);
-            String sqlQuery = createSQLQuery(requestJSON);
-            connector.executeQuery(sqlQuery);
-            response = "";
-        } catch (JSONException e) {
-            response = "{ \"code\":\"error\", \"message\" : \"Is not a JSON message\"}";
+            switch (request.getType()) {
+                case GET:
+                    response = handleGet((GetMessage) request);
+                    break;
+                case ERROR:
+                    response = handleError((ErrorMessage) request);
+                    break;
+                case OK:
+                    response = handleOk((ResponseMessage) request);
+                    break;
+                default:
+                    response = new ResponseMessage("Unknown command");
+                    break;
+            }
         } catch (IllegalArgumentException e) {
-            response = "{ \"code\":\"error\",\"message\" : \"" + e.getMessage() + "\"}";
-        } catch (NotImplementedException e) {
-            response =
-                    "{ \"code\":\"error\",\"message\" : \"'This command is not implemented. Please check the documentation for commands.'\"}";
+            response = new ErrorMessage("Invalid request");
         } catch (SQLException e) {
-            response =
-                    "{ \"code\":\"error\",\"message\" : \"A unexpected error accessing your information. Please try again.\"}";
+            response = new ErrorMessage("Database error");
+        }
+
+        return response;
+    }
+
+    /**
+     * Handles a OK request
+     * 
+     * @param request The request to handle
+     * @return The response
+     */
+    // TODO: Implement this method
+    private ResponseMessage handleOk(ResponseMessage request) {
+        return null;
+    }
+
+    /**
+     * Handles a GET request
+     * 
+     * @param request The request to handle
+     * @return Message object containing the response
+     */
+    private Message handleGet(GetMessage request) throws IllegalArgumentException, SQLException {
+        String sqlQuery = "";
+        ResponseMessage response = null;
+        switch (request.getCommand()) {
+            case ROOM_TEMP:
+                sqlQuery = SQLCommandFactory.getTemperature(request.getRooms());
+                ResultSet result = connector.executeQuery(sqlQuery);
+                response = new ResponseMessage("Temperature data");
+                while (result.next()) {
+                    response.addData(result.getString("room"), new RoomRecord(
+                            result.getTimestamp("timestamp"), result.getDouble("temperature")));
+                }
+                break;
+            case ROOM_HUMIDITY:
+                // TODO: Implement this
+            default:
+                throw new IllegalArgumentException("Unknown Get Command");
         }
         return response;
     }
 
-    private String createSQLQuery(JSONObject object)
-            throws NotImplementedException, IllegalArgumentException {
-        String sqlQuery;
-        String command;
-        try {
-            command = object.getString("command");
-        } catch (Exception e) {
-            throw new IllegalArgumentException(
-                    "This JSON object does not contain a command keyword.");
-        }
-        switch (command.toLowerCase()) {
-            case "getroomtemp":
-                sqlQuery = "";
-                break;
-            default:
-                throw new IllegalArgumentException("This is not a recognized command keyword");
-        }
-        return sqlQuery;
+    /**
+     * Handles an ERROR request
+     * 
+     * @param request The request to handle
+     * @return The response
+     */
+    // TODO: Implement this method
+    private ResponseMessage handleError(ErrorMessage request) {
+        return null;
     }
 }
