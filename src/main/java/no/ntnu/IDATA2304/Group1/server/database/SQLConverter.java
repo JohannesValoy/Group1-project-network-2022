@@ -3,13 +3,21 @@ package no.ntnu.idata2304.group1.server.database;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import no.ntnu.idata2304.group1.data.RoomRecord;
 
+/**
+ * A class for converting SQL results to Java objects
+ */
+@Deprecated
+// TODO: Need to dedice if we want to use this or not. The optional thing would be fetching the data
+// trough with the response class
 public class SQLConverter {
 
     private SQLConverter() {}
 
     public static void getTempResult(ResultSet result) {
-        HashMap<String, ArrayList<HashMap<String, Object>>> rooms = new HashMap<>();
+        HashMap<String, ArrayList<RoomRecord>> temp = new HashMap<>();
+
 
         if (result == null) {
             throw new IllegalArgumentException("Result can't be null");

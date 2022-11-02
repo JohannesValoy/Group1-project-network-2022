@@ -10,6 +10,9 @@ import no.ntnu.idata2304.group1.server.database.DBConnector;
 import no.ntnu.idata2304.group1.server.database.SQLCommandFactory;
 import no.ntnu.idata2304.group1.data.requests.ResponseMessage;
 
+/**
+ * A class for handling requests from the client
+ */
 public class RequestHandler {
 
 
@@ -18,21 +21,28 @@ public class RequestHandler {
 
     private DBConnector connector;
 
-
-    // private Role role;
-
+    /**
+     * Creates a new RequestHandler
+     */
     public RequestHandler() {
         this.connector = new DBConnector();
     }
 
+    /**
+     * Creates a new request handler with a given database connector
+     * 
+     * @param connector The database connector to use
+     */
     public RequestHandler(DBConnector connector) {
         this.connector = connector;
     }
 
 
     /**
-     * @param request
-     * @return
+     * Handles a given request and returns a response
+     * 
+     * @param request The request to handle
+     * @return Message object containing the response
      */
     public Message getResponse(Message request) {
         Message response = null;
@@ -60,14 +70,22 @@ public class RequestHandler {
         return response;
     }
 
-
+    /**
+     * Handles a OK request
+     * 
+     * @param request The request to handle
+     * @return The response
+     */
+    // TODO: Implement this method
     private ResponseMessage handleOk(ResponseMessage request) {
         return null;
     }
 
     /**
-     * @param request
-     * @return
+     * Handles a GET request
+     * 
+     * @param request The request to handle
+     * @return Message object containing the response
      */
     private Message handleGet(GetMessage request) throws IllegalArgumentException, SQLException {
         String sqlQuery = "";
@@ -84,46 +102,20 @@ public class RequestHandler {
                 break;
             case ROOM_HUMIDITY:
                 // TODO: Implement this
-                // return getRoomHumidity();
             default:
                 throw new IllegalArgumentException("Unknown Get Command");
         }
         return response;
     }
 
+    /**
+     * Handles an ERROR request
+     * 
+     * @param request The request to handle
+     * @return The response
+     */
+    // TODO: Implement this method
     private ResponseMessage handleError(ErrorMessage request) {
         return null;
     }
-
-    // TODO: Implement this
-
-    // private String createSQLQuery(JSONObject object)
-    // throws NotImplementedException, IllegalArgumentException {
-    // String sqlQuery;
-    // String command;
-    // try {
-    // command = object.getString("command");
-    // } catch (Exception e) {
-    // throw new IllegalArgumentException(
-    // "This JSON object does not contain a command keyword.");
-    // }
-    // switch (command.toLowerCase()) {
-    // case "login":
-
-    // break;
-    // case "getroomtemp":
-    // sqlQuery = GetMessage.getRoomTemprature(object);
-    // ResultSet result;
-    // try {
-    // result = connector.executeQuery(sqlQuery);
-    // } catch (SQLException e) {
-    // throw new IllegalArgumentException(
-    // "Had problems contacting the database, please try again.");
-    // }
-    // break;
-    // default:
-    // throw new IllegalArgumentException("This is not a recognized command keyword");
-    // }
-    // return sqlQuery;
-    // }
 }

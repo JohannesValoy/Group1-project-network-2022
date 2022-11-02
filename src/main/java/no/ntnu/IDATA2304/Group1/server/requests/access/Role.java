@@ -4,6 +4,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * Roles for different users and their permissions
+ */
+// TODO: Add a more flexible way of adding roles/commands
 public class Role {
     ArrayList<Method> commands;
 

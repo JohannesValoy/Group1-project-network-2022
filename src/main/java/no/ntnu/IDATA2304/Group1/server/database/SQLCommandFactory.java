@@ -2,11 +2,15 @@ package no.ntnu.idata2304.group1.server.database;
 
 import java.util.Date;
 import java.util.Iterator;
-import org.json.JSONObject;
 
+/**
+ * A class for creating SQL commands for different requests
+ */
 public class SQLCommandFactory {
 
-
+    /**
+     * Enum for linking the different kind of tables in the database
+     */
     private enum Tables {
         NODE("node"), ROOMS("rooms"), TEMP("logs"), USERS("users");
 
@@ -23,7 +27,6 @@ public class SQLCommandFactory {
 
 
     private SQLCommandFactory() {};
-
 
     public static String getTemperature(Iterator<String> rooms) throws IllegalArgumentException {
         StringBuilder builder = new StringBuilder("SELECT * FROM " + Tables.TEMP.getTable()
@@ -52,35 +55,5 @@ public class SQLCommandFactory {
         builder.append(Tables.TEMP.getTable() + ".date BETWEEN " + from.getTime() + " AND "
                 + to.getTime());
         return builder.toString();
-    }
-
-    @Deprecated
-    public static String login(JSONObject object) throws IllegalArgumentException {
-        String sqlQuery = "";
-        if (object.has("APIKey")) {
-            String key = object.getString("APIKey");
-            if (key.isEmpty() || key.isBlank() || key.contains(" ")) {
-                throw new IllegalArgumentException("APIKey is not valid");
-            }
-            sqlQuery = "SELECT * FROM nodes WHERE apikey = '" + object.getString("APIKey");
-
-        } else if (object.has("username") && object.has("password")) {
-            String userString = object.getString("username");
-            String passwordString = object.getString("password");
-            if (userString.isEmpty() || userString.isBlank() || userString.contains(" ")) {
-                throw new IllegalArgumentException("Username is not valid");
-            }
-            if (passwordString.isEmpty() || passwordString.isBlank()
-                    || passwordString.contains(" ")) {
-                throw new IllegalArgumentException("Password is not valid");
-            }
-            sqlQuery = "SELECT * FROM " + Tables.USERS.getTable() + " WHERE username = '"
-                    + object.getString("username") + "' AND password = '"
-                    + object.getString("password") + "'";
-        } else {
-            throw new IllegalArgumentException(
-                    "This JSON object does not contain a APIKey or username and password.");
-        }
-        return sqlQuery;
     }
 }

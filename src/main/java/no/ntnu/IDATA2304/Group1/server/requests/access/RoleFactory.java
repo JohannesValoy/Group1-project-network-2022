@@ -1,5 +1,10 @@
 package no.ntnu.idata2304.group1.server.requests.access;
 
+/**
+ * A factory for creating a role object
+ * 
+ * It is used to create a role object based on a given role name
+ */
 public class RoleFactory {
     enum Roles {
         ADMIN("Admin"), USER("User"), NODE("Node");
