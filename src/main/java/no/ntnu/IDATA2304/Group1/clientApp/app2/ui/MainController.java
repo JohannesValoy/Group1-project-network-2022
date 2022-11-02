@@ -9,8 +9,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import no.ntnu.idata2304.group1.clientapp.app2.logic.Room;
-import no.ntnu.idata2304.group1.clientapp.app2.logic.Sensor;
+import no.ntnu.idata2304.group1.data.Room;
+import no.ntnu.idata2304.group1.data.Sensor;
 
 /**
  * Main controller for the UI.

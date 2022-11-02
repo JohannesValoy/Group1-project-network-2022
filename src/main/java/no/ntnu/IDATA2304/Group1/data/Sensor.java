@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.clientapp.app2.logic;
+package no.ntnu.idata2304.group1.data;
 
 
 import java.util.LinkedList;
