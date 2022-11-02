@@ -5,17 +5,29 @@ import java.sql.SQLException;
 
 import no.ntnu.idata2304.group1.server.database.DBConnector;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer;
+import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
 import no.ntnu.idata2304.group1.server.network.TCPListener;
 
+/**
+ * The main class for the server
+ */
 public class ServerRunner {
 
     static int port = 6008;
 
+    /**
+     * Starts the server
+     * 
+     * @param args The arguments to the program
+     * @throws IOException if the server fails to start
+     * @throws SQLException if the database fails to connect
+     */
     public static void main(String[] args) throws IOException, SQLException {
-        LogOutputer.print(LogOutputer.MessageType.INFO, "Starting the server");
-        int port = Integer.parseInt(args[1]);
+        LogOutputer.print(MessageType.INFO, "Starting the server");
+        // int port = Integer.parseInt(args[1]);
         DBConnector database = new DBConnector();
-        LogOutputer.print(LogOutputer.MessageType.INFO, "Connected to the database to the database");
+        LogOutputer.print(LogOutputer.MessageType.INFO,
+                "Connected to the database to the database");
         try (TCPListener listener = new TCPListener(port)) {
             listener.run();
         }

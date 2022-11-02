@@ -14,8 +14,8 @@ public class ClientSocket {
      */
     public static void main(String[] args) {
 
-        String hostname = "time.nist.gov";
-        int port = 13;
+        String hostname = "localhost";
+        int port = 6008;
 
         try (Socket socket = new Socket(hostname, port)) {
 
