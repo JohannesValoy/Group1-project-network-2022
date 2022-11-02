@@ -21,7 +21,7 @@ public class Sensor {
         this.type = type;
         this.id = id;
         //Loads ExampleValues
-        for(int i = 0; i < 1000; i++){
+        for(int i = 0; i < 10; i++){
             updateReading();
         }
     }
@@ -44,6 +44,7 @@ public class Sensor {
     public void updateReading() {
         this.currentLevel = (this.currentLevel + (500 - randomGen.nextInt(1000))/200);
         historyLog.add(this.currentLevel);
+        System.out.println(historyLog.size());
     }
 
     /**
@@ -51,6 +52,7 @@ public class Sensor {
      * @return List historyLog.
      */
     public List<Integer> getHistoryLog() {
+        updateReading();
         return this.historyLog;
     }
 
