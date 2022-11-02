@@ -2,6 +2,8 @@ package no.ntnu.idata2304.group1.clientapp.app2.logic;
 
 import java.util.ArrayList;
 import java.util.List;
+import no.ntnu.idata2304.group1.clientapp.app2.logic.Sensor;
+
 
 /**
  * Represents a room in a house with an arraylist with one or more temperature sensors.

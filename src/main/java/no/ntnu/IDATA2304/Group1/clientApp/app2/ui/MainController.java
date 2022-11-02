@@ -36,7 +36,7 @@ public class MainController extends Application {
       FXMLLoader mainWindowLoader = new FXMLLoader(MainController.class.getResource("MainScene.fxml"));
       Stage mainStage = makeStage(mainWindowLoader, stage, 1000, 700);
       mainStage.setTitle("Rooms");
-      mainWindowController = (MainWindowController) mainWindowLoader.getController();
+      mainWindowController = mainWindowLoader.getController();
       //Initiates scrollPane and flowPane
       this.scrollPane = this.mainWindowController.scrollPane;
       this.flowPane = this.mainWindowController.flowPane;
@@ -57,7 +57,7 @@ public class MainController extends Application {
         Pane pane = new Pane();
         FXMLLoader roomWindowLoader = new FXMLLoader(MainController.class.getResource("RoomScene.fxml"));
         pane.getChildren().add(roomWindowLoader.load());
-        RoomWindowController roomWindowController = (RoomWindowController) roomWindowLoader.getController();
+        RoomWindowController roomWindowController = roomWindowLoader.getController();
         roomWindowControllers.add(roomWindowController);
         roomWindowController.setRoom(room);
         //Sets the pane size and style
@@ -71,7 +71,7 @@ public class MainController extends Application {
             if (mouseEvent.getClickCount() == 2) {
                 contractPane(this.mainWindowController);
                 pane.setPrefSize(this.scrollPane.getWidth() -140, this.scrollPane.getHeight() - 140);
-                roomWindowController.sensorChart.setPrefSize((stage.getWidth()*5)/11, stage.getHeight()-400);
+                roomWindowController.expandRoomView(stage.getWidth(), stage.getHeight());
             }
         });
         //Contracts the roomWindow if the room is clicked
@@ -123,7 +123,7 @@ public class MainController extends Application {
      */
     public void addExampleRooms(Stage stage) throws IOException {
         int n = 0;
-        while(n <= 5) {
+        while(n <= 2) {
             Room room = new Room(n, "Room From AddExampleRooms" + n);
             addRoom(room, stage);
             addExampleSensorsLive(n);
@@ -133,7 +133,7 @@ public class MainController extends Application {
 
     public void addExampleSensorsLive(int number) {
         ArrayList<Sensor> sensorList = new ArrayList<>();
-        for(int count = 0; count < 3; count++) {
+        for(int count = 0; count < 2; count++) {
             Sensor sensor = new Sensor("Rain in mm", number);
             sensor.setName("Sensor from addExampleSensorsLive " + count);
             sensorList.add(sensor);

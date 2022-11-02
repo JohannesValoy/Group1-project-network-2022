@@ -6,7 +6,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 
 /**
- * makes a window with data with a gridpane for every room.
+ * makes a window with data with a grid pane for every room.
  */
 
 public class MainWindowController {
@@ -22,9 +22,9 @@ public class MainWindowController {
     }
 
     /**
-     * returns the flowpane
+     * returns the flow pane
      *
-     * @return flowpane
+     * @return flow pane
      */
     public FlowPane getFlowPane(){
         return this.flowPane;

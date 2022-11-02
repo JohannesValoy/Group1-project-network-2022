@@ -8,17 +8,20 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idata2304.group1.clientapp.app2.ui.RoomWindowController">
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.FlowPane?>
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:id="borderPane" fx:controller="no.ntnu.idata2304.group1.clientapp.app2.ui.RoomWindowController">
     <center>
-        <VBox alignment="CENTER" BorderPane.alignment="CENTER">
-            <Label fx:id="title" text="Example Sensor" textAlignment="CENTER" textFill="white">
-                <font>
-                    <Font size="20.0" />
-                </font>
-                <VBox.margin>
-                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                </VBox.margin>
-            </Label>
+        <Label fx:id="title" text="Example Sensor" textAlignment="CENTER" textFill="white">
+            <font>
+                <Font size="20.0" />
+            </font>
+            <VBox.margin>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </VBox.margin>
+        </Label>
+        <FlowPane alignment="CENTER" BorderPane.alignment="CENTER" fx:id="HBox">
+
             <LineChart fx:id="sensorChart" prefHeight="350" prefWidth="400" style="-fx-border-radius: 30;">
                 <xAxis>
                     <NumberAxis side="BOTTOM" tickLabelFill="WHITE" />
@@ -28,6 +31,6 @@
                 </yAxis>
             </LineChart>
             <Label fx:id="CurrentTemperature" textAlignment="CENTER" />
-        </VBox>
+        </FlowPane>
     </center>
 </BorderPane>
