@@ -6,9 +6,9 @@ import java.util.Date;
 /**
  * A class for storing room data
  */
-public class RoomRecord {
+public class SensorRecord {
     final Date date;
-    final double temperature;
+    final double value;
 
     /**
      * Creates a new RoomRecord
@@ -16,9 +16,9 @@ public class RoomRecord {
      * @param date The date of the record
      * @param temperature The temperature of the room
      */
-    public RoomRecord(Date date, double temperature) {
+    public SensorRecord(Date date, double value) {
         this.date = date;
-        this.temperature = temperature;
+        this.value = value;
     }
 
 
@@ -36,7 +36,7 @@ public class RoomRecord {
      * 
      * @return The temperature of the room
      */
-    public double getTemperature() {
-        return temperature;
+    public double getValue() {
+        return value;
     }
 }

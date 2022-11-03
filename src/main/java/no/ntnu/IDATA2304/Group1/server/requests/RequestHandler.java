@@ -2,13 +2,15 @@ package no.ntnu.idata2304.group1.server.requests;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import no.ntnu.idata2304.group1.data.RoomRecord;
-import no.ntnu.idata2304.group1.data.requests.ErrorMessage;
-import no.ntnu.idata2304.group1.data.requests.GetMessage;
-import no.ntnu.idata2304.group1.data.requests.Message;
+import no.ntnu.idata2304.group1.data.SensorRecord;
+import no.ntnu.idata2304.group1.data.networkpackages.Message;
+import no.ntnu.idata2304.group1.data.networkpackages.requests.GetMessage;
+import no.ntnu.idata2304.group1.data.networkpackages.responses.ErrorMessage;
+import no.ntnu.idata2304.group1.data.networkpackages.responses.ResponseMessage;
+import no.ntnu.idata2304.group1.data.networkpackages.responses.ResponseRoomMessage;
 import no.ntnu.idata2304.group1.server.database.DBConnector;
 import no.ntnu.idata2304.group1.server.database.SQLCommandFactory;
-import no.ntnu.idata2304.group1.data.requests.ResponseMessage;
+import no.ntnu.idata2304.group1.server.database.SQLConverter;
 
 /**
  * A class for handling requests from the client
@@ -98,16 +100,12 @@ public class RequestHandler {
             throw new IllegalArgumentException("The request cannot be null");
         }
         String sqlQuery = "";
-        ResponseMessage response = null;
+        ResponseRoomMessage response = null;
         switch (request.getCommand()) {
             case ROOM_TEMP:
                 sqlQuery = SQLCommandFactory.getTemperature(request.getRooms());
                 ResultSet result = connector.executeQuery(sqlQuery);
-                response = new ResponseMessage("Temperature data");
-                while (result.next()) {
-                    response.addData(result.getString("room"), new RoomRecord(
-                            result.getTimestamp("timestamp"), result.getDouble("temperature")));
-                }
+                response = new ResponseRoomMessage(SQLConverter.getRoomLogResults(result));
                 break;
             case ROOM_HUMIDITY:
                 // TODO: Implement this

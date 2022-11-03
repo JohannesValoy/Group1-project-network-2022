@@ -1,8 +1,9 @@
-package no.ntnu.idata2304.group1.data.requests;
+package no.ntnu.idata2304.group1.data.networkpackages.requests;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import no.ntnu.idata2304.group1.data.networkpackages.Message;
 
 /**
  * A class for sending get commands to the server

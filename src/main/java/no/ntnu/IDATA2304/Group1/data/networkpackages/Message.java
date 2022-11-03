@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.data.requests;
+package no.ntnu.idata2304.group1.data.networkpackages;
 
 /**
  * A class for sending messages between server and client
