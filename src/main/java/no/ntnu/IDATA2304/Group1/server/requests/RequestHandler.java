@@ -57,8 +57,8 @@ public class RequestHandler {
         try {
             response = switch (request.getType()) {
                 case GET -> handleGet((GetMessage) request);
-                case ERROR -> handleError((ErrorMessage) request);
-                case OK -> handleOk((ResponseMessage) request);
+                case UPDATE -> handleUpdate((UpdateMessage) request);
+                case ADD -> handleAdd((AddMessage) request);
                 default -> new ErrorMessage("Unknown command");
             };
         } catch (IllegalArgumentException e) {
