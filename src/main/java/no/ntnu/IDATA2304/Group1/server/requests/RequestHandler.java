@@ -55,20 +55,12 @@ public class RequestHandler {
         }
         Message response = null;
         try {
-            switch (request.getType()) {
-                case GET:
-                    response = handleGet((GetMessage) request);
-                    break;
-                case ERROR:
-                    response = handleError((ErrorMessage) request);
-                    break;
-                case OK:
-                    response = handleOk((ResponseMessage) request);
-                    break;
-                default:
-                    response = new ErrorMessage("Unknown command");
-                    break;
-            }
+            response = switch (request.getType()) {
+                case GET -> handleGet((GetMessage) request);
+                case ERROR -> handleError((ErrorMessage) request);
+                case OK -> handleOk((ResponseMessage) request);
+                default -> new ErrorMessage("Unknown command");
+            };
         } catch (IllegalArgumentException e) {
             response = new ErrorMessage(e.getMessage());
         } catch (SQLException e) {
