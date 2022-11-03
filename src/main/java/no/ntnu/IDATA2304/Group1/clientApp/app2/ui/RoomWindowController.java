@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -12,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import no.ntnu.idata2304.group1.data.Room;
+import no.ntnu.idata2304.group1.data.RoomRecord;
 
 import java.util.List;
 import java.util.Timer;
@@ -24,7 +26,7 @@ public class RoomWindowController {
     public FlowPane HBox;
     public Label CurrentTemperature;
     @FXML
-    private LineChart sensorChart;
+    private LineChart<String, Number> sensorChart;
     private Room room;
     private int roomNumber;
 
@@ -40,7 +42,7 @@ public class RoomWindowController {
         pane.setPrefSize(420, 420);
         pane.setStyle(
                 "-fx-background-color: grey;" +
-                        "-fx-background-radius: 30;");
+                "-fx-border-radius: 150px;");
 
         autoUpdateChart(sensorChart, 0);
     }
@@ -49,7 +51,7 @@ public class RoomWindowController {
         sensorChart.setPrefSize(width*10/21, height/2);
         HBox.setPrefWidth(width);
         for(int i = 1; i < room.getListOfSensors().size(); i++) {
-            LineChart sensorChart2 = new LineChart<>(new NumberAxis(), new NumberAxis()) {};
+            LineChart<String, Number> sensorChart2 = new LineChart<>(new CategoryAxis(), new NumberAxis()) {};
             HBox.getChildren().add(sensorChart2);
             sensorChart2.setPrefSize(width*10/21, height/2);
             autoUpdateChart(sensorChart2, i);
@@ -85,9 +87,6 @@ public class RoomWindowController {
 
     }
 
-    public void setTitle(String title){
-        this.title.setText(title);
-    }
     public Room getRoom(){
         return this.room;
     }
@@ -98,19 +97,19 @@ public class RoomWindowController {
      * @return returns observable list
      * @throws NullPointerException if sensor requested does not exist
      */
-    private ObservableList<XYChart.Series<Integer, Integer>> getChartData(int sensorID) throws NullPointerException{
+    private ObservableList<XYChart.Series<String, Double>> getChartData(int sensorID) throws NullPointerException{
 
-        XYChart.Series<Integer, Integer> series = new XYChart.Series<>();
+        XYChart.Series<String, Double> series = new XYChart.Series<>();
         if(this.room.getListOfSensors().size() <= sensorID){
             throw new IllegalArgumentException("Requested sensor " + sensorID + " but room " + roomNumber + " has " +  this.room.getListOfSensors().size() + " sensors");
         }
-        series.setName(this.room.getListOfSensors().get(sensorID).getType());
+        series.setName(this.room.getListOfSensors().get(sensorID).getTypeName());
         this.title.setText("Room Number " + this.roomNumber);
-        List<Integer> sensorReadings = this.room.getListOfSensors().get(sensorID).getHistoryLog();
-        for (int i = 0; i < sensorReadings.size(); i++) {
-            series.getData().add(new XYChart.Data(i, sensorReadings.get(i)));
+        List<RoomRecord> sensorReadings = this.room.getListOfSensors().get(sensorID).getHistoryLog();
+        for (RoomRecord sensorReading : sensorReadings) {
+            series.getData().add(new XYChart.Data(sensorReading.getDate().toString(), sensorReading.getTemperature()));
         }
-        ObservableList<XYChart.Series<Integer, Integer>> seriesList = FXCollections.observableArrayList();
+        ObservableList<XYChart.Series<String, Double>> seriesList = FXCollections.observableArrayList();
         seriesList.addAll(series);
 
         return seriesList;
@@ -123,7 +122,7 @@ public class RoomWindowController {
     /**
      * Updates the chart every second
      */
-    private void autoUpdateChart(LineChart sensorChart, int sensorID) {
+    private void autoUpdateChart(LineChart<String, Number> sensorChart, int sensorID) {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -137,10 +136,7 @@ public class RoomWindowController {
         }, 1, 2000 );
     }
 
-    public void updateStandardSensorChart(LineChart sensorChart, int sensorID){
+    public void updateStandardSensorChart(LineChart<String, Number> sensorChart, int sensorID){
         updateSensorChart(sensorChart, sensorID);
-    }
-    public LineChart getSensorChart(){
-        return this.sensorChart;
     }
 }

@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import no.ntnu.idata2304.group1.data.Room;
 import no.ntnu.idata2304.group1.data.Sensor;
@@ -19,7 +17,6 @@ import no.ntnu.idata2304.group1.data.Sensor;
 public class MainController extends Application {
   private MainWindowController mainWindowController;
   private ArrayList<RoomWindowController> roomWindowControllers;
-  private ScrollPane scrollPane;
   private FlowPane flowPane;
 
 
@@ -39,8 +36,7 @@ public class MainController extends Application {
       mainStage.setTitle("Rooms");
       mainWindowController = mainWindowLoader.getController();
 
-      //Initiates scrollPane and flowPane
-      this.scrollPane = this.mainWindowController.scrollPane;
+      //Initiates flowPane
       this.flowPane = this.mainWindowController.flowPane;
 
       //Binds the flowPane to the stage dimensions
@@ -74,19 +70,16 @@ public class MainController extends Application {
         //Contracts the roomWindow if the room is clicked
         mainWindowController.getFlowPane().setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getClickCount() != 2) {
-                contractPane(mainWindowController);
+                contractPane();
             }
         });
     }
 
     /**
      * Contracts the pane to the original size
-     * @param mainWindowController the main window controller;
      */
-    private void contractPane(MainWindowController mainWindowController) {
-        for (int count = 0; count < roomWindowControllers.size(); count++){
-            roomWindowControllers.get(count).contractRoomView();
-        }
+    private void contractPane() {
+        for (RoomWindowController roomWindowController : roomWindowControllers) roomWindowController.contractRoomView();
     }
 
 
@@ -125,8 +118,7 @@ public class MainController extends Application {
     public void addExampleSensorsLive(int number) {
         ArrayList<Sensor> sensorList = new ArrayList<>();
         for(int count = 0; count < 3; count++) {
-            Sensor sensor = new Sensor("Rain in mm", number);
-            sensor.setName("Sensor from addExampleSensorsLive " + count);
+            Sensor sensor = new Sensor(Sensor.Types.TEMPERATURE, number);
             sensorList.add(sensor);
         }
         roomWindowControllers.get(number).getRoom().setSensorList(sensorList);
