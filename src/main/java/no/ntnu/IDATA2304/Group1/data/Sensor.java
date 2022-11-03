@@ -67,15 +67,16 @@ public class Sensor {
     private final Types type; // Type of sensor
     private String name; // ID of sensor
 
+    /**
+     * Uses type as type of sensor and name as the name of the sensor
+     * @param type as Temperature or humidity
+     * @param name as the name/ID of the sensor
+     */
     public Sensor(Types type, String name) {
         this.historyLog = new LinkedList<>();
         this.randomGen = new Random();
         this.type = type;
         this.name = name;
-        // Loads ExampleValues
-        for (int i = 0; i < 10; i++) {
-            updateReading();
-        }
     }
 
     /**

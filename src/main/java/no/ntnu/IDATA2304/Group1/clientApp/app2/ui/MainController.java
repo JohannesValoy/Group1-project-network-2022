@@ -118,7 +118,7 @@ public class MainController extends Application {
     public void addExampleSensorsLive(int number) {
         ArrayList<Sensor> sensorList = new ArrayList<>();
         for(int count = 0; count < 3; count++) {
-            Sensor sensor = new Sensor(Sensor.Types.TEMPERATURE, number);
+            Sensor sensor = new Sensor(Sensor.Types.TEMPERATURE, number + "");
             sensorList.add(sensor);
         }
         roomWindowControllers.get(number).getRoom().setSensorList(sensorList);

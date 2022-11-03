@@ -13,7 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import no.ntnu.idata2304.group1.data.Room;
-import no.ntnu.idata2304.group1.data.RoomRecord;
+import no.ntnu.idata2304.group1.data.SensorRecord;
 
 import java.util.List;
 import java.util.Timer;
@@ -62,8 +62,13 @@ public class RoomWindowController {
         sensorChart.setPrefSize(400, 350);
         pane.setPrefSize(420, 420);
         HBox.setPrefSize(420, 420);
-        for(int i = 1; i < HBox.getChildren().size(); i++){
-            HBox.getChildren().remove(i);
+        for(int i = 0; i < HBox.getChildren().size(); i++){
+            try{
+            HBox.getChildren().remove(1);
+            } catch (Exception e){
+                //TODO: fix this error
+                System.out.println("Error closing all the sensors. Error in contractWindow in RoomWindowController");
+            }
         }
     }
 
@@ -105,9 +110,9 @@ public class RoomWindowController {
         }
         series.setName(this.room.getListOfSensors().get(sensorID).getTypeName());
         this.title.setText("Room Number " + this.roomNumber);
-        List<RoomRecord> sensorReadings = this.room.getListOfSensors().get(sensorID).getHistoryLog();
-        for (RoomRecord sensorReading : sensorReadings) {
-            series.getData().add(new XYChart.Data(sensorReading.getDate().toString(), sensorReading.getTemperature()));
+        List<SensorRecord> sensorReadings = this.room.getListOfSensors().get(sensorID).getHistoryLog();
+        for (SensorRecord sensorReading : sensorReadings) {
+            series.getData().add(new XYChart.Data(sensorReading.date().getHours() + "." + sensorReading.date().getMinutes(), sensorReading.value()));
         }
         ObservableList<XYChart.Series<String, Double>> seriesList = FXCollections.observableArrayList();
         seriesList.addAll(series);
