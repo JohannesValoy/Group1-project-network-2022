@@ -82,7 +82,7 @@ public class Room {
     /**
      * Returns the first sensor it finds with that name
      * 
-     * @param id the id of the sensor.
+     * @param name the id of the sensor.
      * @return the sensor with the given id.
      */
     public Sensor findSensorByName(String name) {

@@ -1,44 +1,48 @@
 package no.ntnu.idata2304.group1.clientapp.app2;
 
-import java.io.*;
+import no.ntnu.idata2304.group1.data.networkpackages.Message;
+import no.ntnu.idata2304.group1.data.networkpackages.requests.GetMessage;
+import no.ntnu.idata2304.group1.data.networkpackages.responses.ErrorMessage;
+import no.ntnu.idata2304.group1.data.networkpackages.responses.ResponseRoomMessage;
+
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Socket class on client side to connect and read from server
  */
 public class ClientSocket {
 
-    /**
-     * Template
-     */
-    public static void main(String[] args) {
+    String hostname = "localhost";
+    int port = 6008;
+    Socket socket = new Socket(hostname, port);
+    ObjectInputStream input;
+    ObjectOutputStream output;
 
-        String hostname = "localhost";
-        int port = 6008;
+    public ClientSocket() throws IOException {
+        this.output = new ObjectOutputStream(socket.getOutputStream());
+        this.input = new ObjectInputStream(socket.getInputStream());
+    }
 
-        try (Socket socket = new Socket(hostname, port)) {
 
-            InputStream input = socket.getInputStream();
-            InputStreamReader reader = new InputStreamReader(input);
+    public Message response() throws IOException, ClassNotFoundException {
+        Message messageResponse = (Message)input.readObject();
 
-            int character;
-            StringBuilder data = new StringBuilder();
+        return switch (messageResponse.getType()) {
+            case OK -> (ResponseRoomMessage) messageResponse;
+            case ERROR -> (ErrorMessage) messageResponse;
 
-            while ((character = reader.read()) != -1) {
-                data.append((char) character);
-            }
+            default -> throw new IllegalStateException("Unexpected value: " + messageResponse.getType());
+        };
+    }
 
-            System.out.println(data);
-
-        } catch (UnknownHostException ex) {
-
-            System.out.println("Server not found: " + ex.getMessage());
-
-        } catch (IOException ex) {
-
-            System.out.println("I/O error: " + ex.getMessage());
-        }
+    public void outputObject(List<String> rooms) throws IOException {
+        output.writeObject(new GetMessage(GetMessage.Types.ROOM_TEMP, (ArrayList<String>) rooms));
     }
 }
 
