@@ -17,14 +17,14 @@ public abstract class Message {
     /**
      * The type of message
      */
-    private final Message.Types type;
+    private final Types type;
 
     /**
      * Creates a new Message
      * 
      * @param type The type of message
      */
-    protected Message(Message.Types type) {
+    protected Message(Types type) {
         this.type = type;
     }
 

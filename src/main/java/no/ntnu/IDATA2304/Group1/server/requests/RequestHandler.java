@@ -2,11 +2,11 @@ package no.ntnu.idata2304.group1.server.requests;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import no.ntnu.idata2304.group1.data.SensorRecord;
 import no.ntnu.idata2304.group1.data.networkpackages.Message;
+import no.ntnu.idata2304.group1.data.networkpackages.requests.AddMessage;
 import no.ntnu.idata2304.group1.data.networkpackages.requests.GetMessage;
+import no.ntnu.idata2304.group1.data.networkpackages.requests.UpdateMessage;
 import no.ntnu.idata2304.group1.data.networkpackages.responses.ErrorMessage;
-import no.ntnu.idata2304.group1.data.networkpackages.responses.ResponseMessage;
 import no.ntnu.idata2304.group1.data.networkpackages.responses.ResponseRoomMessage;
 import no.ntnu.idata2304.group1.server.database.DBConnector;
 import no.ntnu.idata2304.group1.server.database.SQLCommandFactory;
@@ -59,11 +59,11 @@ public class RequestHandler {
                 case GET:
                     response = handleGet((GetMessage) request);
                     break;
-                case ERROR:
-                    response = handleError((ErrorMessage) request);
+                case ADD:
+                    response = handleAdd((AddMessage) request);
                     break;
-                case OK:
-                    response = handleOk((ResponseMessage) request);
+                case UPDATE:
+                    response = handleUpdate((UpdateMessage) request);
                     break;
                 default:
                     response = new ErrorMessage("Unknown command");
@@ -78,16 +78,14 @@ public class RequestHandler {
         return response;
     }
 
-    /**
-     * Handles a OK request
-     * 
-     * @param request The request to handle
-     * @return The response
-     */
-    // TODO: Implement this method
-    private ResponseMessage handleOk(ResponseMessage request) {
+    private Message handleUpdate(UpdateMessage request) {
         return null;
     }
+
+    private Message handleAdd(AddMessage request) {
+        return null;
+    }
+
 
     /**
      * Handles a GET request
@@ -113,16 +111,5 @@ public class RequestHandler {
                 throw new IllegalArgumentException("Unknown Get Command");
         }
         return response;
-    }
-
-    /**
-     * Handles an ERROR request
-     * 
-     * @param request The request to handle
-     * @return The response
-     */
-    // TODO: Implement this method
-    private ResponseMessage handleError(ErrorMessage request) {
-        return null;
     }
 }

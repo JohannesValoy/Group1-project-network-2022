@@ -32,9 +32,12 @@ public class SQLCommandFactory {
         if (rooms == null) {
             throw new IllegalArgumentException("The rooms cannot be null");
         }
-        StringBuilder builder = new StringBuilder("SELECT * FROM " + Tables.TEMP.getTable()
-                + " INNER JOIN " + Tables.ROOMS.getTable() + " ON " + Tables.ROOMS.getTable()
-                + ".id = " + Tables.TEMP.getTable() + ".roomid ");
+        StringBuilder builder = new StringBuilder(
+                "SELECT * FROM " + Tables.TEMP.getTable() + " INNER JOIN " + Tables.ROOMS.getTable()
+                        + " ON " + Tables.ROOMS.getTable() + ".id = " + Tables.TEMP.getTable()
+                        + ".roomid " + "INNER JOIN " + Tables.NODE.getTable() + " ON "
+                        + Tables.NODE.getTable() + ".id = " + Tables.TEMP.getTable()
+                        + ".nodeid AND " + Tables.NODE.getTable() + ".type LIKE 'temperature' ");
         String sqlQuery = "";
         builder.append("WHERE rooms.name IN (");
         while (rooms.hasNext()) {
