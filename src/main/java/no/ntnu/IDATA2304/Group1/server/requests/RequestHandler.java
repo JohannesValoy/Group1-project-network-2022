@@ -7,6 +7,7 @@ import no.ntnu.idata2304.group1.data.network.requests.AddMessage;
 import no.ntnu.idata2304.group1.data.network.requests.GetMessage;
 import no.ntnu.idata2304.group1.data.network.requests.UpdateMessage;
 import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
+import no.ntnu.idata2304.group1.data.network.responses.OKMessage;
 import no.ntnu.idata2304.group1.data.network.responses.ResponseRoomMessage;
 import no.ntnu.idata2304.group1.server.database.DBConnector;
 import no.ntnu.idata2304.group1.server.database.SQLCommandFactory;
@@ -70,14 +71,40 @@ public class RequestHandler {
         return response;
     }
 
-    private Message handleUpdate(UpdateMessage request) {
-        return null;
+    private Message handleUpdate(UpdateMessage request) throws SQLException {
+        if (request == null) {
+            throw new IllegalArgumentException("The request cannot be null");
+        }
+
+        return new OKMessage();
     }
 
-    private Message handleAdd(AddMessage request) {
-        return null;
+    private Message handleAdd(AddMessage request) throws SQLException {
+        if (request == null) {
+            throw new IllegalArgumentException("The request cannot be null");
+        }
+        switch (request.getCommand()) {
+            case LOG:
+                if (!isValidKey(request.getApiKey())) {
+                    throw new IllegalArgumentException("Invalid key");
+                }
+                String sqlQuery = SQLCommandFactory.addLog(request.getApiKey(), request.getValue());
+                connector.execute(sqlQuery);
+                break;
+        }
+        return new OKMessage();
+
     }
 
+
+    private boolean isValidKey(String apiKey) throws SQLException, IllegalArgumentException {
+        if (apiKey == null || apiKey.isBlank() || apiKey.contains(" ")) {
+            throw new IllegalArgumentException("The key is invalid");
+        }
+        String sql = SQLCommandFactory.checkNodeKey(apiKey);
+        ResultSet result = connector.executeQuery(sql);
+        return result.next();
+    }
 
     /**
      * Handles a GET request
@@ -89,11 +116,10 @@ public class RequestHandler {
         if (request == null) {
             throw new IllegalArgumentException("The request cannot be null");
         }
-        String sqlQuery = "";
         ResponseRoomMessage response = null;
         switch (request.getCommand()) {
             case ROOM_TEMP:
-                sqlQuery = SQLCommandFactory.getTemperature(request.getRooms());
+                String sqlQuery = SQLCommandFactory.getTemperature(request.getRooms());
                 ResultSet result = connector.executeQuery(sqlQuery);
                 response = new ResponseRoomMessage(SQLConverter.getRoomLogResults(result));
                 break;
@@ -104,4 +130,5 @@ public class RequestHandler {
         }
         return response;
     }
+
 }

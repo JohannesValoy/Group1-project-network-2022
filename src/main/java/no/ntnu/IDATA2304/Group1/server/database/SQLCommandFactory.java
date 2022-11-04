@@ -2,6 +2,7 @@ package no.ntnu.idata2304.group1.server.database;
 
 import java.util.Date;
 import java.util.Iterator;
+import java.util.regex.Pattern;
 
 /**
  * A class for creating SQL commands for different requests
@@ -42,8 +43,8 @@ public class SQLCommandFactory {
         builder.append("WHERE rooms.name IN (");
         while (rooms.hasNext()) {
             String room = rooms.next();
-            if (room.isEmpty() || room.isBlank() || room.contains(" ")) {
-                throw new IllegalArgumentException("Room name " + room + " is not valid");
+            if (checkValidString(room)) {
+                throw new IllegalArgumentException("Room name '" + room + "'' is not valid");
             }
             builder.append("\"" + room + "\"");
             if (rooms.hasNext()) {
@@ -66,6 +67,32 @@ public class SQLCommandFactory {
         builder.append(" AND ");
         builder.append(Tables.TEMP.getTable() + ".date BETWEEN " + from.getTime() + " AND "
                 + to.getTime());
+        return builder.toString();
+    }
+
+    public static String checkNodeKey(String key) {
+        if (checkValidString(key)) {
+            throw new IllegalArgumentException("The key is invalid");
+        }
+        return "SELECT * FROM " + Tables.NODE.getTable() + " WHERE " + Tables.NODE.getTable()
+                + ".key LIKE \"" + key + "\"";
+    }
+
+    private static boolean checkValidString(String string) {
+        // REGEX: that checks if a string does not contain " or ' or ; or -- or /*
+        return string != null && !string.isBlank() && Pattern.matches("^[^\"';-]*$", string);
+    }
+
+    public static String addLog(String apiKey, double value) {
+
+        StringBuilder builder = new StringBuilder("INSERT INTO " + Tables.TEMP.getTable()
+                + " (nodeid, roomid, reading, date) VALUES (");
+        builder.append("(SELECT id FROM " + Tables.NODE.getTable() + " WHERE "
+                + Tables.NODE.getTable() + ".key = \"" + apiKey + "\"), ");
+        builder.append("(SELECT roomid FROM " + Tables.NODE.getTable() + " WHERE "
+                + Tables.NODE.getTable() + ".key = \"" + apiKey + "\"), ");
+        builder.append(value + ", ");
+        builder.append(System.currentTimeMillis() + ")");
         return builder.toString();
     }
 }

@@ -16,12 +16,10 @@ public class GetMessage extends Message {
         ROOM_TEMP(), ROOM_HUMIDITY();
     }
 
-    private GetMessage.Types command;
+    private final GetMessage.Types command;
     private ArrayList<String> rooms;
     private Date from;
     private Date to;
-
-    // TODO: Find a way to pass parameters to the request
 
     /**
      * Creates a new GetMessage
