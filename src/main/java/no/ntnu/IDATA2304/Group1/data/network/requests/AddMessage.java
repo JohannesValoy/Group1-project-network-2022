@@ -1,6 +1,6 @@
-package no.ntnu.idata2304.group1.data.networkpackages.requests;
+package no.ntnu.idata2304.group1.data.network.requests;
 
-import no.ntnu.idata2304.group1.data.networkpackages.Message;
+import no.ntnu.idata2304.group1.data.network.Message;
 
 public class AddMessage extends Message {
     enum Command {

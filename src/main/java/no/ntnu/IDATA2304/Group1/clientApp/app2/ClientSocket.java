@@ -1,9 +1,9 @@
 package no.ntnu.idata2304.group1.clientapp.app2;
 
-import no.ntnu.idata2304.group1.data.networkpackages.Message;
-import no.ntnu.idata2304.group1.data.networkpackages.requests.GetMessage;
-import no.ntnu.idata2304.group1.data.networkpackages.responses.ErrorMessage;
-import no.ntnu.idata2304.group1.data.networkpackages.responses.ResponseRoomMessage;
+import no.ntnu.idata2304.group1.data.network.Message;
+import no.ntnu.idata2304.group1.data.network.requests.GetMessage;
+import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
+import no.ntnu.idata2304.group1.data.network.responses.ResponseRoomMessage;
 
 
 import java.io.IOException;
@@ -31,13 +31,14 @@ public class ClientSocket {
 
 
     public Message response() throws IOException, ClassNotFoundException {
-        Message messageResponse = (Message)input.readObject();
+        Message messageResponse = (Message) input.readObject();
 
         return switch (messageResponse.getType()) {
             case OK -> (ResponseRoomMessage) messageResponse;
             case ERROR -> (ErrorMessage) messageResponse;
 
-            default -> throw new IllegalStateException("Unexpected value: " + messageResponse.getType());
+            default -> throw new IllegalStateException(
+                    "Unexpected value: " + messageResponse.getType());
         };
     }
 

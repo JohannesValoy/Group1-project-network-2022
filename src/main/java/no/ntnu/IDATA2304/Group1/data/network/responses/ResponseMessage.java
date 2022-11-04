@@ -1,6 +1,6 @@
-package no.ntnu.idata2304.group1.data.networkpackages.responses;
+package no.ntnu.idata2304.group1.data.network.responses;
 
-import no.ntnu.idata2304.group1.data.networkpackages.Message;
+import no.ntnu.idata2304.group1.data.network.Message;
 
 abstract public class ResponseMessage extends Message {
     private final Object data;

@@ -2,12 +2,12 @@ package no.ntnu.idata2304.group1.server.requests;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import no.ntnu.idata2304.group1.data.networkpackages.Message;
-import no.ntnu.idata2304.group1.data.networkpackages.requests.AddMessage;
-import no.ntnu.idata2304.group1.data.networkpackages.requests.GetMessage;
-import no.ntnu.idata2304.group1.data.networkpackages.requests.UpdateMessage;
-import no.ntnu.idata2304.group1.data.networkpackages.responses.ErrorMessage;
-import no.ntnu.idata2304.group1.data.networkpackages.responses.ResponseRoomMessage;
+import no.ntnu.idata2304.group1.data.network.Message;
+import no.ntnu.idata2304.group1.data.network.requests.AddMessage;
+import no.ntnu.idata2304.group1.data.network.requests.GetMessage;
+import no.ntnu.idata2304.group1.data.network.requests.UpdateMessage;
+import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
+import no.ntnu.idata2304.group1.data.network.responses.ResponseRoomMessage;
 import no.ntnu.idata2304.group1.server.database.DBConnector;
 import no.ntnu.idata2304.group1.server.database.SQLCommandFactory;
 import no.ntnu.idata2304.group1.server.database.SQLConverter;
