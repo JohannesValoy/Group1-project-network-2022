@@ -19,7 +19,7 @@ import no.ntnu.idata2304.group1.server.database.SQLConverter;
 public class RequestHandler {
 
 
-    // TODO: Add this when the update/add request is implemented
+    // TODO: Add this when the update request is implemented
     // TODO: Implement Login
 
     private DBConnector connector;
@@ -72,17 +72,10 @@ public class RequestHandler {
     }
 
     private Message handleUpdate(UpdateMessage request) throws SQLException {
-        if (request == null) {
-            throw new IllegalArgumentException("The request cannot be null");
-        }
-
         return new OKMessage();
     }
 
     private Message handleAdd(AddMessage request) throws SQLException {
-        if (request == null) {
-            throw new IllegalArgumentException("The request cannot be null");
-        }
         switch (request.getCommand()) {
             case LOG:
                 if (!isValidKey(request.getApiKey())) {
@@ -113,9 +106,6 @@ public class RequestHandler {
      * @return Message object containing the response
      */
     private Message handleGet(GetMessage request) throws IllegalArgumentException, SQLException {
-        if (request == null) {
-            throw new IllegalArgumentException("The request cannot be null");
-        }
         ResponseRoomMessage response = null;
         switch (request.getCommand()) {
             case ROOM_TEMP:
