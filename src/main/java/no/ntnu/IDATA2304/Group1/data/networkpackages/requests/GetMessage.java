@@ -1,5 +1,6 @@
 package no.ntnu.idata2304.group1.data.networkpackages.requests;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
