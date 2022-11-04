@@ -3,7 +3,8 @@ package no.ntnu.idata2304.group1.server.messages;
 public class LogOutputer {
 
     public enum MessageType {
-        WARNING("\u001B[43m", "[Warning]"), ERROR("\u001B[31m", "[ERROR]"), INFO("", "[INFO]");
+        WARNING("\u001B[43m", "[Warning]"), ERROR("\u001B[31m", "[ERROR]"), INFO("\u001B[37m",
+                "[INFO]");
 
         private String color;
         private String type;
@@ -29,6 +30,6 @@ public class LogOutputer {
         if (message == null || message.isEmpty()) {
             throw new IllegalArgumentException("You need to declare a message");
         }
-        System.out.println(type.getColor() + type.getType() + message);
+        System.out.println(type.getColor() + " " + type.getType() + message);
     }
 }
