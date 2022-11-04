@@ -1,7 +1,6 @@
 package no.ntnu.idata2304.group1.server;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import no.ntnu.idata2304.group1.server.database.DBConnector;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer;
@@ -19,10 +18,9 @@ public class ServerRunner {
      * Starts the server
      * 
      * @param args The arguments to the program
-     * @throws IOException if the server fails to start
-     * @throws SQLException if the database fails to connect
+     * @throws IOException if the server fails to start å
      */
-    public static void main(String[] args) throws IOException, SQLException {
+    public static void main(String[] args) throws IOException {
         LogOutputer.print(MessageType.INFO, "Starting the server");
         DBConnector database = new DBConnector();
         LogOutputer.print(LogOutputer.MessageType.INFO,

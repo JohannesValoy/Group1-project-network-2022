@@ -67,7 +67,6 @@ public class RequestHandler {
         } catch (SQLException e) {
             response = new ErrorMessage("Database error");
         }
-
         return response;
     }
 
