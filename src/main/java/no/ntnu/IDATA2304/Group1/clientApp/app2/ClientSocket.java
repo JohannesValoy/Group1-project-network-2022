@@ -18,13 +18,12 @@ import java.util.List;
  */
 public class ClientSocket {
 
-    String hostname = "localhost";
-    int port = 6008;
-    Socket socket = new Socket(hostname, port);
+    Socket socket;
     ObjectInputStream input;
     ObjectOutputStream output;
 
-    public ClientSocket() throws IOException {
+    public ClientSocket(String hostname, int port) throws IOException {
+        this.socket = new Socket(hostname, port);
         this.output = new ObjectOutputStream(socket.getOutputStream());
         this.input = new ObjectInputStream(socket.getInputStream());
     }

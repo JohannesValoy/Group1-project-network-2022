@@ -1,9 +1,11 @@
 package no.ntnu.idata2304.group1.data.network;
 
+import java.io.Serializable;
+
 /**
  * A class for sending messages between server and client
  */
-public abstract class Message {
+public abstract class Message implements Serializable {
     /**
      * The type different classifications of messages
      */
