@@ -1,10 +1,10 @@
-package no.ntnu.idata2304.group1.data.networkpackages.requests;
+package no.ntnu.idata2304.group1.data.network.requests;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import no.ntnu.idata2304.group1.data.networkpackages.Message;
+import no.ntnu.idata2304.group1.data.network.Message;
 
 /**
  * A class for sending get commands to the server
@@ -17,12 +17,10 @@ public class GetMessage extends Message {
         ROOM_TEMP(), ROOM_HUMIDITY();
     }
 
-    private GetMessage.Types command;
+    private final GetMessage.Types command;
     private ArrayList<String> rooms;
     private Date from;
     private Date to;
-
-    // TODO: Find a way to pass parameters to the request
 
     /**
      * Creates a new GetMessage

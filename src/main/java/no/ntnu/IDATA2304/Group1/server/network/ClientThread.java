@@ -7,7 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import no.ntnu.idata2304.group1.server.requests.RequestHandler;
-import no.ntnu.idata2304.group1.data.networkpackages.Message;
+import no.ntnu.idata2304.group1.data.network.Message;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
 

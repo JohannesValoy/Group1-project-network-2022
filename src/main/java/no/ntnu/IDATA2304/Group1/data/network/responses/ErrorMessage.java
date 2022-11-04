@@ -1,6 +1,6 @@
-package no.ntnu.idata2304.group1.data.networkpackages.responses;
+package no.ntnu.idata2304.group1.data.network.responses;
 
-import no.ntnu.idata2304.group1.data.networkpackages.Message;
+import no.ntnu.idata2304.group1.data.network.Message;
 
 /**
  * A class for sending error messages between server and client

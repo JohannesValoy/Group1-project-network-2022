@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.data.networkpackages;
+package no.ntnu.idata2304.group1.data.network;
 
 import java.io.Serializable;
 
@@ -19,14 +19,14 @@ public abstract class Message implements Serializable {
     /**
      * The type of message
      */
-    private final Message.Types type;
+    private final Types type;
 
     /**
      * Creates a new Message
      * 
      * @param type The type of message
      */
-    protected Message(Message.Types type) {
+    protected Message(Types type) {
         this.type = type;
     }
 

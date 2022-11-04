@@ -2,12 +2,13 @@ package no.ntnu.idata2304.group1.server.requests;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import no.ntnu.idata2304.group1.data.SensorRecord;
-import no.ntnu.idata2304.group1.data.networkpackages.Message;
-import no.ntnu.idata2304.group1.data.networkpackages.requests.GetMessage;
-import no.ntnu.idata2304.group1.data.networkpackages.responses.ErrorMessage;
-import no.ntnu.idata2304.group1.data.networkpackages.responses.ResponseMessage;
-import no.ntnu.idata2304.group1.data.networkpackages.responses.ResponseRoomMessage;
+import no.ntnu.idata2304.group1.data.network.Message;
+import no.ntnu.idata2304.group1.data.network.requests.AddMessage;
+import no.ntnu.idata2304.group1.data.network.requests.GetMessage;
+import no.ntnu.idata2304.group1.data.network.requests.UpdateMessage;
+import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
+import no.ntnu.idata2304.group1.data.network.responses.OKMessage;
+import no.ntnu.idata2304.group1.data.network.responses.ResponseRoomMessage;
 import no.ntnu.idata2304.group1.server.database.DBConnector;
 import no.ntnu.idata2304.group1.server.database.SQLCommandFactory;
 import no.ntnu.idata2304.group1.server.database.SQLConverter;
@@ -18,7 +19,7 @@ import no.ntnu.idata2304.group1.server.database.SQLConverter;
 public class RequestHandler {
 
 
-    // TODO: Add this when the update/add request is implemented
+    // TODO: Add this when the update request is implemented
     // TODO: Implement Login
 
     private DBConnector connector;
@@ -57,8 +58,8 @@ public class RequestHandler {
         try {
             response = switch (request.getType()) {
                 case GET -> handleGet((GetMessage) request);
-                case ERROR -> handleError((ErrorMessage) request);
-                case OK -> handleOk((ResponseMessage) request);
+                case UPDATE -> handleUpdate((UpdateMessage) request);
+                case ADD -> handleAdd((AddMessage) request);
                 default -> new ErrorMessage("Unknown command");
             };
         } catch (IllegalArgumentException e) {
@@ -66,19 +67,35 @@ public class RequestHandler {
         } catch (SQLException e) {
             response = new ErrorMessage("Database error");
         }
-
         return response;
     }
 
-    /**
-     * Handles a OK request
-     * 
-     * @param request The request to handle
-     * @return The response
-     */
-    // TODO: Implement this method
-    private ResponseMessage handleOk(ResponseMessage request) {
-        return null;
+    private Message handleUpdate(UpdateMessage request) throws SQLException {
+        return new OKMessage();
+    }
+
+    private Message handleAdd(AddMessage request) throws SQLException {
+        switch (request.getCommand()) {
+            case LOG:
+                if (!isValidKey(request.getApiKey())) {
+                    throw new IllegalArgumentException("Invalid key");
+                }
+                String sqlQuery = SQLCommandFactory.addLog(request.getApiKey(), request.getValue());
+                connector.execute(sqlQuery);
+                break;
+        }
+        return new OKMessage();
+
+    }
+
+
+    private boolean isValidKey(String apiKey) throws SQLException, IllegalArgumentException {
+        if (apiKey == null || apiKey.isBlank() || apiKey.contains(" ")) {
+            throw new IllegalArgumentException("The key is invalid");
+        }
+        String sql = SQLCommandFactory.checkNodeKey(apiKey);
+        ResultSet result = connector.executeQuery(sql);
+        return result.next();
     }
 
     /**
@@ -88,14 +105,10 @@ public class RequestHandler {
      * @return Message object containing the response
      */
     private Message handleGet(GetMessage request) throws IllegalArgumentException, SQLException {
-        if (request == null) {
-            throw new IllegalArgumentException("The request cannot be null");
-        }
-        String sqlQuery = "";
         ResponseRoomMessage response = null;
         switch (request.getCommand()) {
             case ROOM_TEMP:
-                sqlQuery = SQLCommandFactory.getTemperature(request.getRooms());
+                String sqlQuery = SQLCommandFactory.getTemperature(request.getRooms());
                 ResultSet result = connector.executeQuery(sqlQuery);
                 response = new ResponseRoomMessage(SQLConverter.getRoomLogResults(result));
                 break;
@@ -107,14 +120,4 @@ public class RequestHandler {
         return response;
     }
 
-    /**
-     * Handles an ERROR request
-     * 
-     * @param request The request to handle
-     * @return The response
-     */
-    // TODO: Implement this method
-    private ResponseMessage handleError(ErrorMessage request) {
-        return null;
-    }
 }

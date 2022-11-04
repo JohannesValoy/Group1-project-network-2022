@@ -18,6 +18,8 @@ public class DBConnector implements Closeable {
 
     /**
      * Creates a new database connector with the default database
+     * 
+     * @throws SQLException
      */
     public DBConnector() {
         String path;
@@ -26,12 +28,12 @@ public class DBConnector implements Closeable {
         } catch (NullPointerException e) {
             path = getClass().getResource("").toString() + "data.db";
         }
-        this.uri = "jdbc:sqlite:" + path.toString().replace("%20", " ");
         try {
+            this.uri = "jdbc:sqlite:" + path.toString().replace("%20", " ");
             this.conn = DriverManager.getConnection(uri);
             setup();
         } catch (SQLException e) {
-            throw new IllegalAccessError("Seems like there is a error");
+            System.out.println(e.getMessage());
         }
 
     }
@@ -63,10 +65,12 @@ public class DBConnector implements Closeable {
     private void setup() throws SQLException {
         String roomSQL = "CREATE TABLE IF NOT EXISTS rooms (" + "ID integer PRIMARY KEY,"
                 + "name text NOT NULL," + "roomNumber integer NOT NULL" + ")";
-        String nodeSQL = "CREATE TABLE IF NOT EXISTS nodes (" + "ID integer PRIMARY KEY,"
-                + "name text," + "key text," + "roomID integer," + "type String NOT NULL" + ")";
-        String data = "CREATE TABLE IF NOT EXISTS logs (\n" + "roomID integer," + "reading integer,"
-                + "date DateTime," + "nodeID Integer" + ")";
+        String nodeSQL =
+                "CREATE TABLE IF NOT EXISTS nodes (" + "ID integer PRIMARY KEY," + "name text,"
+                        + "key text UNIQUE," + "roomID integer," + "type String NOT NULL" + ")";
+        String data = "CREATE TABLE IF NOT EXISTS logs (\n" + "roomID integer NOT NULL,"
+                + "reading float NOT NULL ," + "date DateTime NOT NULL ,"
+                + "nodeID integer NOT NULL" + ")";
         execute(roomSQL);
         execute(nodeSQL);
         execute(data);
