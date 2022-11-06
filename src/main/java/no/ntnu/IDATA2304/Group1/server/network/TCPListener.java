@@ -11,7 +11,6 @@ import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
  * Responsible for listening for new connections and creating new threads for each connection
  */
 // TODO: Support for SSL
-// TODO: Support connection trough HTTP
 public class TCPListener extends Thread implements Closeable {
     private ServerSocket socket;
 
@@ -29,10 +28,18 @@ public class TCPListener extends Thread implements Closeable {
     public void run() {
         while (true) {
             LogOutputer.print(MessageType.INFO, "Starting to listening for clients");
+            Socket client = null;
             try {
-                Socket client = socket.accept();
-                new ClientThread(client).start();
+                client = socket.accept();
+                new JavaClient(client).start();
             } catch (IOException e) {
+                if (client != null) {
+                    try {
+                        new HTTPClient(client).start();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
                 LogOutputer.print(MessageType.ERROR, "Error connecting to a client");
             }
         }
