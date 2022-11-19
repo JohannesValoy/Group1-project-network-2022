@@ -1,7 +1,6 @@
 package no.ntnu.idata2304.group1.server.database;
 
 import java.io.Closeable;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -29,7 +28,7 @@ public class DBConnector implements Closeable {
             path = getClass().getResource("").toString() + "data.db";
         }
         try {
-            this.uri = "jdbc:sqlite:" + path.toString().replace("%20", " ");
+            this.uri = "jdbc:sqlite:" + path.replace("%20", " ");
             this.conn = DriverManager.getConnection(uri);
             setup();
         } catch (SQLException e) {
@@ -43,16 +42,16 @@ public class DBConnector implements Closeable {
      * 
      * @param path the path for the database
      */
-    public DBConnector(String path) {
+    public DBConnector(String path) throws SQLException {
         if (path == null || path.isEmpty()) {
             throw new IllegalArgumentException("The path cannot be null or empty");
         }
-        this.uri = "jdbc:sqlite:" + path.toString().replace("%20", " ");
+        this.uri = "jdbc:sqlite:" + path.replace("%20", " ");
         try {
             this.conn = DriverManager.getConnection(uri);
             setup();
         } catch (SQLException e) {
-            throw new IllegalAccessError("Seems like there is a error");
+            throw e;
         }
 
     }
@@ -64,13 +63,14 @@ public class DBConnector implements Closeable {
      */
     private void setup() throws SQLException {
         String roomSQL = "CREATE TABLE IF NOT EXISTS rooms (" + "ID integer PRIMARY KEY,"
-                + "name text NOT NULL," + "roomNumber integer NOT NULL" + ")";
+                + "name text NOT NULL," + "roomNumber integer NOT NULL" + ", )";
         String nodeSQL =
                 "CREATE TABLE IF NOT EXISTS nodes (" + "ID integer PRIMARY KEY," + "name text,"
                         + "key text UNIQUE," + "roomID integer," + "type String NOT NULL" + ")";
         String data = "CREATE TABLE IF NOT EXISTS logs (\n" + "roomID integer NOT NULL,"
                 + "reading float NOT NULL ," + "date DateTime NOT NULL ,"
-                + "nodeID integer NOT NULL" + ")";
+                + "nodeID integer NOT NULL"
+                + ", FOREIGN KEY (roomID) REFERENCES rooms(ID)), CHECK(timestamp > DATE('now'))";
         execute(roomSQL);
         execute(nodeSQL);
         execute(data);
@@ -117,11 +117,10 @@ public class DBConnector implements Closeable {
     }
 
     @Override
-    public void close() throws IOException {
+    public void close() {
         try {
             conn.close();
         } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }
