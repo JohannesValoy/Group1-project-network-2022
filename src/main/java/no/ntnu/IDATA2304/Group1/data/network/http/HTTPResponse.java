@@ -19,9 +19,9 @@ public class HTTPResponse extends HTTPMessage {
         statusMessage = startLine[2];
     }
 
-    public HTTPResponse(int statuscode, String statusMessage) {
+    public HTTPResponse(int statusCode, String statusMessage) {
         super("");
-        this.statusCode = statuscode;
+        this.statusCode = statusCode;
         this.statusMessage = statusMessage;
     }
 
