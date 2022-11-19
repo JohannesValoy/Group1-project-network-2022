@@ -12,8 +12,6 @@ import no.ntnu.idata2304.group1.data.network.Message;
  * @author Mathias J. Kirkeby
  */
 
-// TODO: Implement JSON support for requests that is not from Java
-// TOOD: Implement SSL support
 public class JavaClient extends ClientThread {
     private ObjectOutputStream output;
     private ObjectInputStream input;
