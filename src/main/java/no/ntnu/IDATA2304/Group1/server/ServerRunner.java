@@ -22,6 +22,12 @@ public class ServerRunner {
      */
     public static void main(String[] args) throws IOException {
         LogOutputer.print(MessageType.INFO, "Starting the server");
+
+        if (ServerRunner.class.getResourceAsStream("/server.jks") == null) {
+            LogOutputer.print(MessageType.ERROR, "Could not find the keystore");
+            throw new IOException("Could not find the keystore");
+        }
+
         DBConnector database = new DBConnector();
         LogOutputer.print(LogOutputer.MessageType.INFO,
                 "Connected to the database to the database");
