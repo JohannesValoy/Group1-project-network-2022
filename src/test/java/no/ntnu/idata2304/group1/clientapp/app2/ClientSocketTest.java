@@ -18,7 +18,7 @@ class ClientSocketTest {
         try (TCPListener server = new TCPListener(6008,
                 TCPListener.class.getResource("serverKeys").getPath().replace("%20", " "), "123")) {
             server.start();
-            ClientSocket clientSocket = new ClientSocket("localhost", 6008, TestClientSocket.class
+            ClientSocket clientSocket = new ClientSocket("localhost", 6008, ClientSocketTest.class
                     .getResource("trustedCerts").getPath().replace("%20", " "));
             clientSocket.getRoomData(rooms);
             Message message = clientSocket.response();

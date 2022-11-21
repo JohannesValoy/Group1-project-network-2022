@@ -5,6 +5,7 @@ import java.io.IOException;
 import no.ntnu.idata2304.group1.server.database.DBConnector;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
+import no.ntnu.idata2304.group1.server.network.SeverSSLKeyFactory;
 import no.ntnu.idata2304.group1.server.network.TCPListener;
 
 /**
@@ -12,17 +13,28 @@ import no.ntnu.idata2304.group1.server.network.TCPListener;
  */
 public class ServerRunner {
 
+    // A static port to listen on
     static final int PORT = 6008;
 
     /**
      * Starts the server
      * 
-     * @param args The arguments to the program
+     * @param args The arguments to the program the following arguments are supported:
+     *        <ul>
+     *        First argument: The keyStore path
+     *        </ul>
+     *        <ul>
+     *        Second argument: The keystore password
+     *        </ul>
      * @throws IOException if the server fails to start å
      */
     public static void main(String[] args) throws IOException {
         LogOutputer.print(MessageType.INFO, "Starting the server");
-        if (!TCPListener.checkServerKeyExist()) {
+        if (args.length < 2) {
+            LogOutputer.print(MessageType.ERROR, "Too few arguments");
+            return;
+        }
+        if (!SeverSSLKeyFactory.testKeyStore(args[0], args[1])) {
             LogOutputer.print(MessageType.ERROR, "Could not find the keystore");
             throw new IOException("Could not find the keystore");
         }
@@ -30,7 +42,7 @@ public class ServerRunner {
         DBConnector database = new DBConnector();
         LogOutputer.print(LogOutputer.MessageType.INFO,
                 "Connected to the database to the database");
-        try (TCPListener listener = new TCPListener(PORT)) {
+        try (TCPListener listener = new TCPListener(PORT, args[0], args[1])) {
             listener.run();
         }
         database.close();

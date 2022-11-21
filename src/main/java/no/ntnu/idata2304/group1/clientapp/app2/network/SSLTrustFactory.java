@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 /**
  * A class to implement custom trust store for SSL connections It is used to connect to a server
- * with a self-signed certificate
+ * with a self-signed certificate.
  * 
  * Since the server don't require a client certificate, we don't need to implement a KeyManager.
  */
@@ -30,7 +30,7 @@ public class SSLTrustFactory {
     private static final Logger logger = Logger.getLogger(SSLTrustFactory.class.getName());
 
     /**
-     * Creates a trust store from a folder containing a certificate
+     * Creates a trust store from a folder containing a certificate. Only accepts .cer files.
      * 
      * @param path A folder containing a certificate or null if none is provided
      * @return A SSLContext with the trust store or null if none is provided
