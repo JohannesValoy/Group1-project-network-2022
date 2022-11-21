@@ -24,4 +24,5 @@ public class SQLConnectorTest {
         String query = "SELECT * FROM rooms";
         assertDoesNotThrow(() -> connector.executeQuery(query));
     }
+
 }

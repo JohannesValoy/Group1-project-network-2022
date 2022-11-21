@@ -56,7 +56,9 @@ public class ClientSocket {
     }
 
     public Message response() throws IOException, ClassNotFoundException {
+
         Message messageResponse = (Message) input.readObject();
+
 
         return switch (messageResponse.getType()) {
             case OK -> (ResponseRoomMessage) messageResponse;
