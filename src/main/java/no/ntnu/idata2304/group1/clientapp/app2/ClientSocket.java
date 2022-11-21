@@ -30,7 +30,9 @@ public class ClientSocket {
 
 
     public Message response() throws IOException, ClassNotFoundException {
-        Message messageResponse = (Message) input.readObject();
+
+           Message messageResponse = (Message) input.readObject();
+
 
         return switch (messageResponse.getType()) {
             case OK -> (ResponseRoomMessage) messageResponse;
@@ -41,8 +43,8 @@ public class ClientSocket {
         };
     }
 
-    public void outputObject(List<String> rooms) throws IOException {
-        output.writeObject(new GetMessage(GetMessage.Types.ROOM_TEMP, (ArrayList<String>) rooms));
+    public void outputObject(ArrayList<String> rooms) throws IOException {
+        output.writeObject(new GetMessage(GetMessage.Types.ROOM_TEMP, rooms));
     }
 }
 

@@ -13,13 +13,13 @@ class ClientSocketTest {
 
     @Test
     void testStuff() throws IOException {
-        List<String> rooms = new ArrayList<>();
+        ArrayList<String> rooms = new ArrayList<>();
         rooms.add("C220");
         try (TCPListener server = new TCPListener(6008)) {
             server.start();
-            ClientSocket socket = new ClientSocket("127.0.0.1", 6008);
+            ClientSocket socket = new ClientSocket("localhost", 6008);
             socket.outputObject(rooms);
             assertDoesNotThrow(socket::response);
-        } ;
+        }
     }
 }
