@@ -8,7 +8,8 @@ public class TestClientSocket {
 
     @Test
     public void testClientSocket() throws Exception {
-        ClientSocket clientSocket = new ClientSocket("localhost", 6008);
+        ClientSocket clientSocket = new ClientSocket("localhost", 6008,
+                TestClientSocket.class.getResource("trustedCerts").getPath().replace("%20", " "));
         ArrayList<String> rooms = new ArrayList<>();
         rooms.add("A");
         rooms.add("B");

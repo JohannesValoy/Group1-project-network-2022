@@ -1,6 +1,7 @@
 package no.ntnu.idata2304.group1.server.network;
 
 import java.io.Closeable;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
@@ -10,7 +11,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSocket;
-import javax.net.ssl.TrustManagerFactory;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
 
@@ -41,7 +41,7 @@ public class TCPListener extends Thread implements Closeable {
     }
 
     public TCPListener(int port) throws IOException {
-        SSLContext context = createSSLContext("server.jks", "");
+        SSLContext context = createSSLContext("serverKeys", "123");
         if (context == null) {
             throw new IOException("Could not create SSL context");
         }
@@ -74,7 +74,7 @@ public class TCPListener extends Thread implements Closeable {
 
     /**
      * Creates a SSL context from the keystore This code is based on the example from this page:
-     * https://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html#X509TrustManager
+     * https://gpotter2.github.io/tutos/en/sslsockets
      * 
      * @param keyStorePath
      * @param keyStorePassword
@@ -83,22 +83,45 @@ public class TCPListener extends Thread implements Closeable {
     private SSLContext createSSLContext(String keyStorePath, String keyStorePassword) {
         SSLContext ctx = null;
         try {
-            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-            TrustManagerFactory tmf =
-                    TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-            tmf.init(trustStore);
-            KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
-            InputStream kstore = TCPListener.class.getResourceAsStream("/" + keyStorePath);
+            KeyStore keyStore = KeyStore.getInstance("pkcs12");
+            InputStream kstore = TCPListener.class.getResourceAsStream(keyStorePath);
             keyStore.load(kstore, keyStorePassword.toCharArray());
+            kstore.close();
             KeyManagerFactory kmf =
                     KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-            kmf.init(keyStore, keyStorePassword.toCharArray());
+            kmf.init(keyStore, "".toCharArray());
             ctx = SSLContext.getInstance("TLS");
-            ctx.init(kmf.getKeyManagers(), tmf.getTrustManagers(),
-                    SecureRandom.getInstanceStrong());
+            ctx.init(kmf.getKeyManagers(), null, SecureRandom.getInstanceStrong());
         } catch (Exception e) {
-
+            System.out.println("Error creating SSL context");
         }
         return ctx;
+    }
+
+    /**
+     * Check that the file actually exists
+     * 
+     * @param path The path to the file
+     * @return true if the file exists, false otherwise
+     */
+    // TODO: Move this to a utility class
+    // TODO: Implement a check for trying to fetch the server keystore
+    public static boolean checkServerKeyExist(String path) {
+        boolean returnValue = false;
+        if (path != null && !path.isBlank()) {
+            File file = new File(path);
+            returnValue = file.exists();
+        }
+        return returnValue;
+    }
+
+    /**
+     * Check that the default server keystore exists
+     * 
+     * @return true if the file exists, false otherwise
+     */
+    public static boolean checkServerKeyExist() {
+        return checkServerKeyExist(
+                TCPListener.class.getResource("serverKeys").getPath().replace("%20", " "));
     }
 }

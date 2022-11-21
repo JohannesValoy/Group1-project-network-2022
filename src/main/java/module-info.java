@@ -1,4 +1,4 @@
-module no.ntnu.idata2304.group1.clientapp.logic {
+module Group1NetworkProject {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;

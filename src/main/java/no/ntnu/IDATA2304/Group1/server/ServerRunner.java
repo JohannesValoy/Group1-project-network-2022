@@ -12,7 +12,7 @@ import no.ntnu.idata2304.group1.server.network.TCPListener;
  */
 public class ServerRunner {
 
-    static int port = 6008;
+    static final int PORT = 6008;
 
     /**
      * Starts the server
@@ -22,8 +22,7 @@ public class ServerRunner {
      */
     public static void main(String[] args) throws IOException {
         LogOutputer.print(MessageType.INFO, "Starting the server");
-
-        if (ServerRunner.class.getResourceAsStream("/server.jks") == null) {
+        if (!TCPListener.checkServerKeyExist()) {
             LogOutputer.print(MessageType.ERROR, "Could not find the keystore");
             throw new IOException("Could not find the keystore");
         }
@@ -31,7 +30,7 @@ public class ServerRunner {
         DBConnector database = new DBConnector();
         LogOutputer.print(LogOutputer.MessageType.INFO,
                 "Connected to the database to the database");
-        try (TCPListener listener = new TCPListener(port)) {
+        try (TCPListener listener = new TCPListener(PORT)) {
             listener.run();
         }
         database.close();

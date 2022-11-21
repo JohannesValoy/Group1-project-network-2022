@@ -6,6 +6,20 @@ public class TCPListenerTest {
 
     @Test
     public void checkThatItRuns() throws Exception {
-        TCPListener listener = new TCPListener(6008, "server.jks", "");
+        if (TCPListener.class.getResourceAsStream("TestKeys") == null) {
+            throw new Exception("Could not find the keystore");
+        }
+        TCPListener listener = new TCPListener(6008,
+                TCPListener.class.getResource("TestKeys").getPath().toString().replace("%20", " "),
+                "123");
+        listener.run();
+    }
+
+    public static void main(String[] args) throws Exception {
+        TCPListener listener = new TCPListener(6008,
+                TCPListener.class.getResource("TestKeys").getPath().toString().replace("%20", " "),
+                "123");
+        listener.run();
     }
 }
+

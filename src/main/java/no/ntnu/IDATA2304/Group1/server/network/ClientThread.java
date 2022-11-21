@@ -17,8 +17,6 @@ import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
  * @author Mathias J. Kirkeby
  */
 
-// TODO: Implement JSON support for requests that is not from Java
-// TOOD: Implement SSL support
 public class ClientThread extends Thread {
     private Socket socket;
     private RequestHandler handler;
@@ -39,6 +37,7 @@ public class ClientThread extends Thread {
         this.input = new ObjectInputStream(socket.getInputStream());
         this.reader = new BufferedReader(new InputStreamReader(input));
     }
+
 
     @Override
     public void run() {
