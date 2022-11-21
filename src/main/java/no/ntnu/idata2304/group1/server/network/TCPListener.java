@@ -2,6 +2,7 @@ package no.ntnu.idata2304.group1.server.network;
 
 import java.io.Closeable;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
@@ -41,7 +42,8 @@ public class TCPListener extends Thread implements Closeable {
     }
 
     public TCPListener(int port) throws IOException {
-        SSLContext context = createSSLContext("serverKeys", "123");
+        SSLContext context = createSSLContext(
+                this.getClass().getResource("serverKeys").getPath().replace("%20", ""), "123");
         if (context == null) {
             throw new IOException("Could not create SSL context");
         }
@@ -84,9 +86,9 @@ public class TCPListener extends Thread implements Closeable {
         SSLContext ctx = null;
         try {
             KeyStore keyStore = KeyStore.getInstance("pkcs12");
-            InputStream kstore = TCPListener.class.getResourceAsStream(keyStorePath);
-            keyStore.load(kstore, keyStorePassword.toCharArray());
-            kstore.close();
+            try (InputStream kstore = new FileInputStream(keyStorePath)) {
+                keyStore.load(kstore, keyStorePassword.toCharArray());
+            }
             KeyManagerFactory kmf =
                     KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
             kmf.init(keyStore, "".toCharArray());

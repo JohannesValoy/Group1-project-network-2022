@@ -12,14 +12,6 @@ public class TCPListenerTest {
         TCPListener listener = new TCPListener(6008,
                 TCPListener.class.getResource("TestKeys").getPath().toString().replace("%20", " "),
                 "123");
-        listener.run();
-    }
-
-    public static void main(String[] args) throws Exception {
-        TCPListener listener = new TCPListener(6008,
-                TCPListener.class.getResource("TestKeys").getPath().toString().replace("%20", " "),
-                "123");
-        listener.run();
     }
 }
 

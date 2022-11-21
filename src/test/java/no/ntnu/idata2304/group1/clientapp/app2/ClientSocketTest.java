@@ -1,14 +1,13 @@
 package no.ntnu.idata2304.group1.clientapp.app2;
 
+import no.ntnu.idata2304.group1.data.network.Message;
 import no.ntnu.idata2304.group1.server.network.TCPListener;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.function.Try;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class ClientSocketTest {
 
@@ -16,11 +15,16 @@ class ClientSocketTest {
     void testStuff() throws IOException {
         ArrayList<String> rooms = new ArrayList<>();
         rooms.add("C220");
-        try(TCPListener server = new TCPListener(6008)){
+        try (TCPListener server = new TCPListener(6008,
+                TCPListener.class.getResource("serverKeys").getPath().replace("%20", " "), "123")) {
             server.start();
-            ClientSocket socket = new ClientSocket("localhost",6008);
-            socket.outputObject(rooms);
-            assertDoesNotThrow(socket::response);
+            ClientSocket clientSocket = new ClientSocket("localhost", 6008, TestClientSocket.class
+                    .getResource("trustedCerts").getPath().replace("%20", " "));
+            clientSocket.getRoomData(rooms);
+            Message message = clientSocket.response();
+            System.out.println("Message: " + message);
+        } catch (ClassNotFoundException e) {
+            fail("Class not found");
         }
     }
 }

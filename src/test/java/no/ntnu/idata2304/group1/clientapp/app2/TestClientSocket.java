@@ -6,15 +6,5 @@ import no.ntnu.idata2304.group1.data.network.Message;
 
 public class TestClientSocket {
 
-    @Test
-    public void testClientSocket() throws Exception {
-        ClientSocket clientSocket = new ClientSocket("localhost", 6008,
-                TestClientSocket.class.getResource("trustedCerts").getPath().replace("%20", " "));
-        ArrayList<String> rooms = new ArrayList<>();
-        rooms.add("A");
-        rooms.add("B");
-        clientSocket.getRoomData(rooms);
-        Message message = clientSocket.response();
-        System.out.println("Message: " + message);
-    }
+
 }
