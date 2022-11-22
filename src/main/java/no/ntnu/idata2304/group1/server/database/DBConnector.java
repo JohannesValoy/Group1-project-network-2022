@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javafx.scene.control.skin.ButtonSkin;
 
 /**
  * A class for connecting to the database
@@ -83,9 +84,9 @@ public class DBConnector implements Closeable {
                 + "reading float NOT NULL ," + "timeStamp DateTime NOT NULL ,"
                 + "nodeID integer NOT NULL"
                 + ", FOREIGN KEY (roomID) REFERENCES rooms(ID), CHECK(timeStamp > DATE('now')))";
-        execute(roomSQL);
-        execute(nodeSQL);
-        execute(data);
+        executeQuery(roomSQL);
+        executeQuery(nodeSQL);
+        executeQuery(data);
     }
 
     /**
@@ -94,13 +95,16 @@ public class DBConnector implements Closeable {
      * @param sqlStatement the SQL statement to execute
      * @throws SQLException if the statement could not be executed
      */
+    @Deprecated
     public synchronized void execute(String sqlStatement) throws SQLException {
+        busy = true;
         if (sqlStatement == null || sqlStatement.isEmpty()) {
             throw new IllegalArgumentException("The SQL statement cannot be null or empty");
         }
         try (Statement statement = conn.createStatement()) {
             statement.execute(sqlStatement);
         }
+        busy = false;
     }
 
     /**
@@ -114,15 +118,27 @@ public class DBConnector implements Closeable {
         if (sqlStatement == null || sqlStatement.isEmpty()) {
             throw new IllegalArgumentException("The SQL statement cannot be null or empty");
         }
+        busy = true;
         ResultSet result = null;
         try (Statement statement = conn.createStatement()) {
             result = statement.executeQuery(sqlStatement);
-        } catch (Exception e) {
-            busy = false;
-            throw e;
+        } catch (SQLException e) {
+            if (e.getMessage().equals("query does not return ResultSet")) {
+                try (Statement statement = conn.createStatement()) {
+                    statement.execute(sqlStatement);
+                } catch (SQLException e2) {
+                    busy = false;
+                    throw e2;
+                }
+            } else {
+                busy = false;
+                throw e;
+            }
+
         }
         busy = false;
         return result;
+
     }
 
     /**
@@ -148,7 +164,7 @@ public class DBConnector implements Closeable {
         try {
             conn.close();
         } catch (SQLException e) {
-
+            Logger.log(java.util.logging.Level.SEVERE, "Could not close connection", e);
         }
     }
 

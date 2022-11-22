@@ -71,4 +71,8 @@ public class DBConnectorPool {
         return connector;
     }
 
+    public void execute(String sqlQuery) {
+
+    }
+
 }
