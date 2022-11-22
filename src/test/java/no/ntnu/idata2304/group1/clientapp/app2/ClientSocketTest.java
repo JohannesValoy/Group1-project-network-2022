@@ -16,8 +16,8 @@ class ClientSocketTest {
     void testStuff() throws IOException {
         ArrayList<String> rooms = new ArrayList<>();
         rooms.add("C220");
-        try (TCPListener server = new JavaListener(
-                TCPListener.class.getResource("serverKeys").getPath().replace("%20", " "), "123")) {
+        try (JavaListener server = new JavaListener(
+                JavaListener.class.getResource("TestKeys").getPath().replace("%20", " "), "123")) {
             server.start();
             ClientSocket clientSocket = new ClientSocket("localhost", 6008, ClientSocketTest.class
                     .getResource("trustedCerts").getPath().replace("%20", " "));
