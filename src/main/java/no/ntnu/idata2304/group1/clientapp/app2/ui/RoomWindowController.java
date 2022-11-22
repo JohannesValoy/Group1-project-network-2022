@@ -146,9 +146,8 @@ public class RoomWindowController {
      * Updates observable for line chart
      * @param sensorID the id of the sensor to get the data from
      * @return returns observable list
-     * @throws NullPointerException if sensor requested does not exist
      */
-    private ObservableList<XYChart.Series<String, Double>> getChartData(int sensorID) throws NullPointerException{
+    private ObservableList<XYChart.Series<String, Double>> getChartData(int sensorID){
 
         XYChart.Series<String, Double> series = new XYChart.Series<>();
         if(this.room.getListOfSensors().size() <= sensorID){
@@ -159,8 +158,12 @@ public class RoomWindowController {
         List<SensorRecord> sensorReadings = this.room.getListOfSensors().get(sensorID).getHistoryLog();
         int i = 0;
         for (SensorRecord sensorReading : sensorReadings) {
-            System.out.println("imhere");
-            series.getData().add(new XYChart.Data(sensorReading.date().getHours() + "." + sensorReading.date().getMinutes() + "." + sensorReading.date().getSeconds(), sensorReading.value()));
+            i++;
+            String seconds = sensorReading.date().getSeconds() + "";
+            if(sensorReading.date().getSeconds()  < 10){
+                seconds = "0" + seconds;
+            }
+            series.getData().add(new XYChart.Data(sensorReading.date().getHours() + "." + sensorReading.date().getMinutes() + "." + seconds, sensorReading.value()));
             i++;
         }
         ObservableList<XYChart.Series<String, Double>> seriesList = FXCollections.observableArrayList();
@@ -192,7 +195,7 @@ public class RoomWindowController {
                     }
                 });
             }
-        }, 1000, 2000 );
+        }, 1, 5000 );
     }
 
     /**

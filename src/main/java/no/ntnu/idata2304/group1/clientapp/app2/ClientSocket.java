@@ -19,7 +19,6 @@ import javax.net.ssl.SSLSocketFactory;
  * Socket class on client side to connect and read from server
  * 
  */
-// TODO: Remove the ssl stuff into a separate class
 public class ClientSocket {
 
     private SSLSocket socket;
