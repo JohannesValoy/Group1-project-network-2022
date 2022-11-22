@@ -111,8 +111,11 @@ public class RoomWindowController {
         series.setName(this.room.getListOfSensors().get(sensorID).getTypeName());
         this.title.setText("Room Number " + this.roomNumber);
         List<SensorRecord> sensorReadings = this.room.getListOfSensors().get(sensorID).getHistoryLog();
+        int i = 0;
         for (SensorRecord sensorReading : sensorReadings) {
-            series.getData().add(new XYChart.Data(sensorReading.date().getHours() + "." + sensorReading.date().getMinutes(), sensorReading.value()));
+            System.out.println("imhere");
+            series.getData().add(new XYChart.Data(sensorReading.date().getHours() + "." + sensorReading.date().getMinutes() + "." + sensorReading.date().getSeconds(), sensorReading.value()));
+            i++;
         }
         ObservableList<XYChart.Series<String, Double>> seriesList = FXCollections.observableArrayList();
         seriesList.addAll(series);
@@ -138,7 +141,7 @@ public class RoomWindowController {
                     }
                 });
             }
-        }, 1, 2000 );
+        }, 1000, 2000 );
     }
 
     public void updateStandardSensorChart(LineChart<String, Number> sensorChart, int sensorID){
