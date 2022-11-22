@@ -13,7 +13,22 @@ public class SQLCommandFactory {
      * Enum for linking the different kind of tables in the database
      */
     private enum Tables {
-        NODE("nodes"), ROOMS("rooms"), TEMP("logs"), USERS("users");
+        /**
+         * Node tables.
+         */
+        NODE("nodes"),
+        /**
+         * Rooms tables.
+         */
+        ROOMS("rooms"),
+        /**
+         * Temp tables.
+         */
+        TEMP("logs"),
+        /**
+         * Users tables.
+         */
+        USERS("users");
 
         private String table;
 
@@ -21,6 +36,11 @@ public class SQLCommandFactory {
             this.table = tableName;
         }
 
+        /**
+         * Gets table.
+         *
+         * @return the table
+         */
         public String getTable() {
             return table;
         }
@@ -29,6 +49,13 @@ public class SQLCommandFactory {
 
     private SQLCommandFactory() {};
 
+    /**
+     * Gets temperature.
+     *
+     * @param rooms the rooms
+     * @return the temperature
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public static String getTemperature(Iterator<String> rooms) throws IllegalArgumentException {
         if (rooms == null) {
             throw new IllegalArgumentException("The rooms cannot be null");
@@ -55,6 +82,15 @@ public class SQLCommandFactory {
         return sqlQuery;
     }
 
+    /**
+     * Gets temperature.
+     *
+     * @param rooms the rooms
+     * @param from  the from
+     * @param to    the to
+     * @return the temperature
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public static String getTemperature(Iterator<String> rooms, Date from, Date to)
             throws IllegalArgumentException {
         if (rooms == null) {
@@ -70,6 +106,12 @@ public class SQLCommandFactory {
         return builder.toString();
     }
 
+    /**
+     * Check node key string.
+     *
+     * @param key the key
+     * @return the string
+     */
     public static String checkNodeKey(String key) {
         if (checkValidString(key)) {
             throw new IllegalArgumentException("The key is invalid");
@@ -83,6 +125,13 @@ public class SQLCommandFactory {
         return string != null && !string.isBlank() && Pattern.matches("^[^\"';-]*$", string);
     }
 
+    /**
+     * Add log string.
+     *
+     * @param apiKey the api key
+     * @param value  the value
+     * @return the string
+     */
     public static String addLog(String apiKey, double value) {
 
         StringBuilder builder = new StringBuilder("INSERT INTO " + Tables.TEMP.getTable()

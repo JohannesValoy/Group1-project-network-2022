@@ -9,20 +9,41 @@ import java.util.Iterator;
  */
 // TODO: Add a more flexible way of adding roles/commands
 public class Role {
+    /**
+     * The Commands.
+     */
     ArrayList<Method> commands;
 
+    /**
+     * Instantiates a new Role.
+     */
     Role() {
         commands = new ArrayList<>();
     }
 
+    /**
+     * Instantiates a new Role.
+     *
+     * @param commands the commands
+     */
     Role(ArrayList<Method> commands) {
         this.commands = new ArrayList<>(commands);
     }
 
+    /**
+     * Gets commands.
+     *
+     * @return the commands
+     */
     public Iterator<Method> getCommands() {
         return commands.iterator();
     }
 
+    /**
+     * Run command.
+     *
+     * @param command the command
+     */
     public void runCommand(String command) {
         Iterator<Method> commandIterator = getCommands();
         while (commandIterator.hasNext()) {
