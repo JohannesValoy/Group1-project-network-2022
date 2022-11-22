@@ -1,8 +1,8 @@
 package no.ntnu.idata2304.group1.clientapp.app2;
 
 import no.ntnu.idata2304.group1.data.network.Message;
+import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
 import no.ntnu.idata2304.group1.server.network.listener.JavaListener;
-import no.ntnu.idata2304.group1.server.network.listener.TCPListener;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -23,7 +23,13 @@ class ClientSocketTest {
                     .getResource("trustedCerts").getPath().replace("%20", " "));
             clientSocket.getRoomData(rooms);
             Message message = clientSocket.response();
-            System.out.println("Message: " + message);
+            if (message.getType().equals(Message.Types.ERROR)) {
+                ErrorMessage ermessage = (ErrorMessage) message;
+                System.out.println("Error message: " + ermessage.getErrorMessage());
+            } else {
+                System.out.println("Message: " + message);
+            }
+
         } catch (ClassNotFoundException e) {
             fail("Class not found");
         }

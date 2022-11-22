@@ -5,12 +5,17 @@ import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
+import no.ntnu.idata2304.group1.clientapp.app2.ClientSocket;
 import no.ntnu.idata2304.group1.data.Room;
 import no.ntnu.idata2304.group1.data.Sensor;
 
 /**
+ * TODO: intergrate better with ClienSocket
+ * ----------------------------------------------------------------------
  * Main controller for the UI.
  * Creates and loads the main window and loads the room windows into the main window.
  */
@@ -27,13 +32,33 @@ public class MainController extends Application {
   *
   * @throws IOException if the fxml file could not be loaded
   */
-  public void start(Stage stage) throws IOException {
+  public void start(Stage stage){
+    ClientSocket clientSocket;
       this.roomWindowControllers = new ArrayList<>();
+      try{
+      clientSocket = new ClientSocket("10.24.90.163", 6008, "C:\\Users\\johan\\Desktop\\Group1testfolder\\src\\test\\resources\\no\\ntnu\\idata2304\\group1\\clientapp\\app2\\trustedCerts");
+      clientSocket.getListOfRooms();
+      for(int i = 0, i < clientSocket.getListOfRooms(); clientSocket.getListOfRooms();){
+        addRoom(clientSocket.getListOfRooms().get(i), stage);
+      }
+    } catch (IOException e) {
+          Alert alert = new Alert(AlertType.ERROR);
+          alert.setTitle("Error");
+          alert.setHeaderText("Could not connect to server");
+          alert.setContentText("Please check if the server is running");
+          alert.showAndWait();
+          System.exit(0);
+      }
 
       //Loads mainScene
       FXMLLoader mainWindowLoader = new FXMLLoader(MainController.class.getResource("MainScene.fxml"));
-      Stage mainStage = makeStage(mainWindowLoader, stage, 1000, 700);
-      mainStage.setTitle("Rooms");
+      try{
+            Stage mainStage = makeStage(mainWindowLoader, stage, 1000, 700);
+            mainStage.setTitle("Rooms");
+        } catch (IOException e) {
+            new Alert(AlertType.ERROR, "Could not load main window").showAndWait();
+      }
+      
       mainWindowController = mainWindowLoader.getController();
 
       //Initiates flowPane
@@ -42,7 +67,12 @@ public class MainController extends Application {
       //Binds the flowPane to the stage dimensions
       this.flowPane.prefWidthProperty().bind(stage.widthProperty());
       this.flowPane.prefHeightProperty().bind(stage.heightProperty());
-      addExampleRooms(stage);
+      //Example rooms.
+      try {
+        addExampleRooms(stage);
+    } catch (IOException e){
+        new Alert(Alert.AlertType.WARNING, e.getMessage());
+    }
     }
 
 

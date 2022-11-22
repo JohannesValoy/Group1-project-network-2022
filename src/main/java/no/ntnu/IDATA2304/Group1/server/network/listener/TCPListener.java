@@ -14,6 +14,8 @@ import no.ntnu.idata2304.group1.server.network.ClientHandler;
 import no.ntnu.idata2304.group1.server.network.SeverSSLKeyFactory;
 import no.ntnu.idata2304.group1.server.network.clients.ClientRunnable;
 
+// TODO: Support for SSL
+
 /**
  * Responsible for listening for new connections and creating new threads for each connection
  */
@@ -25,9 +27,9 @@ public abstract class TCPListener extends Thread implements Closeable {
 
     /**
      * Creates a new TCP listener.
-     * 
+     *
      * @param port The port to listen on
-     * @param keyStorePath The path to the keystore
+     * @param keyStoreName the key store name
      * @param keyStorePassword The password to the keystore
      * @throws IOException if the socket fails to connect or the keystore is not found
      */

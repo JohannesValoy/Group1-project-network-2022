@@ -2,7 +2,6 @@ package no.ntnu.idata2304.group1.server.requests;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.xml.catalog.Catalog;
 import no.ntnu.idata2304.group1.data.network.Message;
 import no.ntnu.idata2304.group1.data.network.requests.AddMessage;
 import no.ntnu.idata2304.group1.data.network.requests.GetMessage;
@@ -35,7 +34,7 @@ public class RequestHandler {
 
     /**
      * Handles a given request and returns a response
-     * 
+     *
      * @param request The request to handle
      * @return Message object containing the response
      */
