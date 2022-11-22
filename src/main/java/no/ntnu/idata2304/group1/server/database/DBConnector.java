@@ -12,15 +12,18 @@ import java.sql.Statement;
  */
 public class DBConnector implements Closeable {
 
+    private static final String dbDrive = "jdbc:sqlite:";
     private Connection conn;
     private String uri;
+    private boolean busy = false;
 
     /**
      * Creates a new database connector with the default database
      * 
+     * @param setup If true, the database will run a setup script
      * @throws SQLException
      */
-    public DBConnector() {
+    public DBConnector(boolean setup) {
         String path;
         try {
             path = getClass().getResource("Data.db").toString();
@@ -28,12 +31,16 @@ public class DBConnector implements Closeable {
             path = getClass().getResource("").toString() + "data.db";
         }
         try {
-            this.uri = "jdbc:sqlite:" + path.replace("%20", " ");
+            this.uri = dbDrive + path.replace("%20", " ");
             this.conn = DriverManager.getConnection(uri);
-            setup();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            if (setup) {
+                setup();
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Could not connect to database");
         }
+
 
     }
 
@@ -42,16 +49,16 @@ public class DBConnector implements Closeable {
      * 
      * @param path the path for the database
      */
-    public DBConnector(String path) throws SQLException {
+    public DBConnector(String path, boolean setup) {
         if (path == null || path.isEmpty()) {
             throw new IllegalArgumentException("The path cannot be null or empty");
         }
-        this.uri = "jdbc:sqlite:" + path.replace("%20", " ");
+        this.uri = dbDrive + path.replace("%20", " ");
         try {
             this.conn = DriverManager.getConnection(uri);
             setup();
         } catch (SQLException e) {
-            throw e;
+            throw new RuntimeException("Could not connect to database");
         }
 
     }
@@ -86,9 +93,7 @@ public class DBConnector implements Closeable {
         if (sqlStatement == null || sqlStatement.isEmpty()) {
             throw new IllegalArgumentException("The SQL statement cannot be null or empty");
         }
-        try (Statement statement = conn.createStatement()) {
-            statement.execute(sqlStatement);
-        }
+        executeQuery(sqlStatement);
     }
 
     /**
@@ -99,12 +104,19 @@ public class DBConnector implements Closeable {
      * @throws SQLException if the query could not be executed
      */
     public synchronized ResultSet executeQuery(String sqlStatement) throws SQLException {
+        busy = true;
         if (sqlStatement == null || sqlStatement.isEmpty()) {
             throw new IllegalArgumentException("The SQL statement cannot be null or empty");
         }
+        ResultSet result = null;
         try (Statement statement = conn.createStatement()) {
-            return statement.executeQuery(sqlStatement);
+            result = statement.executeQuery(sqlStatement);
+        } catch (Exception e) {
+            busy = false;
+            throw e;
         }
+        busy = false;
+        return result;
     }
 
     /**
@@ -116,6 +128,15 @@ public class DBConnector implements Closeable {
         return uri;
     }
 
+    /**
+     * Checks if the connector is busy
+     * 
+     * @return boolean true if busy, false otherwise
+     */
+    public boolean isBusy() {
+        return busy;
+    }
+
     @Override
     public void close() {
         try {
@@ -123,4 +144,6 @@ public class DBConnector implements Closeable {
         } catch (SQLException e) {
         }
     }
+
+    public void setBusy(boolean b) {}
 }

@@ -1,7 +1,7 @@
 package no.ntnu.idata2304.group1.server;
 
 import java.io.IOException;
-
+import java.sql.SQLException;
 import no.ntnu.idata2304.group1.server.database.DBConnector;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
@@ -28,7 +28,7 @@ public class ServerRunner {
      *        </ul>
      * @throws IOException if the server fails to start å
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, SQLException {
         LogOutputer.print(MessageType.INFO, "Starting the server");
         if (args.length < 2) {
             LogOutputer.print(MessageType.ERROR, "Too few arguments");
@@ -39,7 +39,7 @@ public class ServerRunner {
             throw new IOException("Could not find the keystore");
         }
 
-        DBConnector database = new DBConnector();
+        DBConnector database = new DBConnector(true);
         LogOutputer.print(LogOutputer.MessageType.INFO,
                 "Connected to the database to the database");
         try (TCPListener listener = new TCPListener(PORT, args[0], args[1])) {

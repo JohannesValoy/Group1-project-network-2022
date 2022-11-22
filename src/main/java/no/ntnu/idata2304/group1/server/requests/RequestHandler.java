@@ -28,7 +28,7 @@ public class RequestHandler {
      * Creates a new RequestHandler
      */
     public RequestHandler() {
-        this.connector = new DBConnector();
+        this.connector = new DBConnector(true);
     }
 
     /**

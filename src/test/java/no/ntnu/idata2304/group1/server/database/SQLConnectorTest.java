@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 public class SQLConnectorTest {
     public static DBConnector getTestConnector() throws SQLException {
         return new DBConnector(
-                "src/test/resources/no/ntnu/idata2304/group1/server/database/test.db");
+                "src/test/resources/no/ntnu/idata2304/group1/server/database/test.db", true);
     }
 
     @Test

@@ -50,7 +50,6 @@ public class SeverSSLKeyFactory {
      * @param path The path to the file
      * @return true if the file exists, false otherwise
      */
-    // TODO: Move this to a utility class
     // TODO: Implement a check for trying to fetch the server keystore
     public static boolean checkServerKeyExist(String path) {
         boolean returnValue = false;
