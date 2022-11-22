@@ -13,5 +13,23 @@ public class TCPListenerTest {
                 TCPListener.class.getResource("TestKeys").getPath().toString().replace("%20", " "),
                 "123");
     }
+
+    /**
+     * This test is not really a test, it is just here to make sure that the server can be started
+     * and receives a message
+     * 
+     * @param args
+     */
+    @Test
+    public void messageTest() {
+        try (TCPListener listener = new TCPListener(6008,
+                TCPListener.class.getResource("TestKeys").getPath().toString().replace("%20", " "),
+                "123");) {
+            listener.run();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 

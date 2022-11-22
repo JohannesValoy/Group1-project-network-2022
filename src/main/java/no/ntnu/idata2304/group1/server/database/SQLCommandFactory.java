@@ -36,7 +36,7 @@ public class SQLCommandFactory {
         StringBuilder builder = new StringBuilder(
                 "SELECT * FROM " + Tables.TEMP.getTable() + " INNER JOIN " + Tables.ROOMS.getTable()
                         + " ON " + Tables.ROOMS.getTable() + ".id = " + Tables.TEMP.getTable()
-                        + ".roomid " + "INNER JOIN " + Tables.NODE.getTable() + " ON "
+                        + ".roomid" + " INNER JOIN " + Tables.NODE.getTable() + " ON "
                         + Tables.NODE.getTable() + ".id = " + Tables.TEMP.getTable()
                         + ".nodeid AND " + Tables.NODE.getTable() + ".type LIKE 'temperature' ");
         String sqlQuery = "";
@@ -80,7 +80,7 @@ public class SQLCommandFactory {
 
     private static boolean checkValidString(String string) {
         // REGEX: that checks if a string does not contain " or ' or ; or -- or /*
-        return string != null && !string.isBlank() && Pattern.matches("^[^\"';-]*$", string);
+        return string != null && !string.isBlank() && !Pattern.matches("^[^\"';-]*$", string);
     }
 
     public static String addLog(String apiKey, double value) {

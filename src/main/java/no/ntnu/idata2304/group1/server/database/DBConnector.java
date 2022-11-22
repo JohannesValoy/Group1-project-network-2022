@@ -63,14 +63,14 @@ public class DBConnector implements Closeable {
      */
     private void setup() throws SQLException {
         String roomSQL = "CREATE TABLE IF NOT EXISTS rooms (" + "ID integer PRIMARY KEY,"
-                + "name text NOT NULL," + "roomNumber integer NOT NULL" + ", )";
+                + "name text NOT NULL," + "roomNumber integer NOT NULL" + " )";
         String nodeSQL =
                 "CREATE TABLE IF NOT EXISTS nodes (" + "ID integer PRIMARY KEY," + "name text,"
                         + "key text UNIQUE," + "roomID integer," + "type String NOT NULL" + ")";
         String data = "CREATE TABLE IF NOT EXISTS logs (\n" + "roomID integer NOT NULL,"
-                + "reading float NOT NULL ," + "date DateTime NOT NULL ,"
+                + "reading float NOT NULL ," + "timeStamp DateTime NOT NULL ,"
                 + "nodeID integer NOT NULL"
-                + ", FOREIGN KEY (roomID) REFERENCES rooms(ID)), CHECK(timestamp > DATE('now'))";
+                + ", FOREIGN KEY (roomID) REFERENCES rooms(ID), CHECK(timeStamp > DATE('now')))";
         execute(roomSQL);
         execute(nodeSQL);
         execute(data);

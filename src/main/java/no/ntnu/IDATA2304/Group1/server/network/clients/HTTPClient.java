@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.server.network;
+package no.ntnu.idata2304.group1.server.network.clients;
 
 import java.io.EOFException;
 import java.io.IOException;

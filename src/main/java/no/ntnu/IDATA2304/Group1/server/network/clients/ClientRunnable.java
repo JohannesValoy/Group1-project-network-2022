@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.server.network;
+package no.ntnu.idata2304.group1.server.network.clients;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -15,13 +15,15 @@ import no.ntnu.idata2304.group1.server.requests.RequestHandler;
  * @author Mathias J. Kirkeby
  */
 
-public class ClientThread extends Thread {
+public abstract class ClientThread implements Runnable {
     private Socket socket;
     private RequestHandler handler;
+    private boolean running;
 
     protected ClientThread(Socket socket) throws IOException {
         this.socket = socket;
         this.handler = new RequestHandler();
+        this.running = false;
     }
 
     /**
@@ -29,7 +31,8 @@ public class ClientThread extends Thread {
      */
     @Override
     public void run() {
-        while (socket.isConnected()) {
+        running = true;
+        if (socket.isConnected()) {
             try {
                 Message request = getRequest();
                 LogOutputer.print(MessageType.INFO,
@@ -50,14 +53,14 @@ public class ClientThread extends Thread {
             }
 
         }
-
+        running = false;
     }
 
 
     /**
      * A function that sends the data to the client
      */
-    public abstract void sendResponse(Message response)
+    protected abstract void sendResponse(Message response)
             throws IllegalArgumentException, IOException;
 
     /**
@@ -69,4 +72,21 @@ public class ClientThread extends Thread {
      */
     protected abstract Message getRequest() throws IllegalArgumentException, IOException;
 
+    /**
+     * Checks if the client is closed
+     * 
+     * @return True if the client is closed
+     */
+    public boolean isClosed() {
+        return socket.isClosed();
+    }
+
+    /**
+     * Checks if the client is running
+     * 
+     * @return True if the client is running
+     */
+    public boolean isRunning() {
+        return running;
+    }
 }

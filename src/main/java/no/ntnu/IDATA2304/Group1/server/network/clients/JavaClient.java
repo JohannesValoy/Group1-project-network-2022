@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.server.network;
+package no.ntnu.idata2304.group1.server.network.clients;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -7,7 +7,7 @@ import java.net.Socket;
 import no.ntnu.idata2304.group1.data.network.Message;
 
 /**
- * Responsible for sending and receiving network packages
+ * Responsible for sending and receiving network packages with Java serialization
  * 
  * @author Mathias J. Kirkeby
  */
@@ -17,7 +17,7 @@ public class JavaClient extends ClientThread {
     private ObjectInputStream input;
 
     /**
-     * Creates a new client thread
+     * Creates a new JavaClient
      * 
      * @param socket The socket to use
      * @throws IOException if the socket fails to connect
