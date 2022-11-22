@@ -35,11 +35,10 @@ public abstract class ClientRunnable implements Runnable {
         if (socket.isConnected()) {
             try {
                 Message request = getRequest();
-                LogOutputer.print(MessageType.INFO,
-                        "The request was: " + request.getType().toString());
-                Message response = handler.getResponse(request);
-                LogOutputer.print(MessageType.INFO, "Replying with: " + response);
-                sendResponse(response);
+                if (request != null) {
+                    Message response = handler.getResponse(request);
+                    sendResponse(response);
+                }
             } catch (EOFException e) {
 
             } catch (IllegalArgumentException e) {
@@ -60,11 +59,11 @@ public abstract class ClientRunnable implements Runnable {
     /**
      * A function that sends the data to the client
      */
-    protected abstract void sendResponse(Message response)
+    public abstract void sendResponse(Message response)
             throws IllegalArgumentException, IOException;
 
     /**
-     * Tries to recieve the data given
+     * Tries to recieve a message from the client. If no message is recieved, it will return null
      * 
      * @return
      * @throws IllegalArgumentException

@@ -28,12 +28,7 @@ public class JavaClient extends ClientRunnable {
         this.output = new ObjectOutputStream(socket.getOutputStream());
     }
 
-    /**
-     * Sends a response to the client
-     * 
-     * @param response The response to send
-     * @throws IOException if the response fails to send
-     */
+    @Override
     public void sendResponse(Message response) throws IOException {
         boolean notSent = true;
         for (int i = 0; i < 3 && notSent; i++) {
@@ -48,12 +43,15 @@ public class JavaClient extends ClientRunnable {
         }
     }
 
+    @Override
     protected Message getRequest() throws IOException {
-        Message request;
-        try {
-            request = (Message) input.readObject();
-        } catch (ClassNotFoundException e) {
-            throw new IllegalArgumentException("This is not a valid request");
+        Message request = null;
+        if (input.available() > 0) {
+            try {
+                request = (Message) input.readObject();
+            } catch (ClassNotFoundException e) {
+                throw new IllegalArgumentException("This is not a valid request");
+            }
         }
         return request;
     }
