@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.net.Socket;
 import no.ntnu.idata2304.group1.data.network.Message;
 
-public class HTTPClient extends ClientThread {
+public class HTTPClient extends ClientRunnable {
 
     public HTTPClient(Socket socket) throws IOException {
         super(socket);

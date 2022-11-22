@@ -15,12 +15,12 @@ import no.ntnu.idata2304.group1.server.requests.RequestHandler;
  * @author Mathias J. Kirkeby
  */
 
-public abstract class ClientThread implements Runnable {
+public abstract class ClientRunnable implements Runnable {
     private Socket socket;
     private RequestHandler handler;
     private boolean running;
 
-    protected ClientThread(Socket socket) throws IOException {
+    protected ClientRunnable(Socket socket) throws IOException {
         this.socket = socket;
         this.handler = new RequestHandler();
         this.running = false;

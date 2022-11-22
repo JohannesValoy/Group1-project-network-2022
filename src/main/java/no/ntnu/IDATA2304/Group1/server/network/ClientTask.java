@@ -1,12 +1,12 @@
 package no.ntnu.idata2304.group1.server.network;
 
-import no.ntnu.idata2304.group1.server.network.clients.ClientThread;
+import no.ntnu.idata2304.group1.server.network.clients.ClientRunnable;
 
 public class ClientTask implements Runnable {
 
-    private ClientThread client;
+    private ClientRunnable client;
 
-    public ClientTask(ClientThread client) {
+    public ClientTask(ClientRunnable client) {
         this.client = client;
     }
 
@@ -18,7 +18,7 @@ public class ClientTask implements Runnable {
         }
     }
 
-    public ClientThread getClient() {
+    public ClientRunnable getClient() {
         return client;
     }
 }

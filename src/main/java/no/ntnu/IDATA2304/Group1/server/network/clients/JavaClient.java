@@ -12,7 +12,7 @@ import no.ntnu.idata2304.group1.data.network.Message;
  * @author Mathias J. Kirkeby
  */
 
-public class JavaClient extends ClientThread {
+public class JavaClient extends ClientRunnable {
     private ObjectOutputStream output;
     private ObjectInputStream input;
 
