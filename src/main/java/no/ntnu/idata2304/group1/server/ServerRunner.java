@@ -6,15 +6,13 @@ import no.ntnu.idata2304.group1.server.database.DBConnector;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
 import no.ntnu.idata2304.group1.server.network.SeverSSLKeyFactory;
-import no.ntnu.idata2304.group1.server.network.TCPListener;
+import no.ntnu.idata2304.group1.server.network.listener.JavaListener;
+import no.ntnu.idata2304.group1.server.network.listener.TCPListener;
 
 /**
  * The main class for the server
  */
 public class ServerRunner {
-
-    // A static port to listen on
-    static final int PORT = 6008;
 
     /**
      * Starts the server
@@ -42,7 +40,7 @@ public class ServerRunner {
         DBConnector database = new DBConnector(true);
         LogOutputer.print(LogOutputer.MessageType.INFO,
                 "Connected to the database to the database");
-        try (TCPListener listener = new TCPListener(PORT, args[0], args[1])) {
+        try (TCPListener listener = new JavaListener(args[0], args[1])) {
             listener.run();
         }
         database.close();

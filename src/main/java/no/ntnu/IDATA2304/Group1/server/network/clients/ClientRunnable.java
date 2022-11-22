@@ -2,7 +2,7 @@ package no.ntnu.idata2304.group1.server.network.clients;
 
 import java.io.EOFException;
 import java.io.IOException;
-import java.net.Socket;
+import javax.net.ssl.SSLSocket;
 import no.ntnu.idata2304.group1.data.network.Message;
 import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer;
@@ -16,11 +16,11 @@ import no.ntnu.idata2304.group1.server.requests.RequestHandler;
  */
 
 public abstract class ClientRunnable implements Runnable {
-    private Socket socket;
+    private SSLSocket socket;
     private RequestHandler handler;
     private boolean running;
 
-    protected ClientRunnable(Socket socket) throws IOException {
+    protected ClientRunnable(SSLSocket socket) throws IOException {
         this.socket = socket;
         this.handler = new RequestHandler();
         this.running = false;

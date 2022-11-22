@@ -3,7 +3,7 @@ package no.ntnu.idata2304.group1.server.network.clients;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
+import javax.net.ssl.SSLSocket;
 import no.ntnu.idata2304.group1.data.network.Message;
 
 /**
@@ -22,7 +22,7 @@ public class JavaClient extends ClientRunnable {
      * @param socket The socket to use
      * @throws IOException if the socket fails to connect
      */
-    public JavaClient(Socket socket) throws IOException {
+    public JavaClient(SSLSocket socket) throws IOException {
         super(socket);
         this.input = new ObjectInputStream(socket.getInputStream());
         this.output = new ObjectOutputStream(socket.getOutputStream());
