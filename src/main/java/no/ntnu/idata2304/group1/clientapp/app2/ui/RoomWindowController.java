@@ -100,9 +100,8 @@ public class RoomWindowController {
      * Updates observable for line chart
      * @param sensorID the id of the sensor to get the data from
      * @return returns observable list
-     * @throws NullPointerException if sensor requested does not exist
      */
-    private ObservableList<XYChart.Series<String, Double>> getChartData(int sensorID) throws NullPointerException{
+    private ObservableList<XYChart.Series<String, Double>> getChartData(int sensorID){
 
         XYChart.Series<String, Double> series = new XYChart.Series<>();
         if(this.room.getListOfSensors().size() <= sensorID){
