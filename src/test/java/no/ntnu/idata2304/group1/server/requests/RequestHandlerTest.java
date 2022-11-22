@@ -16,7 +16,7 @@ public class RequestHandlerTest {
         DBConnector sql = null;
         try {
             sql = SQLConnectorTest.getTestConnector();
-            RequestHandler handler = new RequestHandler(sql);
+            RequestHandler handler = new RequestHandler();
             GetMessage request = new GetMessage(GetMessage.Types.ROOM_TEMP, "C220");
             Message message = handler.getResponse(request);
             assertEquals(message.getType(), Message.Types.OK);

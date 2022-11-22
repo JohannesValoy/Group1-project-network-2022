@@ -13,6 +13,8 @@ import java.sql.Statement;
 public class DBConnector implements Closeable {
 
     private static final String dbDrive = "jdbc:sqlite:";
+    private final java.util.logging.Logger Logger =
+            java.util.logging.Logger.getLogger(DBConnector.class.getName());
     private Connection conn;
     private String uri;
     private boolean busy = false;
@@ -56,7 +58,10 @@ public class DBConnector implements Closeable {
         this.uri = dbDrive + path.replace("%20", " ");
         try {
             this.conn = DriverManager.getConnection(uri);
-            setup();
+            if (setup) {
+                setup();
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException("Could not connect to database");
         }
@@ -93,7 +98,9 @@ public class DBConnector implements Closeable {
         if (sqlStatement == null || sqlStatement.isEmpty()) {
             throw new IllegalArgumentException("The SQL statement cannot be null or empty");
         }
-        executeQuery(sqlStatement);
+        try (Statement statement = conn.createStatement()) {
+            statement.execute(sqlStatement);
+        }
     }
 
     /**
@@ -104,7 +111,6 @@ public class DBConnector implements Closeable {
      * @throws SQLException if the query could not be executed
      */
     public synchronized ResultSet executeQuery(String sqlStatement) throws SQLException {
-        busy = true;
         if (sqlStatement == null || sqlStatement.isEmpty()) {
             throw new IllegalArgumentException("The SQL statement cannot be null or empty");
         }
@@ -142,8 +148,17 @@ public class DBConnector implements Closeable {
         try {
             conn.close();
         } catch (SQLException e) {
+
         }
     }
 
-    public void setBusy(boolean b) {}
+    /**
+     * Sets the Connector to busy. This is used to prevent the connector from being closed and used
+     * while a query is being executed.
+     * 
+     * @param b boolean true if busy, false otherwise
+     */
+    public void setBusy() {
+        busy = true;
+    }
 }

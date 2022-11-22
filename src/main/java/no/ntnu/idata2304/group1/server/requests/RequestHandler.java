@@ -9,7 +9,7 @@ import no.ntnu.idata2304.group1.data.network.requests.UpdateMessage;
 import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
 import no.ntnu.idata2304.group1.data.network.responses.OKMessage;
 import no.ntnu.idata2304.group1.data.network.responses.ResponseRoomMessage;
-import no.ntnu.idata2304.group1.server.database.DBConnector;
+import no.ntnu.idata2304.group1.server.database.DBConnectorPool;
 import no.ntnu.idata2304.group1.server.database.SQLCommandFactory;
 import no.ntnu.idata2304.group1.server.database.SQLConverter;
 
@@ -22,25 +22,13 @@ public class RequestHandler {
     // TODO: Add this when the update request is implemented
     // TODO: Implement Login
 
-    private DBConnector connector;
+    private DBConnectorPool connector;
 
     /**
      * Creates a new RequestHandler
      */
     public RequestHandler() {
-        this.connector = new DBConnector(true);
-    }
-
-    /**
-     * Creates a new request handler with a given database connector
-     * 
-     * @param connector The database connector to use
-     */
-    public RequestHandler(DBConnector connector) {
-        if (connector == null) {
-            throw new IllegalArgumentException("The connector cannot be null");
-        }
-        this.connector = connector;
+        this.connector = DBConnectorPool.getInstance();
     }
 
 
@@ -81,7 +69,7 @@ public class RequestHandler {
                     throw new IllegalArgumentException("Invalid key");
                 }
                 String sqlQuery = SQLCommandFactory.addLog(request.getApiKey(), request.getValue());
-                connector.execute(sqlQuery);
+                connector.executeQuery(sqlQuery);
                 break;
         }
         return new OKMessage();

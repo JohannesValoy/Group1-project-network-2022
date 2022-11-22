@@ -11,23 +11,38 @@ public class DBConnectorPool {
 
     private static DBConnectorPool instance;
 
-    private DBConnectorPool() {
+    private DBConnectorPool(String path) {
         this.currentSize = 0;
         this.pool = new DBConnector[POOLSIZE];
-        pool[0] = new DBConnector(true);
-        for (int i = 1; i < POOLSIZE; i++) {
-            pool[i] = new DBConnector(false);
+        if (path == null) {
+            pool[0] = new DBConnector(true);
+            for (int i = 1; i < POOLSIZE; i++) {
+                pool[i] = new DBConnector(false);
+            }
+        } else {
+            pool[0] = new DBConnector(path, true);
+            for (int i = 1; i < POOLSIZE; i++) {
+                pool[i] = new DBConnector(path, false);
+            }
         }
+
     }
 
     public static DBConnectorPool getInstance() {
         if (instance == null) {
-            instance = new DBConnectorPool();
+            instance = new DBConnectorPool(null);
         }
         return instance;
     }
 
-    public ResultSet executeQuery(String query) throws SQLException, InterruptedException {
+    public static DBConnectorPool getInstance(String path) {
+        if (instance == null) {
+            instance = new DBConnectorPool(path);
+        }
+        return instance;
+    }
+
+    public ResultSet executeQuery(String query) throws SQLException {
         if (query == null) {
             throw new IllegalArgumentException("Task cannot be null");
         }
@@ -35,7 +50,11 @@ public class DBConnectorPool {
         while (connector == null) {
             connector = getConnector();
             if (connector == null) {
-                Thread.sleep(100);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             }
         }
         return connector.executeQuery(query);
@@ -45,7 +64,7 @@ public class DBConnectorPool {
         DBConnector connector = null;
         for (int i = 0; i < POOLSIZE; i++) {
             if (!pool[i].isBusy()) {
-                pool[i].setBusy(true);
+                pool[i].setBusy();
                 connector = pool[i];
             }
         }
