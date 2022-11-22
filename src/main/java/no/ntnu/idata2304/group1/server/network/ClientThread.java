@@ -9,7 +9,13 @@ import no.ntnu.idata2304.group1.server.messages.LogOutputer;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
 import no.ntnu.idata2304.group1.server.requests.RequestHandler;
 
-public abstract class ClientThread extends Thread {
+/**
+ * Responsible for sending and receiving network packages
+ * 
+ * @author Mathias J. Kirkeby
+ */
+
+public class ClientThread extends Thread {
     private Socket socket;
     private RequestHandler handler;
 
