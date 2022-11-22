@@ -1,6 +1,8 @@
 package no.ntnu.idata2304.group1.server.network;
 
 import org.junit.jupiter.api.Test;
+import no.ntnu.idata2304.group1.server.network.listener.JavaListener;
+import no.ntnu.idata2304.group1.server.network.listener.TCPListener;
 
 public class TCPListenerTest {
 
@@ -9,7 +11,7 @@ public class TCPListenerTest {
         if (TCPListener.class.getResourceAsStream("TestKeys") == null) {
             throw new Exception("Could not find the keystore");
         }
-        TCPListener listener = new TCPListener(6008,
+        TCPListener listener = new JavaListener(6008,
                 TCPListener.class.getResource("TestKeys").getPath().toString().replace("%20", " "),
                 "123");
     }
@@ -22,7 +24,7 @@ public class TCPListenerTest {
      */
     @Test
     public void messageTest() {
-        try (TCPListener listener = new TCPListener(6008,
+        try (TCPListener listener = new JavaListener(6008,
                 TCPListener.class.getResource("TestKeys").getPath().toString().replace("%20", " "),
                 "123");) {
             listener.run();
