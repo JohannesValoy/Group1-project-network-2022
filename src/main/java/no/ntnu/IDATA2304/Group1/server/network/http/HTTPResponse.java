@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.data.network.http;
+package no.ntnu.idata2304.group1.server.network.http;
 
 /**
  * The HTTPResponse class represents a HTTP response

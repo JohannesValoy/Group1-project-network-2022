@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.data.network.http;
+package no.ntnu.idata2304.group1.server.network.http;
 
 import java.util.HashMap;
 import java.util.Scanner;
@@ -14,7 +14,7 @@ public abstract class HTTPMessage {
             throw new IllegalArgumentException("Message can't be null");
         }
         try (Scanner messageScan = new Scanner(message)) {
-            String startLine = messageScan.nextLine();
+            messageScan.nextLine(); // Remove startLine
             boolean isHeader = true;
             StringBuilder bodyBuilder = new StringBuilder();
             while (messageScan.hasNext()) {
