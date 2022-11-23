@@ -3,7 +3,6 @@ package no.ntnu.idata2304.group1.server.database;
 import static org.junit.jupiter.api.Assertions.fail;
 import java.sql.ResultSet;
 import org.junit.jupiter.api.Test;
-import no.ntnu.idata2304.group1.server.database.DBConnectorPool;
 
 public class DBConnectorPoolTest {
 
