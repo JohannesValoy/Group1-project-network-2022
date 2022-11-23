@@ -1,4 +1,4 @@
-package no.ntnu.temp.idata2304.group1.server.requests;
+package no.ntnu.idata2304.group1.server.requests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package no.ntnu.temp.idata2304.group1.server.database;
+package no.ntnu.idata2304.group1.server.database;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;

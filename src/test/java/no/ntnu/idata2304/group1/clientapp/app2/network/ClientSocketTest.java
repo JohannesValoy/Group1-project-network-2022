@@ -1,4 +1,4 @@
-package no.ntnu.temp.idata2304.group1.clientapp.app2.network;
+package no.ntnu.idata2304.group1.clientapp.app2.network;
 
 import org.junit.jupiter.api.Test;
 import no.ntnu.idata2304.group1.clientapp.app2.network.ClientSocket;
@@ -19,7 +19,7 @@ class ClientSocketTest {
         try (JavaListener server = new JavaListener(
                 JavaListener.class.getResource("TestKeys").getPath().replace("%20", " "), "123")) {
             server.start();
-            ClientSocket clientSocket = new ClientSocket("localhost", 6008, ClientSocketTest.class
+            ClientSocket clientSocket = new ClientSocket("10.0.2.15", 6008, ClientSocketTest.class
                     .getResource("trustedCerts").getPath().replace("%20", " "));
             clientSocket.getRoomData(rooms);
             Message message = clientSocket.response();

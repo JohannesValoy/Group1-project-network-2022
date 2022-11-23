@@ -20,8 +20,7 @@ public class LogOutputer {
         /**
          * Info message type.
          */
-        INFO("\u001B[37m",
-                "[INFO]");
+        INFO("\u001B[37m", "[INFO]");
 
         private String color;
         private String type;
@@ -53,7 +52,7 @@ public class LogOutputer {
     /**
      * Print.
      *
-     * @param type    the type
+     * @param type the type
      * @param message the message
      */
     public static synchronized void print(MessageType type, String message) {

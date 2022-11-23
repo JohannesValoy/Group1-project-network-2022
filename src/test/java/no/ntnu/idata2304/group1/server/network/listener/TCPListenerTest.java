@@ -1,4 +1,4 @@
-package no.ntnu.temp.idata2304.group1.server.network.listener;
+package no.ntnu.idata2304.group1.server.network.listener;
 
 import org.junit.jupiter.api.Test;
 import no.ntnu.idata2304.group1.server.network.listener.JavaListener;
