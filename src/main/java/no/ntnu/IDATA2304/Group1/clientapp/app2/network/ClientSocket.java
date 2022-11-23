@@ -1,5 +1,6 @@
 package no.ntnu.idata2304.group1.clientapp.app2.network;
 
+import no.ntnu.idata2304.group1.data.Room;
 import no.ntnu.idata2304.group1.data.network.Message;
 import no.ntnu.idata2304.group1.data.network.requests.get.GetLogsMessage;
 import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
@@ -61,6 +62,10 @@ public class ClientSocket {
     public void getRoomData(List<String> rooms) throws IOException {
         output.writeObject(
                 new GetLogsMessage(GetLogsMessage.Logs.TEMPERATURE, (ArrayList<String>) rooms));
+    }
+
+    public ArrayList<Room> getListOfRooms() {
+        return null;
     }
 
 
