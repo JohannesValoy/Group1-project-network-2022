@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.clientapp.app2;
+package no.ntnu.idata2304.group1.clientapp.app2.network;
 
 import no.ntnu.idata2304.group1.data.network.Message;
 import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
