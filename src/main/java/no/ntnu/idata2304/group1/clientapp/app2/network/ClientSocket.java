@@ -1,10 +1,5 @@
 package no.ntnu.idata2304.group1.clientapp.app2.network;
 
-import no.ntnu.idata2304.group1.data.Room;
-import no.ntnu.idata2304.group1.data.network.Message;
-import no.ntnu.idata2304.group1.data.network.requests.get.GetLogsMessage;
-import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
-import no.ntnu.idata2304.group1.data.network.responses.OKMessage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -14,6 +9,11 @@ import javax.net.SocketFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+import no.ntnu.idata2304.group1.data.Room;
+import no.ntnu.idata2304.group1.data.network.Message;
+import no.ntnu.idata2304.group1.data.network.requests.get.GetLogsMessage;
+import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
+import no.ntnu.idata2304.group1.data.network.responses.OKMessage;
 
 /**
  * Socket class on client side to connect and read from server

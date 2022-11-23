@@ -1,10 +1,10 @@
-package no.ntnu.idata2304.group1.clientapp.app2.network;
+package no.ntnu.temp.idata2304.group1.clientapp.app2.network;
 
+import org.junit.jupiter.api.Test;
+import no.ntnu.idata2304.group1.clientapp.app2.network.ClientSocket;
 import no.ntnu.idata2304.group1.data.network.Message;
 import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
 import no.ntnu.idata2304.group1.server.network.listener.JavaListener;
-import org.junit.jupiter.api.Test;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
