@@ -88,4 +88,8 @@ public abstract class ClientRunnable implements Runnable {
     public boolean isRunning() {
         return running;
     }
+
+    public synchronized void setAsRunning(){
+        running = true;
+    }
 }

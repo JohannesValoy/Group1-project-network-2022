@@ -42,7 +42,7 @@ public abstract class TCPListener extends Thread implements Closeable {
         this.socket.setEnabledCipherSuites(factory.getDefaultCipherSuites());
         String[] supported = this.socket.getSupportedProtocols();
         this.socket.setEnabledProtocols(supported);
-        this.clientHandler = new ClientHandler();
+        this.clientHandler = ClientHandler.getInstance();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package no.ntnu.idata2304.group1.server.network;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,6 +17,9 @@ public class ClientHandler extends Thread {
     private static ArrayList<ClientRunnable> clients = new ArrayList<>();
     private static ExecutorService pool = Executors.newFixedThreadPool(TOTALTHREADS);
 
+    private ClientHandler(){
+        this.setName("Client Handler");
+    }
     /**
      * Creates a new ClientHandler and starts it
      * 
@@ -24,6 +28,7 @@ public class ClientHandler extends Thread {
     public static ClientHandler getInstance() {
         if (instance == null) {
             instance = new ClientHandler();
+            
             instance.start();
         }
         return instance;
@@ -54,8 +59,10 @@ public class ClientHandler extends Thread {
     @Override
     public void run() {
         while (true) {
+            ArrayList<ClientRunnable> clients = (ArrayList)this.clients.clone();
             for (ClientRunnable client : clients) {
                 if (!client.isRunning()) {
+                    client.setAsRunning();
                     ClientTask task = new ClientTask(client);
                     pool.execute(task);
                 }

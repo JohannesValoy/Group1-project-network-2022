@@ -1,6 +1,7 @@
 package no.ntnu.idata2304.group1.server.network.clients;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javax.net.ssl.SSLSocket;
@@ -13,6 +14,7 @@ import no.ntnu.idata2304.group1.data.network.Message;
  */
 
 public class JavaClient extends ClientRunnable {
+    private InputStream detectStream;
     private ObjectOutputStream output;
     private ObjectInputStream input;
 
@@ -24,7 +26,8 @@ public class JavaClient extends ClientRunnable {
      */
     public JavaClient(SSLSocket socket) throws IOException {
         super(socket);
-        this.input = new ObjectInputStream(socket.getInputStream());
+        this. detectStream = socket.getInputStream();
+        this.input = new ObjectInputStream(detectStream);
         this.output = new ObjectOutputStream(socket.getOutputStream());
     }
 
@@ -46,13 +49,11 @@ public class JavaClient extends ClientRunnable {
     @Override
     protected Message getRequest() throws IOException {
         Message request = null;
-        if (input.available() > 0) {
             try {
                 request = (Message) input.readObject();
             } catch (ClassNotFoundException e) {
                 throw new IllegalArgumentException("This is not a valid request");
             }
-        }
         return request;
     }
 }
