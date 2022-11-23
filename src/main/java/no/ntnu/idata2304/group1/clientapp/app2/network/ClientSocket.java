@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.net.SocketFactory;
 import javax.net.ssl.SSLContext;
@@ -15,6 +14,7 @@ import javax.net.ssl.SSLSocketFactory;
 import no.ntnu.idata2304.group1.data.Room;
 import no.ntnu.idata2304.group1.data.network.Message;
 import no.ntnu.idata2304.group1.data.network.requests.get.GetLogsMessage;
+import no.ntnu.idata2304.group1.data.network.responses.DataMessage;
 import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
 import no.ntnu.idata2304.group1.data.network.responses.OKMessage;
 
@@ -62,21 +62,19 @@ public class ClientSocket {
         };
     }
 
-    public void getRoomData(List<String> rooms) throws IOException {
-        output.writeObject(
-                new GetLogsMessage(GetLogsMessage.Logs.TEMPERATURE, (ArrayList<String>) rooms));
-    }
 
-    public ArrayList<Room> getListOfRooms() {
-        return null;
-    public Map<String, Room> getRoomData(List<String> rooms) throws IOException, ClassNotFoundException {
-        output.writeObject(new GetMessage(GetMessage.Types.ROOM_TEMP, (ArrayList<String>) rooms));
+    public ArrayList<Room> getRoomData(List<String> rooms) throws IOException, ClassNotFoundException {
+        output.writeObject(new GetLogsMessage(GetLogsMessage.Logs.TEMPERATURE, (ArrayList<String>) rooms));
         Message messageResponse = response();
-        Map<String, Room> data = new HashMap<String, Room>();
-        if (response().getType() == Message.Types.OK) {
-            ResponseRoomMessage response = (ResponseRoomMessage) response();
-            data = (Map<String, Room>) response.getData();
-        }
+        ArrayList<Room> data = new ArrayList<>();
+        if (messageResponse.getType() == Message.Types.OK) {
+            DataMessage response = (DataMessage) messageResponse;
+            for(Iterator<Object> it = response.getData(); it.hasNext();) {
+                Room room = (Room) it.next();
+                data.add(room);
+            }
+
+            }
         return data;
     }
 

@@ -13,9 +13,10 @@ class ClientSocketTest {
      * Needs to have a active server running on localhost:6008 or change the address in the
      * ClientSocket constructor. Application is not happy about server and client running on the
      * same machine
+     * @throws ClassNotFoundException
      */
     @Test
-    void testStuff() throws IOException {
+    void testStuff() throws IOException, ClassNotFoundException {
         ArrayList<String> rooms = new ArrayList<>();
         rooms.add("C220");
 
