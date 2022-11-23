@@ -2,10 +2,13 @@ package no.ntnu.idata2304.group1.clientapp.app2.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
@@ -22,6 +25,7 @@ public class MainController extends Application {
     private MainWindowController mainWindowController;
     private ArrayList<RoomWindowController> roomWindowControllers;
     private FlowPane flowPane;
+    private ArrayList<String> rooms;
 
 
     /**
@@ -34,22 +38,48 @@ public class MainController extends Application {
     public void start(Stage stage) {
         ClientSocket clientSocket;
         this.roomWindowControllers = new ArrayList<>();
+        this.rooms = new ArrayList<>();
+
+        String hostName = null;
+        int portNumber = 0;
+        for (RoomWindowController roomWindowController : roomWindowControllers) {
+            rooms.add(roomWindowController.getRoom().getName());
+        }
         try {
-            clientSocket = new ClientSocket("10.24.90.163", 6008,
-                    "C:\\Users\\johan\\Desktop\\Group1testfolder\\src\\test\\resources\\no\\ntnu\\idata2304\\group1\\clientapp\\app2\\trustedCerts");
-            ArrayList<Room> rooms = clientSocket.getListOfRooms();
-            if (rooms != null) {
-                for (int i = 0; i < rooms.size(); i++) {
-                    addRoom(clientSocket.getListOfRooms().get(i), stage);
-                }
+            TextInputDialog textDialogHostName = new TextInputDialog("Host IP (Ex: 10.24.90.163)");
+            textDialogHostName.setTitle("Host Name");
+            textDialogHostName.setHeaderText(
+                    "Please enter the host name of the server you want to connect to");
+            textDialogHostName.setContentText("Please enter the host name:");
+            Optional<String> result = textDialogHostName.showAndWait();
+            if (result.isPresent()) {
+                hostName = result.get();
             }
+            TextInputDialog textDialogPortNumber = new TextInputDialog("Port Number (Ex: 8080)");
+            textDialogPortNumber.setTitle("Port Number");
+            textDialogPortNumber
+                    .setHeaderText("Please enter the port of the server you want to connect to");
+            textDialogPortNumber.setContentText("Please enter the port:");
+            Optional<String> portNumberResult = textDialogPortNumber.showAndWait();
+            if (result.isPresent()) {
+                portNumber = Integer.parseInt(portNumberResult.get());
+            }
+
+            System.out.println("Loading Server");
+            clientSocket = new ClientSocket(hostName, portNumber,
+                    "C:\\Users\\johan\\Desktop\\Group1testfolder\\src\\test\\resources\\no\\ntnu\\idata2304\\group1\\clientapp\\app2\\trustedCerts");
+            System.out.println("obtaining rooms");
+            clientSocket.getRoomData(rooms);
         } catch (IOException e) {
+            System.out.println("Could not connect to server");
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Could not connect to server");
-            alert.setContentText("Please check if the server is running");
+            alert.setContentText(e.getMessage());
             alert.showAndWait();
             System.exit(0);
+        } catch (ClassNotFoundException e) {
+            Alert alert = new Alert(AlertType.ERROR, e.getMessage());
         }
 
         // Loads mainScene

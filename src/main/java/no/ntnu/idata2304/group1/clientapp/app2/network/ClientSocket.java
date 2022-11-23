@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.net.SocketFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
@@ -66,8 +69,16 @@ public class ClientSocket {
 
     public ArrayList<Room> getListOfRooms() {
         return null;
+    public Map<String, Room> getRoomData(List<String> rooms) throws IOException, ClassNotFoundException {
+        output.writeObject(new GetMessage(GetMessage.Types.ROOM_TEMP, (ArrayList<String>) rooms));
+        Message messageResponse = response();
+        Map<String, Room> data = new HashMap<String, Room>();
+        if (response().getType() == Message.Types.OK) {
+            ResponseRoomMessage response = (ResponseRoomMessage) response();
+            data = (Map<String, Room>) response.getData();
+        }
+        return data;
     }
-
 
 }
 
