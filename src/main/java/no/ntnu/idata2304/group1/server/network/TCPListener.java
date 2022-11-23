@@ -9,19 +9,19 @@ import javax.net.ssl.SSLSocket;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
 
+// TODO: Support for SSL
+
 /**
  * Responsible for listening for new connections and creating new threads for each connection
  */
-// TODO: Support for SSL
-
 public class TCPListener extends Thread implements Closeable {
     private SSLServerSocket socket;
 
     /**
      * Creates a new TCP listener.
-     * 
-     * @param port The port to listen on
-     * @param keyStorePath The path to the keystore
+     *
+     * @param port             The port to listen on
+     * @param keyStoreName     the key store name
      * @param keyStorePassword The password to the keystore
      * @throws IOException if the socket fails to connect or the keystore is not found
      */

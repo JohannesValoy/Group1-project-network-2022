@@ -19,23 +19,49 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * The type Room window controller.
+ */
 public class RoomWindowController {
+    /**
+     * The Title.
+     */
     public Label title;
+    /**
+     * The Pane.
+     */
     @FXML
     public FlowPane pane;
+    /**
+     * The H box.
+     */
     public FlowPane HBox;
+    /**
+     * The Current temperature.
+     */
     public Label CurrentTemperature;
     @FXML
     private LineChart<String, Number> sensorChart;
     private Room room;
     private int roomNumber;
 
+    /**
+     * The Auto update.
+     */
     boolean autoUpdate = true;
 
 
+    /**
+     * Instantiates a new Room window controller.
+     */
     public RoomWindowController(){
     }
 
+    /**
+     * Sets room.
+     *
+     * @param room the room
+     */
     public void setRoom(Room room) {
         this.room = room;
         this.roomNumber = room.getRoomNumber();
@@ -47,6 +73,12 @@ public class RoomWindowController {
         autoUpdateChart(sensorChart, 0);
     }
 
+    /**
+     * Expand room view.
+     *
+     * @param height the height
+     * @param width  the width
+     */
     public void expandRoomView(double height, double width){
         sensorChart.setPrefSize(width*10/21, height/2);
         HBox.setPrefWidth(width);
@@ -58,6 +90,9 @@ public class RoomWindowController {
         }
     }
 
+    /**
+     * Contract room view.
+     */
     public void contractRoomView(){
         sensorChart.setPrefSize(400, 350);
         pane.setPrefSize(420, 420);
@@ -72,6 +107,12 @@ public class RoomWindowController {
         }
     }
 
+    /**
+     * Update sensor chart.
+     *
+     * @param sensorChart the sensor chart
+     * @param sensorID    the sensor id
+     */
     @FXML
     public void updateSensorChart(LineChart sensorChart, int sensorID) {
         if(this.room != null){
@@ -92,6 +133,11 @@ public class RoomWindowController {
 
     }
 
+    /**
+     * Get room room.
+     *
+     * @return the room
+     */
     public Room getRoom(){
         return this.room;
     }
@@ -100,9 +146,8 @@ public class RoomWindowController {
      * Updates observable for line chart
      * @param sensorID the id of the sensor to get the data from
      * @return returns observable list
-     * @throws NullPointerException if sensor requested does not exist
      */
-    private ObservableList<XYChart.Series<String, Double>> getChartData(int sensorID) throws NullPointerException{
+    private ObservableList<XYChart.Series<String, Double>> getChartData(int sensorID){
 
         XYChart.Series<String, Double> series = new XYChart.Series<>();
         if(this.room.getListOfSensors().size() <= sensorID){
@@ -111,8 +156,15 @@ public class RoomWindowController {
         series.setName(this.room.getListOfSensors().get(sensorID).getTypeName());
         this.title.setText("Room Number " + this.roomNumber);
         List<SensorRecord> sensorReadings = this.room.getListOfSensors().get(sensorID).getHistoryLog();
+        int i = 0;
         for (SensorRecord sensorReading : sensorReadings) {
-            series.getData().add(new XYChart.Data(sensorReading.date().getHours() + "." + sensorReading.date().getMinutes(), sensorReading.value()));
+            i++;
+            String seconds = sensorReading.date().getSeconds() + "";
+            if(sensorReading.date().getSeconds()  < 10){
+                seconds = "0" + seconds;
+            }
+            series.getData().add(new XYChart.Data(sensorReading.date().getHours() + "." + sensorReading.date().getMinutes() + "." + seconds, sensorReading.value()));
+            i++;
         }
         ObservableList<XYChart.Series<String, Double>> seriesList = FXCollections.observableArrayList();
         seriesList.addAll(series);
@@ -120,6 +172,11 @@ public class RoomWindowController {
         return seriesList;
     }
 
+    /**
+     * Get pane pane.
+     *
+     * @return the pane
+     */
     public Pane getPane(){
         return this.pane;
     }
@@ -138,9 +195,15 @@ public class RoomWindowController {
                     }
                 });
             }
-        }, 1, 2000 );
+        }, 1, 5000 );
     }
 
+    /**
+     * Update standard sensor chart.
+     *
+     * @param sensorChart the sensor chart
+     * @param sensorID    the sensor id
+     */
     public void updateStandardSensorChart(LineChart<String, Number> sensorChart, int sensorID){
         updateSensorChart(sensorChart, sensorID);
     }

@@ -15,10 +15,9 @@ import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
 
 /**
  * Responsible for sending and receiving network packages
- * 
+ *
  * @author Mathias J. Kirkeby
  */
-
 public class ClientThread extends Thread {
     private Socket socket;
     private RequestHandler handler;
@@ -28,7 +27,7 @@ public class ClientThread extends Thread {
 
     /**
      * Creates a new client thread
-     * 
+     *
      * @param socket The socket to use
      * @throws IOException if the socket fails to connect
      */
@@ -67,7 +66,7 @@ public class ClientThread extends Thread {
 
     /**
      * Sends a response to the client
-     * 
+     *
      * @param response The response to send
      * @throws IOException if the response fails to send
      */

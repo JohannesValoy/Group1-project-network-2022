@@ -33,7 +33,7 @@ public class RequestHandler {
 
     /**
      * Creates a new request handler with a given database connector
-     * 
+     *
      * @param connector The database connector to use
      */
     public RequestHandler(DBConnector connector) {
@@ -46,7 +46,7 @@ public class RequestHandler {
 
     /**
      * Handles a given request and returns a response
-     * 
+     *
      * @param request The request to handle
      * @return Message object containing the response
      */

@@ -19,7 +19,7 @@ public class SQLConverter {
 
     /**
      * Converts a ResultSet to series of Room objects within a map
-     * 
+     *
      * @param result The ResultSet to convert
      * @return A map containing the rooms
      * @throws RuntimeException If the ResultSet is invalid
