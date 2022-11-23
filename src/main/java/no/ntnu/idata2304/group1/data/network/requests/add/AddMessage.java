@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.data.network.requests;
+package no.ntnu.idata2304.group1.data.network.requests.add;
 
 import no.ntnu.idata2304.group1.data.network.Message;
 
@@ -14,6 +14,7 @@ public class AddMessage extends Message {
          * Log command.
          */
         LOG;
+
     }
 
     private final Command command;
@@ -25,8 +26,8 @@ public class AddMessage extends Message {
      * Instantiates a new Add message.
      *
      * @param command the command
-     * @param apiKey  the api key
-     * @param value   the value
+     * @param apiKey the api key
+     * @param value the value
      */
     public AddMessage(Command command, String apiKey, double value) {
         super(Message.Types.ADD);

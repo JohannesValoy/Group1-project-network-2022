@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.junit.jupiter.api.Test;
+import no.ntnu.idata2304.group1.server.database.SQLCommandFactory;
 
 public class SQLCommandFactoryTest {
 

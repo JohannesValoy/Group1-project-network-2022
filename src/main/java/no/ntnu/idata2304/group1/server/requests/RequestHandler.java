@@ -3,13 +3,15 @@ package no.ntnu.idata2304.group1.server.requests;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import no.ntnu.idata2304.group1.data.network.Message;
-import no.ntnu.idata2304.group1.data.network.requests.AddMessage;
-import no.ntnu.idata2304.group1.data.network.requests.GetMessage;
 import no.ntnu.idata2304.group1.data.network.requests.UpdateMessage;
+import no.ntnu.idata2304.group1.data.network.requests.add.AddMessage;
+import no.ntnu.idata2304.group1.data.network.requests.get.GetLogsMessage;
+import no.ntnu.idata2304.group1.data.network.requests.get.GetMessage;
+import no.ntnu.idata2304.group1.data.network.requests.get.GetRoomsMessage;
+import no.ntnu.idata2304.group1.data.network.responses.DataMessage;
 import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
 import no.ntnu.idata2304.group1.data.network.responses.OKMessage;
-import no.ntnu.idata2304.group1.data.network.responses.ResponseRoomMessage;
-import no.ntnu.idata2304.group1.server.database.DBConnector;
+import no.ntnu.idata2304.group1.server.database.DBConnectorPool;
 import no.ntnu.idata2304.group1.server.database.SQLCommandFactory;
 import no.ntnu.idata2304.group1.server.database.SQLConverter;
 
@@ -19,28 +21,15 @@ import no.ntnu.idata2304.group1.server.database.SQLConverter;
 public class RequestHandler {
 
 
-    // TODO: Add this when the update request is implemented
     // TODO: Implement Login
 
-    private DBConnector connector;
+    private DBConnectorPool connector;
 
     /**
      * Creates a new RequestHandler
      */
     public RequestHandler() {
-        this.connector = new DBConnector();
-    }
-
-    /**
-     * Creates a new request handler with a given database connector
-     *
-     * @param connector The database connector to use
-     */
-    public RequestHandler(DBConnector connector) {
-        if (connector == null) {
-            throw new IllegalArgumentException("The connector cannot be null");
-        }
-        this.connector = connector;
+        this.connector = DBConnectorPool.getInstance();
     }
 
 
@@ -81,8 +70,11 @@ public class RequestHandler {
                     throw new IllegalArgumentException("Invalid key");
                 }
                 String sqlQuery = SQLCommandFactory.addLog(request.getApiKey(), request.getValue());
-                connector.execute(sqlQuery);
+                connector.executeQuery(sqlQuery);
                 break;
+            default:
+                throw new IllegalArgumentException("Unknown command");
+
         }
         return new OKMessage();
 
@@ -105,17 +97,37 @@ public class RequestHandler {
      * @return Message object containing the response
      */
     private Message handleGet(GetMessage request) throws IllegalArgumentException, SQLException {
-        ResponseRoomMessage response = null;
+        DataMessage response = null;
         switch (request.getCommand()) {
-            case ROOM_TEMP:
-                String sqlQuery = SQLCommandFactory.getTemperature(request.getRooms());
-                ResultSet result = connector.executeQuery(sqlQuery);
-                response = new ResponseRoomMessage(SQLConverter.getRoomLogResults(result));
+            case DATA:
+                response = handleGetData((GetLogsMessage) request);
                 break;
-            case ROOM_HUMIDITY:
-                // TODO: Implement this
+            case ROOMS:
+                GetRoomsMessage convertedRequest = (GetRoomsMessage) request;
+                String sqlQuery = SQLCommandFactory.getRooms(convertedRequest.getFilter());
+                ResultSet result = connector.executeQuery(sqlQuery);
+                response = new DataMessage(SQLConverter.convertToRooms(result));
+                break;
+            case NODES:
+                // TODO: Implements this
+                break;
             default:
                 throw new IllegalArgumentException("Unknown Get Command");
+        }
+        return response;
+    }
+
+
+    private DataMessage handleGetData(GetLogsMessage request) throws SQLException {
+        DataMessage response = null;
+        if (request.getDataType().equals(GetLogsMessage.Logs.TEMPERATURE)) {
+            String sqlQuery = SQLCommandFactory.getTemperature(request.getRooms());
+            ResultSet result = connector.executeQuery(sqlQuery);
+            response = new DataMessage(SQLConverter.getRoomLogResults(result));
+        } else if (request.getDataType().equals(GetLogsMessage.Logs.HUMIDITY)) {
+            // TODO Implement this
+        } else {
+            throw new IllegalArgumentException("Unknown data type");
         }
         return response;
     }

@@ -1,11 +1,5 @@
-package no.ntnu.idata2304.group1.clientapp.app2;
+package no.ntnu.idata2304.group1.clientapp.app2.network;
 
-import no.ntnu.idata2304.group1.clientapp.app2.network.SSLTrustFactory;
-import no.ntnu.idata2304.group1.data.Room;
-import no.ntnu.idata2304.group1.data.network.Message;
-import no.ntnu.idata2304.group1.data.network.requests.GetMessage;
-import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
-import no.ntnu.idata2304.group1.data.network.responses.ResponseRoomMessage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -18,6 +12,11 @@ import javax.net.SocketFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
+import no.ntnu.idata2304.group1.data.Room;
+import no.ntnu.idata2304.group1.data.network.Message;
+import no.ntnu.idata2304.group1.data.network.requests.get.GetLogsMessage;
+import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
+import no.ntnu.idata2304.group1.data.network.responses.OKMessage;
 
 /**
  * Socket class on client side to connect and read from server
@@ -55,7 +54,7 @@ public class ClientSocket {
 
 
         return switch (messageResponse.getType()) {
-            case OK -> (ResponseRoomMessage) messageResponse;
+            case OK -> (OKMessage) messageResponse;
             case ERROR -> (ErrorMessage) messageResponse;
 
             default -> throw new IllegalStateException(
@@ -63,6 +62,13 @@ public class ClientSocket {
         };
     }
 
+    public void getRoomData(List<String> rooms) throws IOException {
+        output.writeObject(
+                new GetLogsMessage(GetLogsMessage.Logs.TEMPERATURE, (ArrayList<String>) rooms));
+    }
+
+    public ArrayList<Room> getListOfRooms() {
+        return null;
     public Map<String, Room> getRoomData(List<String> rooms) throws IOException, ClassNotFoundException {
         output.writeObject(new GetMessage(GetMessage.Types.ROOM_TEMP, (ArrayList<String>) rooms));
         Message messageResponse = response();

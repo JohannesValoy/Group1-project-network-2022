@@ -6,7 +6,9 @@ module Group1NetworkProject {
 
     opens no.ntnu.idata2304.group1.clientapp.app2.ui to javafx.fxml;
 
-    opens no.ntnu.idata2304.group1.clientapp.app2 to javafx.fxml;
+    opens no.ntnu.idata2304.group1.clientapp.app2.network;
+
+    exports no.ntnu.idata2304.group1.clientapp.app2.network;
 
     exports no.ntnu.idata2304.group1.clientapp.app2.ui to javafx.graphics;
     exports no.ntnu.idata2304.group1.data;

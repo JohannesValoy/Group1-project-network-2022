@@ -69,6 +69,7 @@ public class Sensor {
 
     /**
      * Uses type as type of sensor and name as the name of the sensor
+     * 
      * @param type as Temperature or humidity
      * @param name as the name/ID of the sensor
      */

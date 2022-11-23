@@ -1,27 +1,32 @@
 package no.ntnu.idata2304.group1.server.database;
 
 import java.io.Closeable;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javafx.scene.control.skin.ButtonSkin;
 
 /**
  * A class for connecting to the database
  */
 public class DBConnector implements Closeable {
 
+    private static final String dbDrive = "jdbc:sqlite:";
+    private final java.util.logging.Logger Logger =
+            java.util.logging.Logger.getLogger(DBConnector.class.getName());
     private Connection conn;
     private String uri;
+    private boolean busy = false;
 
     /**
      * Creates a new database connector with the default database
      * 
+     * @param setup If true, the database will run a setup script
      * @throws SQLException
      */
-    public DBConnector() {
+    public DBConnector(boolean setup) {
         String path;
         try {
             path = getClass().getResource("Data.db").toString();
@@ -29,12 +34,16 @@ public class DBConnector implements Closeable {
             path = getClass().getResource("").toString() + "data.db";
         }
         try {
-            this.uri = "jdbc:sqlite:" + path.toString().replace("%20", " ");
+            this.uri = dbDrive + path.replace("%20", " ");
             this.conn = DriverManager.getConnection(uri);
-            setup();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            if (setup) {
+                setup();
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Could not connect to database");
         }
+
 
     }
 
@@ -43,16 +52,19 @@ public class DBConnector implements Closeable {
      * 
      * @param path the path for the database
      */
-    public DBConnector(String path) {
+    public DBConnector(String path, boolean setup) {
         if (path == null || path.isEmpty()) {
             throw new IllegalArgumentException("The path cannot be null or empty");
         }
-        this.uri = "jdbc:sqlite:" + path.toString().replace("%20", " ");
+        this.uri = dbDrive + path.replace("%20", " ");
         try {
             this.conn = DriverManager.getConnection(uri);
-            setup();
+            if (setup) {
+                setup();
+            }
+
         } catch (SQLException e) {
-            throw new IllegalAccessError("Seems like there is a error");
+            throw new RuntimeException("Could not connect to database");
         }
 
     }
@@ -64,16 +76,17 @@ public class DBConnector implements Closeable {
      */
     private void setup() throws SQLException {
         String roomSQL = "CREATE TABLE IF NOT EXISTS rooms (" + "ID integer PRIMARY KEY,"
-                + "name text NOT NULL," + "roomNumber integer NOT NULL" + ")";
+                + "name text NOT NULL," + "roomNumber integer NOT NULL" + " )";
         String nodeSQL =
                 "CREATE TABLE IF NOT EXISTS nodes (" + "ID integer PRIMARY KEY," + "name text,"
                         + "key text UNIQUE," + "roomID integer," + "type String NOT NULL" + ")";
         String data = "CREATE TABLE IF NOT EXISTS logs (\n" + "roomID integer NOT NULL,"
-                + "reading float NOT NULL ," + "date DateTime NOT NULL ,"
-                + "nodeID integer NOT NULL" + ")";
-        execute(roomSQL);
-        execute(nodeSQL);
-        execute(data);
+                + "reading float NOT NULL ," + "timeStamp DateTime NOT NULL ,"
+                + "nodeID integer NOT NULL"
+                + ", FOREIGN KEY (roomID) REFERENCES rooms(ID), CHECK(timeStamp > DATE('now')))";
+        executeQuery(roomSQL);
+        executeQuery(nodeSQL);
+        executeQuery(data);
     }
 
     /**
@@ -82,13 +95,16 @@ public class DBConnector implements Closeable {
      * @param sqlStatement the SQL statement to execute
      * @throws SQLException if the statement could not be executed
      */
+    @Deprecated
     public synchronized void execute(String sqlStatement) throws SQLException {
+        busy = true;
         if (sqlStatement == null || sqlStatement.isEmpty()) {
             throw new IllegalArgumentException("The SQL statement cannot be null or empty");
         }
         try (Statement statement = conn.createStatement()) {
             statement.execute(sqlStatement);
         }
+        busy = false;
     }
 
     /**
@@ -102,9 +118,27 @@ public class DBConnector implements Closeable {
         if (sqlStatement == null || sqlStatement.isEmpty()) {
             throw new IllegalArgumentException("The SQL statement cannot be null or empty");
         }
+        busy = true;
+        ResultSet result = null;
         try (Statement statement = conn.createStatement()) {
-            return statement.executeQuery(sqlStatement);
+            result = statement.executeQuery(sqlStatement);
+        } catch (SQLException e) {
+            if (e.getMessage().equals("query does not return ResultSet")) {
+                try (Statement statement = conn.createStatement()) {
+                    statement.execute(sqlStatement);
+                } catch (SQLException e2) {
+                    busy = false;
+                    throw e2;
+                }
+            } else {
+                busy = false;
+                throw e;
+            }
+
         }
+        busy = false;
+        return result;
+
     }
 
     /**
@@ -116,12 +150,31 @@ public class DBConnector implements Closeable {
         return uri;
     }
 
+    /**
+     * Checks if the connector is busy
+     * 
+     * @return boolean true if busy, false otherwise
+     */
+    public boolean isBusy() {
+        return busy;
+    }
+
     @Override
-    public void close() throws IOException {
+    public void close() {
         try {
             conn.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.log(java.util.logging.Level.SEVERE, "Could not close connection", e);
         }
+    }
+
+    /**
+     * Sets the Connector to busy. This is used to prevent the connector from being closed and used
+     * while a query is being executed.
+     * 
+     * @param b boolean true if busy, false otherwise
+     */
+    public void setBusy() {
+        busy = true;
     }
 }

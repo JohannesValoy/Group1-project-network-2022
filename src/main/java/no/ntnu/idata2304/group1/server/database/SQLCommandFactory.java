@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
  */
 public class SQLCommandFactory {
 
+    private final static String SELECT = "SELECT * FROM ";
+
     /**
      * Enum for linking the different kind of tables in the database
      */
@@ -60,12 +62,11 @@ public class SQLCommandFactory {
         if (rooms == null) {
             throw new IllegalArgumentException("The rooms cannot be null");
         }
-        StringBuilder builder = new StringBuilder(
-                "SELECT * FROM " + Tables.TEMP.getTable() + " INNER JOIN " + Tables.ROOMS.getTable()
-                        + " ON " + Tables.ROOMS.getTable() + ".id = " + Tables.TEMP.getTable()
-                        + ".roomid " + "INNER JOIN " + Tables.NODE.getTable() + " ON "
-                        + Tables.NODE.getTable() + ".id = " + Tables.TEMP.getTable()
-                        + ".nodeid AND " + Tables.NODE.getTable() + ".type LIKE 'temperature' ");
+        StringBuilder builder = new StringBuilder(SELECT + Tables.TEMP.getTable() + " INNER JOIN "
+                + Tables.ROOMS.getTable() + " ON " + Tables.ROOMS.getTable() + ".id = "
+                + Tables.TEMP.getTable() + ".roomid" + " INNER JOIN " + Tables.NODE.getTable()
+                + " ON " + Tables.NODE.getTable() + ".id = " + Tables.TEMP.getTable()
+                + ".nodeid AND " + Tables.NODE.getTable() + ".type LIKE 'temperature' ");
         String sqlQuery = "";
         if (rooms.hasNext()) {
             builder.append("WHERE rooms.name IN (");
@@ -88,8 +89,8 @@ public class SQLCommandFactory {
      * Gets temperature.
      *
      * @param rooms the rooms
-     * @param from  the from
-     * @param to    the to
+     * @param from the from
+     * @param to the to
      * @return the temperature
      * @throws IllegalArgumentException the illegal argument exception
      */
@@ -118,20 +119,20 @@ public class SQLCommandFactory {
         if (checkValidString(key)) {
             throw new IllegalArgumentException("The key is invalid");
         }
-        return "SELECT * FROM " + Tables.NODE.getTable() + " WHERE " + Tables.NODE.getTable()
-                + ".key LIKE \"" + key + "\"";
+        return SELECT + Tables.NODE.getTable() + " WHERE " + Tables.NODE.getTable() + ".key LIKE \""
+                + key + "\"";
     }
 
     private static boolean checkValidString(String string) {
         // REGEX: that checks if a string does not contain " or ' or ; or -- or /*
-        return string != null && !string.isBlank() && Pattern.matches("^[^\"';-]*$", string);
+        return string != null && !string.isBlank() && !Pattern.matches("^[^\"';-]*$", string);
     }
 
     /**
      * Add log string.
      *
      * @param apiKey the api key
-     * @param value  the value
+     * @param value the value
      * @return the string
      */
     public static String addLog(String apiKey, double value) {
@@ -145,5 +146,13 @@ public class SQLCommandFactory {
         builder.append(value + ", ");
         builder.append(System.currentTimeMillis() + ")");
         return builder.toString();
+    }
+
+    public static String getRooms(String filter) {
+        String sqlQuery = SELECT + Tables.ROOMS.getTable();
+        if (filter != null) {
+            sqlQuery += " WHERE " + Tables.ROOMS.getTable() + ".name LIKE \"" + filter + "\"";
+        }
+        return sqlQuery;
     }
 }

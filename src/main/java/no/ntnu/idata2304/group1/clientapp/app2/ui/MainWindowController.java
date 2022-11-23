@@ -18,15 +18,14 @@ public class MainWindowController {
     @FXML
     private LineChart<Integer, Integer> sensorChart;
 
-    public MainWindowController(){
-    }
+    public MainWindowController() {}
 
     /**
      * returns the flow pane
      *
      * @return flow pane
      */
-    public FlowPane getFlowPane(){
+    public FlowPane getFlowPane() {
         return this.flowPane;
     }
 

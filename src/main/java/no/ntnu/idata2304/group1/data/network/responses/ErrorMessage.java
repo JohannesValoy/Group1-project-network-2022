@@ -6,7 +6,7 @@ import no.ntnu.idata2304.group1.data.network.Message;
  * A class for sending error messages between server and client
  */
 public class ErrorMessage extends Message {
-    private final String errorMessage;
+    private final String message;
 
     /**
      * Creates a new ErrorMessage
@@ -15,10 +15,10 @@ public class ErrorMessage extends Message {
      */
     public ErrorMessage(String message) {
         super(Message.Types.ERROR);
-        this.errorMessage = message;
+        this.message = message;
     }
 
     public String getErrorMessage() {
-        return errorMessage;
+        return message;
     }
 }
