@@ -2,8 +2,9 @@ package no.ntnu.idata2304.group1.server.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import no.ntnu.idata2304.group1.data.Room;
 import no.ntnu.idata2304.group1.data.Sensor;
 import no.ntnu.idata2304.group1.data.SensorRecord;
@@ -24,7 +25,7 @@ public class SQLConverter {
      * @return A map containing the rooms
      * @throws RuntimeException If the ResultSet is invalid
      */
-    public static Map<String, Room> getRoomLogResults(ResultSet result) throws RuntimeException {
+    public static List<Room> getRoomLogResults(ResultSet result) throws RuntimeException {
         HashMap<String, Room> roomLogs = new HashMap<>();
         if (result == null) {
             throw new IllegalArgumentException("Result can't be null");
@@ -56,6 +57,10 @@ public class SQLConverter {
         } catch (IllegalArgumentException e) {
             throw new RuntimeException("Error while converting result to room logs");
         }
-        return roomLogs;
+        return new ArrayList<>(roomLogs.values());
+    }
+
+    public static List<Room> convertToRooms(ResultSet result) {
+        return null;
     }
 }

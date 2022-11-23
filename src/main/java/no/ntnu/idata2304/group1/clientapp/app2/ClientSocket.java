@@ -2,9 +2,9 @@ package no.ntnu.idata2304.group1.clientapp.app2;
 
 import no.ntnu.idata2304.group1.clientapp.app2.network.SSLTrustFactory;
 import no.ntnu.idata2304.group1.data.network.Message;
-import no.ntnu.idata2304.group1.data.network.requests.GetMessage;
+import no.ntnu.idata2304.group1.data.network.requests.get.GetLogsMessage;
 import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
-import no.ntnu.idata2304.group1.data.network.responses.ResponseRoomMessage;
+import no.ntnu.idata2304.group1.data.network.responses.OKMessage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -51,7 +51,7 @@ public class ClientSocket {
 
 
         return switch (messageResponse.getType()) {
-            case OK -> (ResponseRoomMessage) messageResponse;
+            case OK -> (OKMessage) messageResponse;
             case ERROR -> (ErrorMessage) messageResponse;
 
             default -> throw new IllegalStateException(
@@ -60,7 +60,8 @@ public class ClientSocket {
     }
 
     public void getRoomData(List<String> rooms) throws IOException {
-        output.writeObject(new GetMessage(GetMessage.Types.ROOM_TEMP, (ArrayList<String>) rooms));
+        output.writeObject(
+                new GetLogsMessage(GetLogsMessage.Logs.TEMPERATURE, (ArrayList<String>) rooms));
     }
 
 

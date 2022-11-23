@@ -1,74 +1,70 @@
-package no.ntnu.idata2304.group1.data.network.requests;
+package no.ntnu.idata2304.group1.data.network.requests.get;
 
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
-import no.ntnu.idata2304.group1.data.network.Message;
 
-/**
- * A class for sending get commands to the server
- */
-public class GetMessage extends Message {
+public class GetLogsMessage extends GetMessage {
     /**
      * The type of data to get
      */
-    public enum Types {
-        ROOM_TEMP(), ROOM_HUMIDITY();
+    public enum Logs {
+        TEMPERATURE(), HUMIDITY();
     }
 
-    private final GetMessage.Types command;
+    private final Logs dataType;
     private ArrayList<String> rooms;
     private Date from;
     private Date to;
 
     /**
-     * Creates a new GetMessage
+     * Creates a new GetLogsMessage
      * 
-     * @param command The command to send
+     * @param dataType The dataType to send
      */
-    public GetMessage(GetMessage.Types command) {
-        super(Message.Types.GET);
-        this.command = command;
+    public GetLogsMessage(Logs dataType) {
+        super(GetMessage.DataTypes.DATA);
+        this.dataType = dataType;
         this.rooms = new ArrayList<>();
     }
 
     /**
-     * Creates a new GetMessage
+     * Creates a new GetLogsMessage
      * 
-     * @param command The command to send
+     * @param temperature The dataType to send
      * @param rooms The rooms to get data from
      */
-    public GetMessage(GetMessage.Types command, ArrayList<String> rooms) {
-        super(Message.Types.GET);
-        this.command = command;
+    public GetLogsMessage(Logs temperature, ArrayList<String> rooms) {
+        super(GetMessage.DataTypes.DATA);
+        this.dataType = temperature;
         this.rooms = rooms;
     }
 
     /**
-     * Creates a new GetMessage
+     * Creates a new GetLogsMessage
      * 
-     * @param command The command to send
+     * @param dataType The dataType to send
      * @param rooms The rooms to get data from
      * @param from The start date
      * @param to The end date
      */
-    public GetMessage(GetMessage.Types command, ArrayList<String> rooms, Date from, Date to) {
-        super(Message.Types.GET);
-        this.command = command;
+    public GetLogsMessage(Logs dataType, ArrayList<String> rooms, Date from, Date to) {
+        super(GetMessage.DataTypes.DATA);
+        this.dataType = dataType;
         this.rooms = rooms;
         this.from = from;
         this.to = to;
     }
 
     /**
-     * Creates a new GetMessage
+     * Creates a new GetLogsMessage
      * 
-     * @param command The command to send
+     * @param dataType The dataType to send
      * @param room The room to get data from
      */
-    public GetMessage(GetMessage.Types command, String room) {
-        super(Message.Types.GET);
-        this.command = command;
+    public GetLogsMessage(Logs dataType, String room) {
+        super(GetMessage.DataTypes.DATA);
+        this.dataType = dataType;
         this.rooms = new ArrayList<>();
         this.addRoom(room);
     }
@@ -76,8 +72,8 @@ public class GetMessage extends Message {
     /**
      * Gets the data type to get
      */
-    public GetMessage.Types getCommand() {
-        return command;
+    public Logs getDataType() {
+        return dataType;
     }
 
     /**
