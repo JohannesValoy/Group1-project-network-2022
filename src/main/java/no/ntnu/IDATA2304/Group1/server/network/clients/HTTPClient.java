@@ -1,15 +1,21 @@
 package no.ntnu.idata2304.group1.server.network.clients;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import javax.net.ssl.SSLSocket;
 import no.ntnu.idata2304.group1.data.network.Message;
 
 // TODO: Implement the HTTPClient class. Missing the send and receive methods.
 public class HTTPClient extends ClientRunnable {
 
+    private InputStream input;
+    private OutputStream output;
+
     public HTTPClient(SSLSocket socket) throws IOException {
         super(socket);
-        // TODO Auto-generated constructor stub
+        this.input = socket.getInputStream();
+        this.output = socket.getOutputStream();
     }
 
     @Override

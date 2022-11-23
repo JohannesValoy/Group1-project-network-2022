@@ -14,8 +14,6 @@ import no.ntnu.idata2304.group1.server.network.ClientHandler;
 import no.ntnu.idata2304.group1.server.network.SeverSSLKeyFactory;
 import no.ntnu.idata2304.group1.server.network.clients.ClientRunnable;
 
-// TODO: Support for SSL
-
 /**
  * Responsible for listening for new connections and creating new threads for each connection
  */
