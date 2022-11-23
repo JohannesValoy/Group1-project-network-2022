@@ -1,6 +1,7 @@
 package no.ntnu.idata2304.group1.clientapp.app2;
 
 import no.ntnu.idata2304.group1.clientapp.app2.network.SSLTrustFactory;
+import no.ntnu.idata2304.group1.data.Room;
 import no.ntnu.idata2304.group1.data.network.Message;
 import no.ntnu.idata2304.group1.data.network.requests.GetMessage;
 import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
@@ -9,7 +10,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.net.SocketFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
@@ -59,10 +63,16 @@ public class ClientSocket {
         };
     }
 
-    public void getRoomData(List<String> rooms) throws IOException {
+    public Map<String, Room> getRoomData(List<String> rooms) throws IOException, ClassNotFoundException {
         output.writeObject(new GetMessage(GetMessage.Types.ROOM_TEMP, (ArrayList<String>) rooms));
+        Message messageResponse = response();
+        Map<String, Room> data = new HashMap<String, Room>();
+        if (response().getType() == Message.Types.OK) {
+            ResponseRoomMessage response = (ResponseRoomMessage) response();
+            data = (Map<String, Room>) response.getData();
+        }
+        return data;
     }
-
 
 }
 
