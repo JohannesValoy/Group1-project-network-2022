@@ -30,7 +30,8 @@ public class ServerRunner {
         LogOutputer.print(MessageType.INFO, "Starting the server");
         if (args.length < 2) {
             LogOutputer.print(MessageType.ERROR, "Too few arguments");
-            return;
+            throw new IllegalArgumentException(
+                    "Too few arguments, The first argument should be the keystore path and the second argument should be the keystore password");
         }
         if (!SeverSSLKeyFactory.testKeyStore(args[0], args[1])) {
             LogOutputer.print(MessageType.ERROR, "Could not find the keystore");

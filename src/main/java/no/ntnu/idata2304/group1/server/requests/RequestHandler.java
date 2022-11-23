@@ -21,7 +21,6 @@ import no.ntnu.idata2304.group1.server.database.SQLConverter;
 public class RequestHandler {
 
 
-    // TODO: Add this when the update request is implemented
     // TODO: Implement Login
 
     private DBConnectorPool connector;

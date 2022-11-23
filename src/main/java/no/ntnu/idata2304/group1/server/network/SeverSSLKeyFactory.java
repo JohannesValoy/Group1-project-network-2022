@@ -50,7 +50,6 @@ public class SeverSSLKeyFactory {
      * @param path The path to the file
      * @return true if the file exists, false otherwise
      */
-    // TODO: Implement a check for trying to fetch the server keystore
     public static boolean checkServerKeyExist(String path) {
         boolean returnValue = false;
         if (path != null && !path.isBlank()) {
@@ -60,7 +59,26 @@ public class SeverSSLKeyFactory {
         return returnValue;
     }
 
-    public static boolean testKeyStore(String string, String string2) {
-        return false;
+    /**
+     * Check that the file exists and can be loaded to a keystore
+     * 
+     * @param keyStorePath The path to the file
+     * @param keyStorePassword The password to the file
+     * @return true if the file exists and can be loaded, false otherwise
+     */
+    public static boolean testKeyStore(String keyStorePath, String keyStorePassword) {
+        boolean successful = false;
+        if (checkServerKeyExist(keyStorePath)) {
+            try {
+                KeyStore keyStore = KeyStore.getInstance("pkcs12");
+                try (InputStream kstore = new FileInputStream(keyStorePath)) {
+                    keyStore.load(kstore, keyStorePassword.toCharArray());
+                }
+                successful = true;
+            } catch (Exception e) {
+                LOGGER.log(Level.WARNING, "This is not a valid keystore", e);
+            }
+        }
+        return successful;
     }
 }
