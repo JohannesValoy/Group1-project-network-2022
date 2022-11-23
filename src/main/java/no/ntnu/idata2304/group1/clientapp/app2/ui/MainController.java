@@ -67,9 +67,16 @@ public class MainController extends Application {
 
             System.out.println("Loading Server");
             clientSocket = new ClientSocket(hostName, portNumber,
-                    "C:\\Users\\johan\\Desktop\\Group1testfolder\\src\\test\\resources\\no\\ntnu\\idata2304\\group1\\clientapp\\app2\\trustedCerts");
+                    "C:\\Users\\johan\\Desktop\\Group1testfolder\\src\\test\\resources\\no\\ntnu\\idata2304\\group1\\clientapp\\app2\\networktrustedCerts");
             System.out.println("obtaining rooms");
-            clientSocket.getRoomData(rooms);
+            int clientIndex = 0;
+            ArrayList<Room> clientRooms = clientSocket.getRoomData(rooms);
+            while(clientIndex < clientRooms.size()){
+                RoomWindowController roomWindowController = new RoomWindowController();
+                roomWindowController.setRoom(clientRooms.get(clientIndex));
+                roomWindowControllers.add(roomWindowController);
+                clientIndex++;
+            }
         } catch (IOException e) {
             System.out.println("Could not connect to server");
             Alert alert = new Alert(AlertType.ERROR);
