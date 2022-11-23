@@ -3,14 +3,17 @@ package no.ntnu.idata2304.group1.clientapp.app2.network;
 import org.junit.jupiter.api.Test;
 import no.ntnu.idata2304.group1.data.network.Message;
 import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
-import no.ntnu.idata2304.group1.server.network.listener.JavaListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
 class ClientSocketTest {
-
+    /**
+     * Needs to have a active server running on localhost:6008 or change the address in the
+     * ClientSocket constructor. Application is not happy about server and client running on the
+     * same machine
+     */
     @Test
     void testStuff() throws IOException {
         ArrayList<String> rooms = new ArrayList<>();
