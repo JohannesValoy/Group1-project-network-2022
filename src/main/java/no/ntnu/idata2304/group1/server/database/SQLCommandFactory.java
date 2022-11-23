@@ -68,7 +68,9 @@ public class SQLCommandFactory {
                 + " ON " + Tables.NODE.getTable() + ".id = " + Tables.TEMP.getTable()
                 + ".nodeid AND " + Tables.NODE.getTable() + ".type LIKE 'temperature' ");
         String sqlQuery = "";
-        builder.append("WHERE rooms.name IN (");
+        if (rooms.hasNext()) {
+            builder.append("WHERE rooms.name IN (");
+        }
         while (rooms.hasNext()) {
             String room = rooms.next();
             if (checkValidString(room)) {
