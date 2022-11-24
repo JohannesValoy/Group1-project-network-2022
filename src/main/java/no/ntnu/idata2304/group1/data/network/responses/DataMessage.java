@@ -11,7 +11,7 @@ import no.ntnu.idata2304.group1.data.network.requests.get.GetMessage.DataTypes;
  */
 public class DataMessage extends OKMessage {
 
-    private final DataTypes type;
+    private final Class type;
     private final List<Object> data;
     /*
      * Creates a new ResponseMessage**
@@ -19,15 +19,15 @@ public class DataMessage extends OKMessage {
      * @param data the data
      */
 
-    public DataMessage(DataTypes type, List<Object> data) {
+    public DataMessage(Class dataClass, List data) {
         super(true);
-        this.type = type;
-        this.data = data;
+        this.type = dataClass;
+        this.data = new ArrayList<>(data);
     }
 
     public DataMessage(List<Room> data) {
         super(true);
-        this.type = DataTypes.ROOMS;
+        this.type = DataTypes.ROOMS.getClass();
         this.data = new ArrayList<>();
         for (Iterator<Room> iterator = data.iterator(); iterator.hasNext();) {
             Room next = iterator.next();
@@ -50,7 +50,7 @@ public class DataMessage extends OKMessage {
      *
      * @return the type
      */
-    public DataTypes getDataType() {
+    public Class getDataType() {
         return type;
     }
 }

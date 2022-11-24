@@ -3,6 +3,7 @@ package no.ntnu.idata2304.group1.server.database;
 import java.io.Closeable;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -78,9 +79,9 @@ public class DBConnector implements Closeable {
      */
     private void setup() throws SQLException {
         String roomSQL = "CREATE TABLE IF NOT EXISTS rooms (" + "ID integer PRIMARY KEY,"
-                + "name text NOT NULL" + " )";
+                + "RoomName text NOT NULL" + " )";
         String nodeSQL = "CREATE TABLE IF NOT EXISTS nodes (" + "ID integer PRIMARY KEY,"
-                + "name text," + "key text UNIQUE," + "roomID integer REFERENCES rooms(ID),"
+                + "NodeName text," + "key text UNIQUE," + "roomID integer REFERENCES rooms(ID),"
                 + "type String NOT NULL," + "CHECK(type IN (\"Temperature\",\"Humidty\"))" + ")";
         String data = "CREATE TABLE IF NOT EXISTS logs (\n" + "ID integer PRIMARY KEY,"
                 + "roomID integer REFERENCES rooms(ID)," + "reading float NOT NULL,"
@@ -120,7 +121,6 @@ public class DBConnector implements Closeable {
         if (sqlStatement == null || sqlStatement.isEmpty()) {
             throw new IllegalArgumentException("The SQL statement cannot be null or empty");
         }
-        busy = true;
         ResultSet result = null;
         try {
             result = stmt.executeQuery(sqlStatement);
@@ -138,10 +138,20 @@ public class DBConnector implements Closeable {
             }
 
         }
-        busy = false;
         return result;
 
     }
+
+
+    /**
+     * Creates a prepared statement that can be used
+     * 
+     * @return
+     */
+    public synchronized PreparedStatement prepareStatement(String query) throws SQLException {
+        return conn.prepareStatement(query);
+    }
+
 
     /**
      * Gets the connection to the database
@@ -163,11 +173,7 @@ public class DBConnector implements Closeable {
 
     @Override
     public void close() {
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            Logger.log(java.util.logging.Level.SEVERE, "Could not close connection", e);
-        }
+        setFree();
     }
 
     /**
@@ -178,5 +184,9 @@ public class DBConnector implements Closeable {
      */
     public void setBusy() {
         busy = true;
+    }
+
+    public void setFree() {
+        busy = false;
     }
 }

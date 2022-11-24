@@ -62,7 +62,34 @@ public class SQLConverter {
         return new ArrayList<>(roomLogs.values());
     }
 
-    public static List<Room> convertToRooms(ResultSet result) {
+    public static Room convertToRoom(ResultSet result) {
+        Room room = null;
+        try {
+            while (result.next()) {
+                if (room == null) {
+                    room = new Room(result.getString("name"));
+                }
+                Sensor s;
+                String sensorName = result.getString("name");
+                String sensorType = result.getString("type");
+                s = room.findSensorByName(sensorName);
+                if (s == null) {
+                    s = new Sensor(Sensor.Types.getTypeByName(sensorType), sensorName);
+                    room.addSensor(s);
+                }
+                s.addRecord(new SensorRecord(result.getTimestamp("timeStamp").toLocalDateTime(),
+                        result.getFloat("reading")));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while trying to fetch the information");
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Error while converting result to room logs");
+        }
+        return room;
+    }
+
+    public static List<String> GetRoomsCommand(String sqlQuery) {
         return null;
     }
 
