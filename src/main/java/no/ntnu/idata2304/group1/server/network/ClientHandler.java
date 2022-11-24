@@ -13,11 +13,13 @@ import no.ntnu.idata2304.group1.server.network.clients.ClientRunnable;
 public class ClientHandler extends Thread {
     private static ClientHandler instance = null;
     private static final int TOTALTHREADS = 10;
-    private static ArrayList<ClientRunnable> clients = new ArrayList<>();
-    private static ExecutorService pool = Executors.newFixedThreadPool(TOTALTHREADS);
+    private ArrayList<ClientRunnable> clients;
+    private ExecutorService pool;
 
     private ClientHandler() {
         this.setName("Client Handler");
+        this.clients = new ArrayList<>();
+        this.pool = Executors.newFixedThreadPool(TOTALTHREADS);
     }
 
     /**
@@ -59,7 +61,7 @@ public class ClientHandler extends Thread {
     @Override
     public void run() {
         while (true) {
-            ArrayList<ClientRunnable> clients = (ArrayList) ClientHandler.clients.clone();
+            ArrayList<ClientRunnable> clients = (ArrayList) this.clients.clone();
             for (ClientRunnable client : clients) {
                 if (!client.isRunning()) {
                     client.setAsRunning();
