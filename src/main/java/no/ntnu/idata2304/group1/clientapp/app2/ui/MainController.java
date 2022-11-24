@@ -57,12 +57,14 @@ public class MainController extends Application {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Could not connect to server");
-            alert.setContentText(e.getMessage());
+            alert.setContentText(e.getMessage()+ " Make sure the server is running and all the details entered are correct");
             alert.showAndWait();
             System.exit(0);
         } catch (ClassNotFoundException e) {
             new Alert(AlertType.ERROR, e.getMessage());
         }
+
+        updateRoomData();
 
         // Loads mainScene
         FXMLLoader mainWindowLoader =
@@ -106,6 +108,7 @@ public class MainController extends Application {
                                 for(Room clientRoom : clientSocket.getRoomData(rooms)){
                                     for(RoomWindowController roomWindowController : roomWindowControllers){
                                         if(roomWindowController.getRoom().getName().equals(clientRoom.getName())){
+                                            roomWindowController.update();
                                             roomWindowController.setRoom(clientRoom);
                                         }
                                     }
@@ -200,7 +203,12 @@ public class MainController extends Application {
         textDialogHostName.setContentText("Please enter the host name:");
         Optional<String> result = textDialogHostName.showAndWait();
         if (result.isPresent()) {
-            hostName = result.get();
+            if(result.get().contains(".")){
+                hostName = result.get();
+            } else {
+                throw new IOException("Invalid host name, must be an IP address in this format: 10.24.90.163");
+            }
+    
         }
         TextInputDialog textDialogPortNumber = new TextInputDialog("Port Number (Ex: 8080)");
             textDialogPortNumber.setTitle("Port Number");
@@ -209,8 +217,13 @@ public class MainController extends Application {
             textDialogPortNumber.setContentText("Please enter the port:");
             Optional<String> portNumberResult = textDialogPortNumber.showAndWait();
             if (portNumberResult.isPresent()) {
-                portNumber = Integer.parseInt(portNumberResult.get());
+                if(portNumberResult.get().matches("[0-9999]+")){
+                    portNumber = Integer.parseInt(portNumberResult.get());
+                } else {
+                    throw new IOException("Invalid host name, host port must be a four digit number");
+                }
             }
+
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Resource File");
             fileChooser.getExtensionFilters().addAll(
@@ -219,7 +232,8 @@ public class MainController extends Application {
             fileChooser.showOpenDialog(stage);
             Optional<String> certPath = Optional.of(fileChooser.getInitialDirectory().getAbsolutePath());
             if (certPath.isPresent()) {
-                certPathStr = certPath.get();
+                //TODO: Check if file is a .cer file
+                    certPathStr = certPath.get();
             }
         return new ClientSocket(hostName, portNumber, certPathStr); 
     }
