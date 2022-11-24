@@ -68,7 +68,11 @@ public class RoomWindowController {
         
         pane.setPrefSize(420, 420);
         pane.setStyle("-fx-background-color: grey;" + "-fx-border-radius: 150px;");
-        autoUpdateChart(sensorChart, 0);
+        update();
+    }
+
+    public void update(){
+        updateChart(sensorChart, 0);
     }
 
     /**
@@ -85,7 +89,7 @@ public class RoomWindowController {
                     new LineChart<>(new CategoryAxis(), new NumberAxis()) {};
             HBox.getChildren().add(sensorChart2);
             sensorChart2.setPrefSize(width * 10 / 21, height / 2);
-            autoUpdateChart(sensorChart2, i);
+            updateChart(sensorChart2, i);
         }
     }
 
@@ -96,13 +100,11 @@ public class RoomWindowController {
         sensorChart.setPrefSize(400, 350);
         pane.setPrefSize(420, 420);
         HBox.setPrefSize(420, 420);
-        for (int i = 0; i < HBox.getChildren().size(); i++) {
+        for (int i = 1; i < HBox.getChildren().size(); i++) {
             try {
-                HBox.getChildren().remove(1);
+                HBox.getChildren().remove(i);
             } catch (Exception e) {
-                // TODO: fix this error
-                System.out.println(
-                        "Error closing all the sensors. Error in contractWindow in RoomWindowController");
+                
             }
         }
     }
@@ -191,18 +193,8 @@ public class RoomWindowController {
     /**
      * Updates the chart every second
      */
-    private void autoUpdateChart(LineChart<String, Number> sensorChart, int sensorID) {
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    if (autoUpdate) {
-                        updateStandardSensorChart(sensorChart, sensorID);
-                    }
-                });
-            }
-        }, 1, 5000);
+    private void updateChart(LineChart<String, Number> sensorChart, int sensorID) {
+        updateStandardSensorChart(sensorChart, sensorID);
     }
 
     /**
