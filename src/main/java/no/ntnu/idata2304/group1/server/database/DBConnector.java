@@ -6,7 +6,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javafx.scene.control.skin.ButtonSkin;
 
 /**
  * A class for connecting to the database
@@ -17,6 +16,7 @@ public class DBConnector implements Closeable {
     private final java.util.logging.Logger Logger =
             java.util.logging.Logger.getLogger(DBConnector.class.getName());
     private Connection conn;
+    private Statement stmt;
     private String uri;
     private boolean busy = false;
 
@@ -36,6 +36,7 @@ public class DBConnector implements Closeable {
         try {
             this.uri = dbDrive + path.replace("%20", " ");
             this.conn = DriverManager.getConnection(uri);
+            this.stmt = conn.createStatement();
             if (setup) {
                 setup();
             }
@@ -59,6 +60,7 @@ public class DBConnector implements Closeable {
         this.uri = dbDrive + path.replace("%20", " ");
         try {
             this.conn = DriverManager.getConnection(uri);
+            this.stmt = conn.createStatement();
             if (setup) {
                 setup();
             }
@@ -76,14 +78,13 @@ public class DBConnector implements Closeable {
      */
     private void setup() throws SQLException {
         String roomSQL = "CREATE TABLE IF NOT EXISTS rooms (" + "ID integer PRIMARY KEY,"
-                + "name text NOT NULL," + "roomNumber integer NOT NULL" + " )";
-        String nodeSQL =
-                "CREATE TABLE IF NOT EXISTS nodes (" + "ID integer PRIMARY KEY," + "name text,"
-                        + "key text UNIQUE," + "roomID integer," + "type String NOT NULL" + ")";
-        String data = "CREATE TABLE IF NOT EXISTS logs (\n" + "roomID integer NOT NULL,"
-                + "reading float NOT NULL ," + "timeStamp DateTime NOT NULL ,"
-                + "nodeID integer NOT NULL"
-                + ", FOREIGN KEY (roomID) REFERENCES rooms(ID), CHECK(timeStamp > DATE('now')))";
+                + "name text NOT NULL" + " )";
+        String nodeSQL = "CREATE TABLE IF NOT EXISTS nodes (" + "ID integer PRIMARY KEY,"
+                + "name text," + "key text UNIQUE," + "roomID integer REFERENCES rooms(ID),"
+                + "type String NOT NULL," + "CHECK(type IN (\"Temperature\",\"Humidty\"))" + ")";
+        String data = "CREATE TABLE IF NOT EXISTS logs (\n" + "ID integer PRIMARY KEY,"
+                + "roomID integer REFERENCES rooms(ID)," + "reading float NOT NULL,"
+                + "timeStamp DateTime NOT NULL," + "nodeID integer REFERENCES NODES(ID)" + ")";
         executeQuery(roomSQL);
         executeQuery(nodeSQL);
         executeQuery(data);
@@ -94,6 +95,7 @@ public class DBConnector implements Closeable {
      * 
      * @param sqlStatement the SQL statement to execute
      * @throws SQLException if the statement could not be executed
+     * @deprecated Use {@link #executeQuery(String)} instead
      */
     @Deprecated
     public synchronized void execute(String sqlStatement) throws SQLException {
@@ -111,7 +113,7 @@ public class DBConnector implements Closeable {
      * Executes a SQL query and returns the result
      * 
      * @param sqlStatement the SQL statement to execute
-     * @return the result of the query
+     * @return the result of the query or null if the query did not return anything
      * @throws SQLException if the query could not be executed
      */
     public synchronized ResultSet executeQuery(String sqlStatement) throws SQLException {
@@ -120,12 +122,12 @@ public class DBConnector implements Closeable {
         }
         busy = true;
         ResultSet result = null;
-        try (Statement statement = conn.createStatement()) {
-            result = statement.executeQuery(sqlStatement);
+        try {
+            result = stmt.executeQuery(sqlStatement);
         } catch (SQLException e) {
             if (e.getMessage().equals("query does not return ResultSet")) {
-                try (Statement statement = conn.createStatement()) {
-                    statement.execute(sqlStatement);
+                try {
+                    stmt.execute(sqlStatement);
                 } catch (SQLException e2) {
                     busy = false;
                     throw e2;

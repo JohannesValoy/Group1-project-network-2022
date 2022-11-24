@@ -35,32 +35,35 @@ public class SQLConverter {
                 Room room;
 
                 String roomName = result.getString("name");
-                Integer roomNumber = result.getInt("roomNumber");
                 if (!roomLogs.containsKey(roomName)) {
-                    roomLogs.put(roomName, new Room(roomNumber, roomName));
+                    roomLogs.put(roomName, new Room(roomName));
                 }
                 room = roomLogs.get(roomName);
 
                 Sensor s;
 
                 String sensorName = result.getString("name");
+                String sensorType = result.getString("type");
                 s = room.findSensorByName(sensorName);
                 if (s == null) {
-                    String sensorType = result.getString("type");
                     s = new Sensor(Sensor.Types.getTypeByName(sensorType), sensorName);
                     room.addSensor(s);
                 }
-                s.addRecord(new SensorRecord(result.getDate("time"), result.getDouble("value")));
+                s.addRecord(
+                        new SensorRecord(result.getDate("timeStamp"), result.getFloat("reading")));
             }
+
         } catch (SQLException e) {
             throw new RuntimeException("Error while trying to fetch the information");
         } catch (IllegalArgumentException e) {
             throw new RuntimeException("Error while converting result to room logs");
         }
+
         return new ArrayList<>(roomLogs.values());
     }
 
     public static List<Room> convertToRooms(ResultSet result) {
         return null;
     }
+
 }

@@ -93,7 +93,7 @@ public class Room {
      * Returns the first sensor it finds with that name
      * 
      * @param name the id of the sensor.
-     * @return the sensor with the given id.
+     * @return the sensor with the given name or null if it can't be found.
      */
     public Sensor findSensorByName(String name) {
         Sensor resultSensor = null;
@@ -102,9 +102,6 @@ public class Room {
             if (s.getName() == name) {
                 resultSensor = s;
             }
-        }
-        if (resultSensor == null) {
-            throw new IllegalArgumentException("Sensor not found");
         }
         return resultSensor;
     }
