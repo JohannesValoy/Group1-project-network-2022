@@ -49,8 +49,8 @@ public class SQLConverter {
                     s = new Sensor(Sensor.Types.getTypeByName(sensorType), sensorName);
                     room.addSensor(s);
                 }
-                s.addRecord(
-                        new SensorRecord(result.getDate("timeStamp"), result.getFloat("reading")));
+                s.addRecord(new SensorRecord(result.getTimestamp("timeStamp").toLocalDateTime(),
+                        result.getFloat("reading")));
             }
 
         } catch (SQLException e) {
