@@ -72,7 +72,6 @@ public class SQLCommandFactory {
     public static List<Room> getRoomData(Iterator<String> rooms, int limit, Date from, Date to,
             Sensor.Types type) throws SQLException {
 
-
         ArrayList<Room> roomList = new ArrayList<>();
         StringBuilder builder = new StringBuilder(GETROOMDATA);
         if (from != null && to != null) {
@@ -83,7 +82,7 @@ public class SQLCommandFactory {
         } else if (to != null) {
             builder.append(" AND " + Tables.TEMP.getTable() + ".timestamp < " + to);
         }
-        builder.append(" LIMIT " + limit);
+        builder.append(" Order by TimeStamp DESC LIMIT " + limit);
         try (DBConnector connector = DBConnectorPool.getInstance().getConnector();
                 PreparedStatement statement = connector.prepareStatement(builder.toString())) {
             statement.setString(1, type.getName());
@@ -117,12 +116,24 @@ public class SQLCommandFactory {
      * @param key the key
      * @return the string
      */
-    public static String checkNodeKey(String key) {
+    public static boolean checkNodeKey(String key) throws SQLException {
         if (checkValidString(key)) {
             throw new IllegalArgumentException("The key is invalid");
         }
-        return SELECT + Tables.NODE.getTable() + " WHERE " + Tables.NODE.getTable() + ".key LIKE \""
-                + key + "\"";
+        boolean result = false;
+        String query = SELECT + Tables.NODE.getTable() + " WHERE " + Tables.NODE.getTable()
+                + ".key LIKE ?";
+
+        try (DBConnector connector = DBConnectorPool.getInstance().getConnector();
+                PreparedStatement statement = connector.prepareStatement(query)) {
+            statement.setString(1, key);
+            result = statement.executeQuery().next();
+        } catch (SQLException e) {
+            LOGGER.severe("Could not get rooms: " + e.getMessage());
+            throw e;
+        }
+
+        return result;
     }
 
     private static boolean checkValidString(String string) {
@@ -137,7 +148,9 @@ public class SQLCommandFactory {
      * @param value the value
      * @return the string
      */
-    public static String addLog(String apiKey, double value) throws IllegalArgumentException {
+    public static boolean addLog(String apiKey, double value)
+            throws IllegalArgumentException, SQLException {
+        boolean result = false;;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         StringBuilder builder = new StringBuilder("INSERT INTO " + Tables.TEMP.getTable()
                 + " (nodeid, roomid, reading, timeStamp) VALUES (");
@@ -147,7 +160,14 @@ public class SQLCommandFactory {
                 + Tables.NODE.getTable() + ".key = \"" + apiKey + "\"), ");
         builder.append(value + ", ");
         builder.append("\"" + format.format(new Date()) + "\")");
-        return builder.toString();
+        try (DBConnector connector = DBConnectorPool.getInstance().getConnector();
+                PreparedStatement statement = connector.prepareStatement(builder.toString())) {
+            result = statement.execute();
+        } catch (SQLException e) {
+            LOGGER.severe("Could not get rooms: " + e.getMessage());
+            throw e;
+        }
+        return result;
     }
 
     public static List<String> getRooms(String filter) throws SQLException {
@@ -160,6 +180,7 @@ public class SQLCommandFactory {
                 PreparedStatement statement = connector.prepareStatement(sqlQuery)) {
             ResultSet result = statement.executeQuery();
             rooms = SQLConverter.getRoomsName(result);
+            statement.close();
         } catch (SQLException e) {
             LOGGER.severe("Could not get rooms: " + e.getMessage());
             throw e;

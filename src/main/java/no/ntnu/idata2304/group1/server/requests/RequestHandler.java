@@ -68,11 +68,12 @@ public class RequestHandler {
     private Message handleAdd(AddMessage request) throws SQLException {
         switch (request.getCommand()) {
             case LOG:
-                if (!isValidKey(request.getApiKey())) {
+                if (!SQLCommandFactory.checkNodeKey(request.getApiKey())) {
                     throw new IllegalArgumentException("Invalid key");
                 }
-                String sqlQuery = SQLCommandFactory.addLog(request.getApiKey(), request.getValue());
-                connector.executeQuery(sqlQuery);
+                if (!SQLCommandFactory.addLog(request.getApiKey(), request.getValue())) {
+                    throw new IllegalArgumentException("Invalid log");
+                }
                 break;
             default:
                 throw new IllegalArgumentException("Unknown command");
@@ -83,14 +84,14 @@ public class RequestHandler {
     }
 
 
-    private boolean isValidKey(String apiKey) throws SQLException, IllegalArgumentException {
-        if (apiKey == null || apiKey.isBlank() || apiKey.contains(" ")) {
-            throw new IllegalArgumentException("The key is invalid");
-        }
-        String sql = SQLCommandFactory.checkNodeKey(apiKey);
-        ResultSet result = connector.executeQuery(sql);
-        return result.next();
-    }
+    // private boolean isValidKey(String apiKey) throws SQLException, IllegalArgumentException {
+    // if (apiKey == null || apiKey.isBlank() || apiKey.contains(" ")) {
+    // throw new IllegalArgumentException("The key is invalid");
+    // }
+    // String sql = SQLCommandFactory.checkNodeKey(apiKey);
+    // ResultSet result = connector.executeQuery(sql);
+    // return result.next();
+    // }
 
     /**
      * Handles a GET request

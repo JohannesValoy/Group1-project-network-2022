@@ -1,5 +1,5 @@
 --- Some test rooms ---
-INSERT INTO rooms (RoomName) VALUES 
+INSERT INTO rooms(RoomName) VALUES 
 ('C220'),
 ("C231"),
 ("C450"),
