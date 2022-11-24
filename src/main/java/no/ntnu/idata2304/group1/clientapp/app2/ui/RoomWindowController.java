@@ -104,7 +104,8 @@ public class RoomWindowController {
             try {
                 HBox.getChildren().remove(i);
             } catch (Exception e) {
-                
+                System.out.println("Error removing sensor chart");
+                //TODO: handle exception; This is a hacky fix for a bug that I don't know how to fix;
             }
         }
     }
@@ -163,14 +164,11 @@ public class RoomWindowController {
         List<SensorRecord> sensorReadings =
                 this.room.getListOfSensors().get(sensorID).getHistoryLog();
         for (SensorRecord sensorReading : sensorReadings) {
-            String second = sensorReading.date().getSecond() + "";
-            if (sensorReading.date().getSecond() < 10) {
-                second = "0" + second;
-            }
+            
             series.getData()
                     .add(new XYChart.Data(
-                            sensorReading.date().getHour() + "."
-                                    + sensorReading.date().getMinute() + "." + second,
+                            convertIntToTwoDigits(sensorReading.date().getHour()) + "."
+                                    + convertIntToTwoDigits(sensorReading.date().getMinute()) + "." + convertIntToTwoDigits(sensorReading.date().getSecond()),
                             sensorReading.value()));
         }
         ObservableList<XYChart.Series<String, Double>> seriesList =
@@ -178,6 +176,13 @@ public class RoomWindowController {
         seriesList.addAll(series);
 
         return seriesList;
+    }
+
+    public int convertIntToTwoDigits(int number) {
+        if (number < 10) {
+            return Integer.parseInt("0" + number);
+        }
+        return number;
     }
 
     /**
