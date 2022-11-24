@@ -1,5 +1,6 @@
 package no.ntnu.idata2304.group1.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * Represents a room in a house with an arraylist with one or more temperature sensors. The room has
  * a room number and a list of sensors. The room can be updated with a new sensor.
  */
-public class Room {
+public class Room implements Serializable{
 
 
     private String name;
