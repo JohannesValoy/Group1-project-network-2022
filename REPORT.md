@@ -22,11 +22,9 @@ example, [Basic
 Syntax article](https://www.markdownguide.org/basic-syntax/) in the Markdown
 Guide.
 
-# [Title of your project here]
+# IDATA2304 Temperature Logger
 
-Here you can mention that this is a school project in the course IDATA2304
-Computer networks. Not mandatory, but could be useful for readers other than the
-teachers.
+This is a school project in the course IDATA2304 Computer networks. 
 
 ## Abstract
 
@@ -41,6 +39,8 @@ Suggested content in the abstract:
 * Describe the results you have achieved, 1-3 sentences
 * Describe the experiments or evaluation you have done
 * Conclusions and possible future work
+
+
 
 Here is an example abstract of an imaginary project:
 Modern urban lifestyle has high demands on the individuals. We have busy
@@ -76,6 +76,35 @@ Here you introduce your project in more detail. Include the following:
   in ["Methodology"]. Then the obtained [results] are presented, followed by
   [reflection and discussion of possible improvements]." Note: don't copy this
   text, write your own!
+
+We have made an application that measures and records the temperature and humidity 
+in a room throughout the day via a temperature- and humidity-sensor.
+There are many benefits to monitoring your indoor environmental conditions with an application such as this. 
+One of the most important reasons to use a sensor like this, 
+is to make sure that you are maintaining a healthy indoor air quality in the various rooms in your house, 
+such as your living room, bedroom, and bathroom. 
+Because if you don’t, you may risk affecting your, and others’, health.
+
+As previously stated, poor indoor air quality can bring some unfortunate consequences. 
+Mould in the house can cause sickness like a stuffy nose, sore throat, 
+coughing, burning eyes and rashes on your skin. 
+If you are allergic to mould, depending on the severity of the allergy, 
+can lead to very serious reactions, and hospital visits. 
+It has also been documented that the proper temperature and humidity has direct impact on the quality of your sleep.
+
+If you have been having trouble getting a good night’s sleep, 
+it might be worth taking into consideration the temperature and humidity in your bedroom during the night. 
+Depending on where your bedroom windows are located, and the climate your country experiences, 
+you might be having some humidity and temperature swings during the night that can negatively influence your sleep. 
+Research shows that the ideal temperature for a bedroom is around 14-18 degrees Celsius. 
+The proper humidity in a bedroom fluctuates depending on the season, 
+but should be around 50% in the winter and a little higher in the summer, but not above 60%.
+Using our temperature and humidity sensor could assist greatly in making sure your sleep conditions are optimal, 
+so that you wake up rested and can live a healthy and happy life.
+
+These are just a few examples of the importance of our project 
+and what problems in our every-day lives it can help to solve.
+
 
 ## Theory and technology
 

@@ -2,6 +2,7 @@ package no.ntnu.idata2304.group1.server.network.clients;
 
 import java.io.EOFException;
 import java.io.IOException;
+import java.util.logging.Logger;
 import javax.net.ssl.SSLSocket;
 import no.ntnu.idata2304.group1.data.network.Message;
 import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
@@ -18,6 +19,8 @@ public abstract class ClientRunnable implements Runnable {
     private SSLSocket socket;
     private RequestHandler handler;
     private boolean running;
+
+    private static final Logger logger = Logger.getLogger(ClientRunnable.class.getName());
 
     /**
      * Instantiates a new Client runnable.
@@ -41,6 +44,8 @@ public abstract class ClientRunnable implements Runnable {
             try {
                 Message request = getRequest();
                 if (request != null) {
+                    logger.info(
+                            "Received request from " + socket.getInetAddress().getHostAddress());
                     Message response = handler.getResponse(request);
                     sendResponse(response);
                 }
@@ -66,7 +71,7 @@ public abstract class ClientRunnable implements Runnable {
      *
      * @param response the response
      * @throws IllegalArgumentException the illegal argument exception
-     * @throws IOException              the io exception
+     * @throws IOException the io exception
      */
     public abstract void sendResponse(Message response)
             throws IllegalArgumentException, IOException;
@@ -76,7 +81,7 @@ public abstract class ClientRunnable implements Runnable {
      *
      * @return request
      * @throws IllegalArgumentException the illegal argument exception
-     * @throws IOException              the io exception
+     * @throws IOException the io exception
      */
     protected abstract Message getRequest() throws IllegalArgumentException, IOException;
 
@@ -101,7 +106,7 @@ public abstract class ClientRunnable implements Runnable {
     /**
      * Set as running.
      */
-    public synchronized void setAsRunning(){
+    public synchronized void setAsRunning() {
         running = true;
     }
 }

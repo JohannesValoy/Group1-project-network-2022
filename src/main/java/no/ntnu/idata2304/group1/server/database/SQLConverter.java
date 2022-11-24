@@ -12,8 +12,7 @@ import no.ntnu.idata2304.group1.data.SensorRecord;
 /**
  * A class for converting SQL results to Java objects
  */
-// TODO: Need to dedice if we want to use this or not. The optional thing would be fetching the data
-// trough with the response class
+
 public class SQLConverter {
 
     private SQLConverter() {}
@@ -34,7 +33,7 @@ public class SQLConverter {
             while (result.next()) {
                 Room room;
 
-                String roomName = result.getString("name");
+                String roomName = result.getString("RoomName");
                 if (!roomLogs.containsKey(roomName)) {
                     roomLogs.put(roomName, new Room(roomName));
                 }
@@ -42,7 +41,7 @@ public class SQLConverter {
 
                 Sensor s;
 
-                String sensorName = result.getString("name");
+                String sensorName = result.getString("SensorName");
                 String sensorType = result.getString("type");
                 s = room.findSensorByName(sensorName);
                 if (s == null) {
@@ -67,10 +66,10 @@ public class SQLConverter {
         try {
             while (result.next()) {
                 if (room == null) {
-                    room = new Room(result.getString("name"));
+                    room = new Room(result.getString("RoomName"));
                 }
                 Sensor s;
-                String sensorName = result.getString("name");
+                String sensorName = result.getString("NodeName");
                 String sensorType = result.getString("type");
                 s = room.findSensorByName(sensorName);
                 if (s == null) {
@@ -89,8 +88,19 @@ public class SQLConverter {
         return room;
     }
 
-    public static List<String> GetRoomsCommand(String sqlQuery) {
-        return null;
+    public static List<String> getRoomsName(ResultSet result) {
+        List<String> roomNames = new ArrayList<>();
+        try {
+            while (result.next()) {
+                roomNames.add(result.getString("RoomName"));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while trying to fetch the information");
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Error while converting result to room logs");
+        }
+        return roomNames;
     }
 
 }

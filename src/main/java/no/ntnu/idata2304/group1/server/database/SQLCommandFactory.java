@@ -26,7 +26,7 @@ public class SQLCommandFactory {
             + " INNER JOIN " + Tables.ROOMS.getTable() + " ON " + Tables.ROOMS.getTable() + ".id = "
             + Tables.TEMP.getTable() + ".roomid" + " INNER JOIN " + Tables.NODE.getTable() + " ON "
             + Tables.NODE.getTable() + ".id = " + Tables.TEMP.getTable() + ".nodeid AND "
-            + Tables.NODE.getTable() + ".type LIKE ? WHERE rooms.name LIKE ?";
+            + Tables.NODE.getTable() + ".type LIKE ? WHERE rooms.RoomName LIKE ?";
 
     /**
      * Enum for linking the different kind of tables in the database
@@ -98,7 +98,10 @@ public class SQLCommandFactory {
                     throw new IllegalArgumentException("The rooms cannot contain null");
                 }
                 ResultSet result = statement.executeQuery();
-                roomList.add(SQLConverter.convertToRoom(result));
+                Room roomData = SQLConverter.convertToRoom(result);
+                if (roomData != null) {
+                    roomList.add(roomData);
+                }
             }
         } catch (SQLException e) {
             LOGGER.severe("Could not get room data: " + e.getMessage());
@@ -151,12 +154,12 @@ public class SQLCommandFactory {
         String sqlQuery = SELECT + Tables.ROOMS.getTable();
         List<String> rooms = null;
         if (filter != null) {
-            sqlQuery += " WHERE " + Tables.ROOMS.getTable() + ".name LIKE \"" + filter + "\"";
+            sqlQuery += " WHERE " + Tables.ROOMS.getTable() + ".roomName LIKE \"" + filter + "\"";
         }
         try (DBConnector connector = DBConnectorPool.getInstance().getConnector();
                 PreparedStatement statement = connector.prepareStatement(sqlQuery)) {
             ResultSet result = statement.executeQuery();
-            rooms = SQLConverter.GetRoomsCommand(sqlQuery);
+            rooms = SQLConverter.getRoomsName(result);
         } catch (SQLException e) {
             LOGGER.severe("Could not get rooms: " + e.getMessage());
             throw e;
