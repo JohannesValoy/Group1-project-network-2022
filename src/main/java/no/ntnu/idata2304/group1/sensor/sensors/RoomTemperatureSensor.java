@@ -1,5 +1,7 @@
 package no.ntnu.idata2304.group1.sensor.sensors;
 
+import no.ntnu.idata2304.group1.data.Sensor;
+
 /**
  * Imitates a temperature sensor placed in a room
  */
@@ -11,7 +13,8 @@ public class RoomTemperatureSensor extends BoundedSensor {
     /**
      * Create a sensor which will imitate temperature readings within a room
      */
-    public RoomTemperatureSensor() {
-        super(NORMAL_ROOM_TEMPERATURE, MIN_ROOM_TEMPERATURE, MAX_ROOM_TEMPERATURE);
+    public RoomTemperatureSensor(String name) {
+        super(Sensor.Types.TEMPERATURE, name, NORMAL_ROOM_TEMPERATURE, MIN_ROOM_TEMPERATURE,
+                MAX_ROOM_TEMPERATURE);
     }
 }

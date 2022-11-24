@@ -14,6 +14,7 @@ import javax.net.ssl.SSLSocketFactory;
 import no.ntnu.idata2304.group1.clientapp.app2.network.SSLTrustFactory;
 import no.ntnu.idata2304.group1.data.Room;
 import no.ntnu.idata2304.group1.data.network.Message;
+import no.ntnu.idata2304.group1.data.network.requests.add.AddMessage;
 import no.ntnu.idata2304.group1.data.network.requests.get.GetLogsMessage;
 import no.ntnu.idata2304.group1.data.network.responses.DataMessage;
 import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
@@ -79,6 +80,15 @@ public class NodeSocket {
 
         }
         return data;
+    }
+
+    public void sendData(double lastTemperatureReading, String apiKey) {
+        try {
+            output.writeObject(
+                    new AddMessage(AddMessage.Command.LOG, apiKey, lastTemperatureReading));
+        } catch (Exception e) {
+
+        }
     }
 
 }

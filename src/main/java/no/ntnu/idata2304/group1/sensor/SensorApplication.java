@@ -1,28 +1,27 @@
 package no.ntnu.idata2304.group1.sensor;
 
+import java.io.IOException;
 import no.ntnu.idata2304.group1.sensor.network.NodeSocket;
-import no.ntnu.idata2304.group1.sensor.sensors.Sensor;
+import no.ntnu.idata2304.group1.sensor.sensors.BoundedSensor;
+import no.ntnu.idata2304.group1.sensor.sensors.RoomTemperatureSensor;
 
 /**
  * Represents the whole application, including the logic.
  */
-public class SensorApplication {
+public class SensorApplication implements Runnable {
     private static final long SLEEP_DURATION_MS = 2000;
-    double lastTemperatureReading;
-    double lastHumidityReading;
-    NodeSocket nodeSocket;
-    Sensor temperatureSensor;
-    Sensor humiditySensor;
-    private static String serverAdress = "localhost";
-    private static int serverPort = 6008;
+    private double lastTemperatureReading;
+    private NodeSocket nodeSocket;
+    private BoundedSensor sensor;
+    private String apiKey;
 
     /**
      * Creates a new sensor application.
      */
-    public SensorApplication() {
-        nodeSocket = new NodeSocket(serverAdress, serverPort);
-        temperatureSensor = new Sensor(Sensor.Types.TEMPERATURE);
-        humiditySensor = new Sensor(Sensor.Types.HUMIDITY);
+    public SensorApplication(String name, String apiKey, String serverAdresse, int serverPort,
+            String customCerts) throws IOException {
+        nodeSocket = new NodeSocket(serverAdresse, serverPort);
+        sensor = new RoomTemperatureSensor(name);
     }
 
     /**
@@ -33,43 +32,19 @@ public class SensorApplication {
 
 
     public void run() throws IllegalStateException {
-        initializeSensors();
-        while (true) {
-            readAllSensors();
-            sendDataToServer();
-            powerNap();
-        }
+        readAllSensors();
+        sendDataToServer();
+        powerNap();
     }
 
-    /**
-     * Initializes all the sensors
-     *
-     * @throws IllegalStateException If some sensors are not found
-     */
-    private void initializeSensors() throws IllegalStateException {
-        SensorProvider sensorProvider = SensorProvider.getInstance();
-        temperatureSensor = sensorProvider.getTemperatureSensor();
-        if (temperatureSensor == null) {
-            throw new IllegalStateException("Temperature sensor not found");
-        }
-        humiditySensor = sensorProvider.getHumiditySensor();
-        if (humiditySensor == null) {
-            throw new IllegalStateException("Humidity sensor not found");
-        }
-        nodeSocket = new NodeSocket()
-    }
 
     private void readAllSensors() {
         System.out.println("Reading sensor data...");
-        lastTemperatureReading = temperatureSensor.readValue();
-        lastHumidityReading = humiditySensor.readValue();
+        lastTemperatureReading = sensor.readValue();
     }
 
     private void sendDataToServer() {
-
-        System.out.println("Sending data to server:");
-        System.out.println("  temp: " + lastTemperatureReading + "C");
-        System.out.println("");
+        nodeSocket.sendData(lastTemperatureReading, apiKey);
     }
 
     private void powerNap() {
