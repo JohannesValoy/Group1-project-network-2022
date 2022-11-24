@@ -100,13 +100,11 @@ public class RoomWindowController {
         sensorChart.setPrefSize(400, 350);
         pane.setPrefSize(420, 420);
         HBox.setPrefSize(420, 420);
-        for (int i = 0; i < HBox.getChildren().size(); i++) {
+        for (int i = 1; i < HBox.getChildren().size(); i++) {
             try {
-                HBox.getChildren().remove(1);
+                HBox.getChildren().remove(i);
             } catch (Exception e) {
-                // TODO: fix this error
-                System.out.println(
-                        "Error closing all the sensors. Error in contractWindow in RoomWindowController");
+                
             }
         }
     }

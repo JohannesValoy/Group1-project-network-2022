@@ -57,7 +57,7 @@ public class MainController extends Application {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Could not connect to server");
-            alert.setContentText(e.getMessage()+ " Make sure the server is running and all the details entered are correct");
+            alert.setContentText(e.getMessage()+ " - Make sure the server is running and all the details entered are correct");
             alert.showAndWait();
             System.exit(0);
         } catch (ClassNotFoundException e) {
