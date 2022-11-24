@@ -20,8 +20,9 @@ public class SensorApplication implements Runnable {
      */
     public SensorApplication(String name, String apiKey, String serverAdresse, int serverPort,
             String customCerts) throws IOException {
-        nodeSocket = new NodeSocket(serverAdresse, serverPort);
+        nodeSocket = new NodeSocket(serverAdresse, serverPort, customCerts);
         sensor = new RoomTemperatureSensor(name);
+        this.apiKey = apiKey;
     }
 
     /**
