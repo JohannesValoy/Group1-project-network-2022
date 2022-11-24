@@ -3,8 +3,11 @@ package no.ntnu.idata2304.group1.clientapp.app2.ui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -15,7 +18,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import no.ntnu.idata2304.group1.clientapp.app2.network.ClientSocket;
 import no.ntnu.idata2304.group1.data.Room;
-import no.ntnu.idata2304.group1.data.Sensor;
 
 /**
  * TODO: intergrate better with ClienSocket
@@ -28,6 +30,7 @@ public class MainController extends Application {
     private FlowPane flowPane;
     private ArrayList<String> rooms;
     private ClientSocket clientSocket;
+    private ArrayList<Room> clientRooms;
 
 
 
@@ -41,21 +44,16 @@ public class MainController extends Application {
     public void start(Stage stage) {
         this.roomWindowControllers = new ArrayList<>();
         this.rooms = new ArrayList<>();
-        ArrayList<Room> clientRooms = new ArrayList<>();
+        this.clientRooms = new ArrayList<>();
 
         for (RoomWindowController roomWindowController : roomWindowControllers) {
             rooms.add(roomWindowController.getRoom().getName());
         }
 
         try {
-
-            System.out.println("Loading Server");
             this.clientSocket = getServerConnection(stage);
-            System.out.println("obtaining rooms");
-            clientRooms = clientSocket.getRoomData(rooms);
-            System.out.println("Recieved rooms from server");
+            this.clientRooms = this.clientSocket.getRoomData(rooms);
         } catch (IOException e) {
-            System.out.println("Could not connect to server");
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Could not connect to server");
@@ -63,7 +61,7 @@ public class MainController extends Application {
             alert.showAndWait();
             System.exit(0);
         } catch (ClassNotFoundException e) {
-            Alert alert = new Alert(AlertType.ERROR, e.getMessage());
+            new Alert(AlertType.ERROR, e.getMessage());
         }
 
         // Loads mainScene
@@ -92,17 +90,41 @@ public class MainController extends Application {
                 addRoom(room, stage);
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                Alert alert = new Alert(AlertType.ERROR, e.getMessage());
+                new Alert(AlertType.ERROR, e.getMessage());
                 e.printStackTrace();
             }
         }
-        // Example rooms.
-        // try {
-        //     addExampleRooms(stage);
-        // } catch (IOException e) {
-        //     new Alert(Alert.AlertType.WARNING, e.getMessage());
-        // }
     }
+
+    public void updateRoomData(){
+            Timer timer = new Timer();
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    Platform.runLater(() -> {
+                            try {
+                                for(Room clientRoom : clientSocket.getRoomData(rooms)){
+                                    for(RoomWindowController roomWindowController : roomWindowControllers){
+                                        if(roomWindowController.getRoom().getName().equals(clientRoom.getName())){
+                                            roomWindowController.setRoom(clientRoom);
+                                        }
+                                    }
+                                }
+                            } catch (IOException e) {
+                                Alert alert = new Alert(AlertType.ERROR);
+                                alert.setTitle("Error");
+                                alert.setHeaderText("Could not connect to server");
+                                alert.setContentText(e.getMessage());
+                                alert.showAndWait();
+                                System.exit(0);
+                            } catch (ClassNotFoundException e) {
+                                new Alert(AlertType.ERROR, e.getMessage());
+                            }
+                    });
+                }
+            }, 1, 5000);
+    }
+
 
 
     /**
@@ -163,28 +185,6 @@ public class MainController extends Application {
         stage.setScene(scene);
         stage.show();
         return stage;
-    }
-
-    /**
-     * TODO: Remove example methods Adds 10 example rooms to the roomWindowControllers
-     */
-    public void addExampleRooms(Stage stage) throws IOException {
-        int n = 0;
-        while (n <= 2) {
-            Room room = new Room(n, "Room From AddExampleRooms" + n);
-            addRoom(room, stage);
-            addExampleSensorsLive(n);
-            n++;
-        }
-    }
-
-    public void addExampleSensorsLive(int number) {
-        ArrayList<Sensor> sensorList = new ArrayList<>();
-        for (int count = 0; count < 3; count++) {
-            Sensor sensor = new Sensor(Sensor.Types.TEMPERATURE, number + "");
-            sensorList.add(sensor);
-        }
-        roomWindowControllers.get(number).getRoom().setSensorList(sensorList);
     }
 
 
