@@ -1,5 +1,5 @@
 --- Some test rooms ---
-INSERT INTO rooms (NAME) VALUES 
+INSERT INTO rooms (RoomName) VALUES 
 ('C220'),
 ("C231"),
 ("C450"),
@@ -13,7 +13,7 @@ INSERT INTO rooms (NAME) VALUES
 --- A bunch of sensor nodes that is supposed to send data to the server ---
 --- the key is a api key that is used to identify the sensor node so it ineeds to be uniqe for each node---
 
-INSERT INTO NODES(Name,key,roomID,type) VALUES 
+INSERT INTO NODES(Nodename,key,roomID,type) VALUES 
 ('Pete','abcdefhijklm',1,'Temperature'),
 ('Rasp91','123456789000',2,'Temperature'),
 ('Ard3',"dskfsafsjfs7",3,'Temperature'),

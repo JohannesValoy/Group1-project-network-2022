@@ -136,8 +136,8 @@ public class DBConnector implements Closeable {
                 busy = false;
                 throw e;
             }
-
         }
+        busy = false;
         return result;
 
     }
