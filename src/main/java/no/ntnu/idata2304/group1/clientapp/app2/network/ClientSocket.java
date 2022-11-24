@@ -12,6 +12,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import no.ntnu.idata2304.group1.data.Room;
+import no.ntnu.idata2304.group1.data.Sensor;
 import no.ntnu.idata2304.group1.data.network.Message;
 import no.ntnu.idata2304.group1.data.network.requests.get.GetLogsMessage;
 import no.ntnu.idata2304.group1.data.network.responses.DataMessage;
@@ -94,8 +95,7 @@ public class ClientSocket {
      */
     public ArrayList<Room> getRoomData(List<String> rooms)
             throws IOException, ClassNotFoundException {
-        output.writeObject(
-                new GetLogsMessage(GetLogsMessage.Logs.TEMPERATURE, (ArrayList<String>) rooms));
+        output.writeObject(new GetLogsMessage(Sensor.Types.TEMPERATURE, (ArrayList<String>) rooms));
         Message messageResponse = response();
         ArrayList<Room> data = new ArrayList<>();
         if (messageResponse.getType() == Message.Types.OK) {

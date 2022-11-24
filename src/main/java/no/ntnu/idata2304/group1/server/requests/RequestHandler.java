@@ -2,6 +2,8 @@ package no.ntnu.idata2304.group1.server.requests;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import no.ntnu.idata2304.group1.data.Room;
 import no.ntnu.idata2304.group1.data.network.Message;
 import no.ntnu.idata2304.group1.data.network.requests.UpdateMessage;
 import no.ntnu.idata2304.group1.data.network.requests.add.AddMessage;
@@ -100,15 +102,18 @@ public class RequestHandler {
         DataMessage response = null;
         switch (request.getCommand()) {
             case DATA:
-                response = handleGetData((GetLogsMessage) request);
+                GetLogsMessage logsRequest = (GetLogsMessage) request;
+                List<Room> rooms = SQLCommandFactory.getRoomData(logsRequest.getRooms(),
+                        logsRequest.getLimit(), logsRequest.getFrom(), logsRequest.getTo(),
+                        logsRequest.getDataType());
+                response = new DataMessage(rooms);
                 break;
             case ROOMS:
                 GetRoomsMessage convertedRequest = (GetRoomsMessage) request;
-                String sqlQuery = SQLCommandFactory.getRooms(convertedRequest.getFilter());
-                ResultSet result = connector.executeQuery(sqlQuery);
-                response = new DataMessage(SQLConverter.convertToRooms(result));
+                List<String> roomNames = SQLCommandFactory.getRooms(convertedRequest.getFilter());
+                response = new DataMessage(String.class, roomNames);
                 break;
-            case NODES:
+            case Sensor:
                 // TODO: Implements this
                 break;
             default:
@@ -120,15 +125,7 @@ public class RequestHandler {
 
     private DataMessage handleGetData(GetLogsMessage request) throws SQLException {
         DataMessage response = null;
-        if (request.getDataType().equals(GetLogsMessage.Logs.TEMPERATURE)) {
-            String sqlQuery = SQLCommandFactory.getTemperature(request.getRooms());
-            ResultSet result = connector.executeQuery(sqlQuery);
-            response = new DataMessage(SQLConverter.getRoomLogResults(result));
-        } else if (request.getDataType().equals(GetLogsMessage.Logs.HUMIDITY)) {
-            // TODO Implement this
-        } else {
-            throw new IllegalArgumentException("Unknown data type");
-        }
+
         return response;
     }
 
