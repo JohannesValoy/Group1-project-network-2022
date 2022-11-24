@@ -13,7 +13,7 @@
       <top>
          <Label alignment="CENTER" text="Weather station 1.0">
             <font>
-               <Font name="System Bold Italic" size="24.0" />
+               <Font name="Calibri" size="24.0" />
             </font>
          </Label>
       </top>

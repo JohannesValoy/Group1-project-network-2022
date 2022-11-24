@@ -14,6 +14,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import no.ntnu.idata2304.group1.data.Room;
 import no.ntnu.idata2304.group1.data.SensorRecord;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -161,8 +163,8 @@ public class RoomWindowController {
         }
         series.setName(this.room.getListOfSensors().get(sensorID).getTypeName());
         this.title.setText("Room Number " + this.room.getName());
-        List<SensorRecord> sensorReadings =
-                this.room.getListOfSensors().get(sensorID).getHistoryLog();
+        List<SensorRecord> sensorReadings = this.room.getListOfSensors().get(sensorID).getHistoryLog();
+                Collections.reverse(sensorReadings);
         for (SensorRecord sensorReading : sensorReadings) {
             
             series.getData()
