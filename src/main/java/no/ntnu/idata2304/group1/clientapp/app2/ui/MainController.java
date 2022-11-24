@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import no.ntnu.idata2304.group1.clientapp.app2.network.ClientSocket;
 import no.ntnu.idata2304.group1.data.Room;
@@ -42,9 +43,11 @@ public class MainController extends Application {
 
         String hostName = null;
         int portNumber = 0;
+        String certPathStr = null;
         for (RoomWindowController roomWindowController : roomWindowControllers) {
             rooms.add(roomWindowController.getRoom().getName());
         }
+
         try {
             TextInputDialog textDialogHostName = new TextInputDialog("Host IP (Ex: 10.24.90.163)");
             textDialogHostName.setTitle("Host Name");
@@ -64,19 +67,37 @@ public class MainController extends Application {
             if (result.isPresent()) {
                 portNumber = Integer.parseInt(portNumberResult.get());
             }
+             
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open Resource File");
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Text Files", "*.cer"));
+            fileChooser.setInitialDirectory(new java.io.File("C:\\Users\\johan\\Desktop\\Group1testfolder\\src\\test\\resources\\no\\ntnu\\idata2304\\group1\\clientapp\\app2\\network\\trustedCerts"));
+            fileChooser.showOpenDialog(stage);
+            Optional<String> certPath = Optional.of(fileChooser.getInitialDirectory().getAbsolutePath());
+            if (certPath.isPresent()) {
+                certPathStr = certPath.get();
+            }
+
+            System.out.println(certPathStr);
+            System.out.println("Loading UI");
 
             System.out.println("Loading Server");
             clientSocket = new ClientSocket(hostName, portNumber,
-                    "C:\\Users\\johan\\Desktop\\Group1testfolder\\src\\test\\resources\\no\\ntnu\\idata2304\\group1\\clientapp\\app2\\networktrustedCerts");
+            certPath.get());
             System.out.println("obtaining rooms");
             int clientIndex = 0;
             ArrayList<Room> clientRooms = clientSocket.getRoomData(rooms);
+            System.out.println("Recieved rooms from server");
             while(clientIndex < clientRooms.size()){
+                System.out.println("Loading room: " + clientRooms.get(clientIndex).getName());
                 RoomWindowController roomWindowController = new RoomWindowController();
                 roomWindowController.setRoom(clientRooms.get(clientIndex));
                 roomWindowControllers.add(roomWindowController);
                 clientIndex++;
             }
+           
+
         } catch (IOException e) {
             System.out.println("Could not connect to server");
             Alert alert = new Alert(AlertType.ERROR);
@@ -108,17 +129,17 @@ public class MainController extends Application {
         this.flowPane.prefWidthProperty().bind(stage.widthProperty());
         this.flowPane.prefHeightProperty().bind(stage.heightProperty());
         // Example rooms.
-        try {
-            addExampleRooms(stage);
-        } catch (IOException e) {
-            new Alert(Alert.AlertType.WARNING, e.getMessage());
-        }
+        // try {
+        //     addExampleRooms(stage);
+        // } catch (IOException e) {
+        //     new Alert(Alert.AlertType.WARNING, e.getMessage());
+        // }
     }
 
 
     /**
      * Loads the rooms into the main window
-     * 
+     * abcd
      * @param stage the main stage
      * @throws IOException if the fxml file could not be loaded;
      */
