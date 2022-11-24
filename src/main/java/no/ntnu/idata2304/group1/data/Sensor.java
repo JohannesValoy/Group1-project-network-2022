@@ -15,7 +15,7 @@ public class Sensor implements Serializable {
      * The Different types of sensors.
      */
     public enum Types {
-        TEMPERATURE("Temperature"), HUMIDITY("Humidity"), Undefined("Undefined");
+        TEMPERATURE("Temperature"), HUMIDITY("Humidity"), UNDEFINED("Undefined");
 
         private String name;
 
@@ -48,8 +48,8 @@ public class Sensor implements Serializable {
             if (name == null || name.isEmpty()) {
                 throw new IllegalArgumentException("Name can't be null or empty");
             }
-            Types result = Undefined;
-            for (int i = 0; i < Types.values().length && result == null; i++) {
+            Types result = UNDEFINED;
+            for (int i = 0; i < Types.values().length && result == UNDEFINED; i++) {
                 Types type = Types.values()[i];
                 if (type.getName().equalsIgnoreCase(name)) {
                     result = type;
