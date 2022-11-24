@@ -11,15 +11,20 @@ import no.ntnu.idata2304.group1.server.requests.RequestHandler;
 
 /**
  * Responsible for sending and receiving network packages
- * 
+ *
  * @author Mathias J. Kirkeby
  */
-
 public abstract class ClientRunnable implements Runnable {
     private SSLSocket socket;
     private RequestHandler handler;
     private boolean running;
 
+    /**
+     * Instantiates a new Client runnable.
+     *
+     * @param socket the socket
+     * @throws IOException the io exception
+     */
     protected ClientRunnable(SSLSocket socket) throws IOException {
         this.socket = socket;
         this.handler = new RequestHandler();
@@ -58,22 +63,26 @@ public abstract class ClientRunnable implements Runnable {
 
     /**
      * A function that sends the data to the client
+     *
+     * @param response the response
+     * @throws IllegalArgumentException the illegal argument exception
+     * @throws IOException              the io exception
      */
     public abstract void sendResponse(Message response)
             throws IllegalArgumentException, IOException;
 
     /**
      * Tries to recieve a message from the client. If no message is recieved, it will return null
-     * 
-     * @return
-     * @throws IllegalArgumentException
-     * @throws IOException
+     *
+     * @return request
+     * @throws IllegalArgumentException the illegal argument exception
+     * @throws IOException              the io exception
      */
     protected abstract Message getRequest() throws IllegalArgumentException, IOException;
 
     /**
      * Checks if the client is closed
-     * 
+     *
      * @return True if the client is closed
      */
     public boolean isClosed() {
@@ -82,13 +91,16 @@ public abstract class ClientRunnable implements Runnable {
 
     /**
      * Checks if the client is running
-     * 
+     *
      * @return True if the client is running
      */
     public boolean isRunning() {
         return running;
     }
 
+    /**
+     * Set as running.
+     */
     public synchronized void setAsRunning(){
         running = true;
     }

@@ -10,9 +10,9 @@ import java.util.concurrent.Executors;
  */
 public class Main {
 
-    private static String SERVER_ADDRESS = "localhost";
+    private static String SERVER_ADDRESS = "10.24.90.163";
     private static int SERVER_PORT = 6008;
-    private static String CUSTOMCERTS = null;
+    private static String CUSTOMCERTS = "C:\\Users\\johan\\Desktop\\Group1testfolder\\src\\test\\resources\\no\\ntnu\\idata2304\\group1\\clientapp\\app2\\network\\trustedCerts";
 
     private static ArrayList<SensorApplication> sensors = new ArrayList<>();
 
@@ -20,8 +20,9 @@ public class Main {
     // Only simulating 10 sensors. The keys are within the testData that is injected into the test
     // database. Should be in another file, but this is just a hacky solution.
     private static String[] keys =
-            {"abc-def-hij-klm", "123-456-789-000", "dsk-fsa-fsj-fs7", "iof-fsa-gap-fap"};
-    private static String[] names = {"Sensor 1", "Sensor 2", "Sensor 3", "Sensor 4"};
+            {"abcdefhijklm", "123456789000", "dskfsafsjfs7", "ioffsagapfap"};
+    private static String[] names = {"Sensor 1", "Sensor 2", "Sensor 3", "Sensor 4", "Sensor 5",
+            "Sensor 6", "Sensor 7", "Sensor 8", "Sensor 9", "Sensor 10"};
     private static ExecutorService pool =
             Executors.newFixedThreadPool(Math.min(keys.length, names.length));
 
@@ -39,21 +40,22 @@ public class Main {
         System.out.println("Starting the application...");
         for (int i = 0; i < keys.length && i < names.length; i++) {
             try {
-                SensorApplication sensor = new SensorApplication(keys[i], names[i], SERVER_ADDRESS,
+                SensorApplication sensor = new SensorApplication(names[i], keys[i], SERVER_ADDRESS,
                         SERVER_PORT, CUSTOMCERTS);
                 sensors.add(sensor);
-                pool.execute(sensor);
+                
             } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
             }
-            while (true) {
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                }
-                for (SensorApplication s : sensors) {
-                    pool.execute(s);
-                }
+            
+        }
+        while (true) {
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+            }
+            for (SensorApplication s : sensors) {
+                pool.execute(s);
             }
         }
     }

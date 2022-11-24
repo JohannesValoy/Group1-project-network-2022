@@ -23,7 +23,6 @@ import no.ntnu.idata2304.group1.data.network.responses.OKMessage;
 
 /**
  * Socket class on client side to connect and read from server
- * 
  */
 public class NodeSocket {
 
@@ -31,6 +30,13 @@ public class NodeSocket {
     private ObjectInputStream input;
     private ObjectOutputStream output;
 
+    /**
+     * Instantiates a new Node socket.
+     *
+     * @param hostname the hostname
+     * @param port     the port
+     * @throws IOException the io exception
+     */
     public NodeSocket(String hostname, int port) throws IOException {
         SocketFactory factory = SSLSocketFactory.getDefault();
         this.socket = (SSLSocket) factory.createSocket(hostname, port);
@@ -39,6 +45,14 @@ public class NodeSocket {
         this.input = new ObjectInputStream(socket.getInputStream());
     }
 
+    /**
+     * Instantiates a new Node socket.
+     *
+     * @param hostname            the hostname
+     * @param port                the port
+     * @param folderForCustomCert the folder for custom cert
+     * @throws IOException the io exception
+     */
     public NodeSocket(String hostname, int port, String folderForCustomCert) throws IOException {
         SSLContext context = SSLTrustFactory.createTrustStore(folderForCustomCert);
         if (context == null) {
@@ -51,6 +65,13 @@ public class NodeSocket {
         this.input = new ObjectInputStream(socket.getInputStream());
     }
 
+    /**
+     * Response message.
+     *
+     * @return the message
+     * @throws IOException            the io exception
+     * @throws ClassNotFoundException the class not found exception
+     */
     public Message response() throws IOException, ClassNotFoundException {
 
         Message messageResponse = (Message) input.readObject();
@@ -66,6 +87,14 @@ public class NodeSocket {
     }
 
 
+    /**
+     * Add room data array list.
+     *
+     * @param rooms the rooms
+     * @return the array list
+     * @throws IOException            the io exception
+     * @throws ClassNotFoundException the class not found exception
+     */
     public ArrayList<Room> addRoomData(List<String> rooms)
             throws IOException, ClassNotFoundException {
         output.writeObject(new GetLogsMessage(Sensor.Types.TEMPERATURE, (ArrayList<String>) rooms));
@@ -82,6 +111,12 @@ public class NodeSocket {
         return data;
     }
 
+    /**
+     * Send data.
+     *
+     * @param lastTemperatureReading the last temperature reading
+     * @param apiKey                 the api key
+     */
     public void sendData(double lastTemperatureReading, String apiKey) {
         try {
             output.writeObject(

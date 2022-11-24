@@ -17,11 +17,19 @@ public class SensorApplication implements Runnable {
 
     /**
      * Creates a new sensor application.
+     *
+     * @param name          the name
+     * @param apiKey        the api key
+     * @param serverAdresse the server adresse
+     * @param serverPort    the server port
+     * @param customCerts   the custom certs
+     * @throws IOException the io exception
      */
     public SensorApplication(String name, String apiKey, String serverAdresse, int serverPort,
             String customCerts) throws IOException {
-        nodeSocket = new NodeSocket(serverAdresse, serverPort);
+        nodeSocket = new NodeSocket(serverAdresse, serverPort, customCerts);
         sensor = new RoomTemperatureSensor(name);
+        this.apiKey = apiKey;
     }
 
     /**

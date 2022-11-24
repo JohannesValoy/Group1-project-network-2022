@@ -9,7 +9,7 @@ public class HTTPResponse extends HTTPMessage {
 
     /**
      * Creates a new HTTPResponse from a message
-     * 
+     *
      * @param message - the message to create the response from
      */
     public HTTPResponse(String message) {
@@ -19,6 +19,12 @@ public class HTTPResponse extends HTTPMessage {
         statusMessage = startLine[2];
     }
 
+    /**
+     * Instantiates a new Http response.
+     *
+     * @param statusCode    the status code
+     * @param statusMessage the status message
+     */
     public HTTPResponse(int statusCode, String statusMessage) {
         super("");
         this.statusCode = statusCode;
@@ -27,7 +33,7 @@ public class HTTPResponse extends HTTPMessage {
 
     /**
      * Returns the status code of the response
-     * 
+     *
      * @return the status code
      */
     public int getStatusCode() {
@@ -36,7 +42,7 @@ public class HTTPResponse extends HTTPMessage {
 
     /**
      * Returns the status message of the response
-     * 
+     *
      * @return the status message
      */
     public String getStatusMessage() {

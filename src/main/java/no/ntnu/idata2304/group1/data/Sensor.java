@@ -59,8 +59,6 @@ public class Sensor implements Serializable {
     }
 
     private List<SensorRecord> historyLog; // Log of all readings from the sensor
-    private Integer currentLevel = 0; // Current reading
-    private Random randomGen; // Random generator making example data
     private final Types type; // Type of sensor
     private String name; // ID of sensor
 
@@ -72,7 +70,6 @@ public class Sensor implements Serializable {
      */
     public Sensor(Types type, String name) {
         this.historyLog = new LinkedList<>();
-        this.randomGen = new Random();
         this.type = type;
         this.name = name;
     }

@@ -6,12 +6,21 @@ import java.io.OutputStream;
 import javax.net.ssl.SSLSocket;
 import no.ntnu.idata2304.group1.data.network.Message;
 
+/**
+ * The type Http client.
+ */
 // TODO: Implement the HTTPClient class. Missing the send and receive methods.
 public class HTTPClient extends ClientRunnable {
 
     private InputStream input;
     private OutputStream output;
 
+    /**
+     * Instantiates a new Http client.
+     *
+     * @param socket the socket
+     * @throws IOException the io exception
+     */
     public HTTPClient(SSLSocket socket) throws IOException {
         super(socket);
         this.input = socket.getInputStream();
