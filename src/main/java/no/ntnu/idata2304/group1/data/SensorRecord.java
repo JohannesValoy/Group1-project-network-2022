@@ -1,11 +1,11 @@
 package no.ntnu.idata2304.group1.data;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * A class for storing sensor data
  */
-public record SensorRecord(Date date, double value) implements Serializable{
-  
+public record SensorRecord(LocalDateTime date, double value) implements Serializable {
+
 }

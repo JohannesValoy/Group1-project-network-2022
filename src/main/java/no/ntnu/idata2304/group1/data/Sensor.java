@@ -2,7 +2,7 @@ package no.ntnu.idata2304.group1.data;
 
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * Represents a sensor doing measurement. Sensor type is decided by string type.
  */
-public class Sensor implements Serializable{
+public class Sensor implements Serializable {
     /**
      * The Different types of sensors.
      */
@@ -89,10 +89,13 @@ public class Sensor implements Serializable{
 
     /**
      * Updates sensor readings
+     * 
+     * @deprecated this was meant to be used in testing for generating random data.
      */
+    @Deprecated
     public void updateReading() {
         this.currentLevel = (this.currentLevel + (500 - randomGen.nextInt(1000)) / 200);
-        historyLog.add(new SensorRecord(new Date(), this.currentLevel));
+        historyLog.add(new SensorRecord(LocalDateTime.now(), this.currentLevel));
         System.out.println(historyLog.size());
     }
 
