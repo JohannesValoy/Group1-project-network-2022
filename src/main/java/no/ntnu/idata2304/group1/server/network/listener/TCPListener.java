@@ -26,8 +26,8 @@ public abstract class TCPListener extends Thread implements Closeable {
     /**
      * Creates a new TCP listener.
      *
-     * @param port The port to listen on
-     * @param keyStoreName the key store name
+     * @param port             The port to listen on
+     * @param keyStoreName     the key store name
      * @param keyStorePassword The password to the keystore
      * @throws IOException if the socket fails to connect or the keystore is not found
      */
@@ -69,6 +69,13 @@ public abstract class TCPListener extends Thread implements Closeable {
         }
     }
 
+    /**
+     * Create client runnable.
+     *
+     * @param client the client
+     * @return the client runnable
+     * @throws IOException the io exception
+     */
     public abstract ClientRunnable createClient(SSLSocket client) throws IOException;
 
     @Override

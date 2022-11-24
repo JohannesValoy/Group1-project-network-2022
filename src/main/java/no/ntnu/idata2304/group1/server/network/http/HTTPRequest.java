@@ -1,11 +1,19 @@
 package no.ntnu.idata2304.group1.server.network.http;
 
+/**
+ * The type Http request.
+ */
 public class HTTPRequest extends HTTPMessage {
 
     private String method;
 
     private String path;
 
+    /**
+     * Instantiates a new Http request.
+     *
+     * @param message the message
+     */
     public HTTPRequest(String message) {
         super(message);
         String[] startLine = message.trim().split("\n")[0].split(" ");
@@ -15,8 +23,8 @@ public class HTTPRequest extends HTTPMessage {
 
     /**
      * Returns the method of the request
-     * 
-     * @return
+     *
+     * @return method
      */
     public String getMethod() {
         return method;
@@ -24,7 +32,7 @@ public class HTTPRequest extends HTTPMessage {
 
     /**
      * Returns the path of the request
-     * 
+     *
      * @return the path
      */
     public String getPath() {

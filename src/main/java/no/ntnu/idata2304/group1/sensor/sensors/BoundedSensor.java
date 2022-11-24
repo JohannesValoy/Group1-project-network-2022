@@ -18,9 +18,11 @@ public abstract class BoundedSensor extends Sensor {
     /**
      * Create a sensor which will provide values in a given range
      *
+     * @param type         the type
+     * @param name         the name
      * @param initialValue The initial value for the sensor
-     * @param minValue minimum allowed value
-     * @param maxValue maximum allowed value
+     * @param minValue     minimum allowed value
+     * @param maxValue     maximum allowed value
      */
     protected BoundedSensor(Sensor.Types type, String name, double initialValue, double minValue,
             double maxValue) {
@@ -30,6 +32,11 @@ public abstract class BoundedSensor extends Sensor {
         max = maxValue;
     }
 
+    /**
+     * Read value double.
+     *
+     * @return the double
+     */
     public double readValue() {
         changeCurrentValueRandomly();
         return currentValue;

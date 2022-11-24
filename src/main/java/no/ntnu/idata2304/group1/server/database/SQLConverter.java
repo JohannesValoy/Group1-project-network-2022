@@ -62,6 +62,12 @@ public class SQLConverter {
         return new ArrayList<>(roomLogs.values());
     }
 
+    /**
+     * Convert to rooms list.
+     *
+     * @param result the result
+     * @return the list
+     */
     public static List<Room> convertToRooms(ResultSet result) {
         return null;
     }

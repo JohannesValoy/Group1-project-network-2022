@@ -20,7 +20,6 @@ import no.ntnu.idata2304.group1.data.network.responses.OKMessage;
 
 /**
  * Socket class on client side to connect and read from server
- * 
  */
 public class ClientSocket {
 
@@ -28,6 +27,13 @@ public class ClientSocket {
     private ObjectInputStream input;
     private ObjectOutputStream output;
 
+    /**
+     * Instantiates a new Client socket.
+     *
+     * @param hostname the hostname
+     * @param port     the port
+     * @throws IOException the io exception
+     */
     public ClientSocket(String hostname, int port) throws IOException {
         SocketFactory factory = SSLSocketFactory.getDefault();
         this.socket = (SSLSocket) factory.createSocket(hostname, port);
@@ -36,6 +42,14 @@ public class ClientSocket {
         this.input = new ObjectInputStream(socket.getInputStream());
     }
 
+    /**
+     * Instantiates a new Client socket.
+     *
+     * @param hostname            the hostname
+     * @param port                the port
+     * @param folderForCustomCert the folder for custom cert
+     * @throws IOException the io exception
+     */
     public ClientSocket(String hostname, int port, String folderForCustomCert) throws IOException {
         SSLContext context = SSLTrustFactory.createTrustStore(folderForCustomCert);
         if (context == null) {
@@ -48,6 +62,13 @@ public class ClientSocket {
         this.input = new ObjectInputStream(socket.getInputStream());
     }
 
+    /**
+     * Response message.
+     *
+     * @return the message
+     * @throws IOException            the io exception
+     * @throws ClassNotFoundException the class not found exception
+     */
     public Message response() throws IOException, ClassNotFoundException {
 
         Message messageResponse = (Message) input.readObject();
@@ -63,6 +84,14 @@ public class ClientSocket {
     }
 
 
+    /**
+     * Gets room data.
+     *
+     * @param rooms the rooms
+     * @return the room data
+     * @throws IOException            the io exception
+     * @throws ClassNotFoundException the class not found exception
+     */
     public ArrayList<Room> getRoomData(List<String> rooms)
             throws IOException, ClassNotFoundException {
         output.writeObject(
