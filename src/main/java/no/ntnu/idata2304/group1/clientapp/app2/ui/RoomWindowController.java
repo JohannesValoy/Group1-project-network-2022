@@ -25,20 +25,23 @@ public class RoomWindowController {
     /**
      * The Title.
      */
-    public Label title;
+    @FXML
+    private Label title;
     /**
      * The Pane.
      */
     @FXML
-    public FlowPane pane;
+    private FlowPane pane;
     /**
      * The H box.
      */
-    public FlowPane HBox;
+    @FXML
+    private FlowPane HBox;
     /**
      * The Current temperature.
      */
-    public Label CurrentTemperature;
+    @FXML
+    private Label CurrentTemperature;
     @FXML
     private LineChart<String, Number> sensorChart;
     private Room room;
@@ -54,8 +57,6 @@ public class RoomWindowController {
      * Instantiates a new Room window controller.
      */
     public RoomWindowController() {
-        pane.setPrefSize(420, 420);
-        pane.setStyle("-fx-background-color: grey;" + "-fx-border-radius: 150px;");
     }
 
     /**
@@ -65,6 +66,9 @@ public class RoomWindowController {
      */
     public void setRoom(Room room) {
         this.room = room;
+        
+        pane.setPrefSize(420, 420);
+        pane.setStyle("-fx-background-color: grey;" + "-fx-border-radius: 150px;");
         autoUpdateChart(sensorChart, 0);
     }
 
@@ -119,7 +123,7 @@ public class RoomWindowController {
                     sensorChart.getData().addAll(getChartData(sensorID));
                 } catch (Exception e) {
                     autoUpdate = false;
-                    new Alert(Alert.AlertType.ERROR, e.getMessage()).showAndWait();
+                    new Alert(Alert.AlertType.ERROR, e.getMessage() + " error updating the sensor chart").showAndWait();
                 }
             } else {
                 new Alert(Alert.AlertType.ERROR,
@@ -158,9 +162,7 @@ public class RoomWindowController {
         this.title.setText("Room Number " + this.roomNumber);
         List<SensorRecord> sensorReadings =
                 this.room.getListOfSensors().get(sensorID).getHistoryLog();
-        int i = 0;
         for (SensorRecord sensorReading : sensorReadings) {
-            i++;
             String seconds = sensorReading.date().getSeconds() + "";
             if (sensorReading.date().getSeconds() < 10) {
                 seconds = "0" + seconds;
@@ -170,7 +172,6 @@ public class RoomWindowController {
                             sensorReading.date().getHours() + "."
                                     + sensorReading.date().getMinutes() + "." + seconds,
                             sensorReading.value()));
-            i++;
         }
         ObservableList<XYChart.Series<String, Double>> seriesList =
                 FXCollections.observableArrayList();
