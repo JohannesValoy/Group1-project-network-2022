@@ -98,7 +98,7 @@ public class Room implements Serializable {
      */
     public Sensor findSensorByName(String name) {
         Sensor resultSensor = null;
-        for (int i = 0; i > sensorList.size() && resultSensor == null; i++) {
+        for (int i = 0; i < sensorList.size() && resultSensor == null; i++) {
             Sensor s = sensorList.get(i);
             if (s.getName().equals(name)) {
                 resultSensor = s;
