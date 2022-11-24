@@ -45,7 +45,6 @@ public class RoomWindowController {
     @FXML
     private LineChart<String, Number> sensorChart;
     private Room room;
-    private int roomNumber;
 
     /**
      * The Auto update.
@@ -127,10 +126,10 @@ public class RoomWindowController {
                 }
             } else {
                 new Alert(Alert.AlertType.ERROR,
-                        "Line Chart Failed to Load" + "in room " + roomNumber).showAndWait();
+                        "Line Chart Failed to Load" + "in room " + room.getName()).showAndWait();
             }
         } else {
-            new Alert(Alert.AlertType.ERROR, "Room " + roomNumber + " Failed to load")
+            new Alert(Alert.AlertType.ERROR, "Room " + room.getName() + " Failed to load")
                     .showAndWait();
         }
 
@@ -156,21 +155,21 @@ public class RoomWindowController {
         XYChart.Series<String, Double> series = new XYChart.Series<>();
         if (this.room.getListOfSensors().size() <= sensorID) {
             throw new IllegalArgumentException("Requested sensor " + sensorID + " but room "
-                    + roomNumber + " has " + this.room.getListOfSensors().size() + " sensors");
+                    + room.getName() + " has " + this.room.getListOfSensors().size() + " sensors");
         }
         series.setName(this.room.getListOfSensors().get(sensorID).getTypeName());
-        this.title.setText("Room Number " + this.roomNumber);
+        this.title.setText("Room Number " + this.room.getName());
         List<SensorRecord> sensorReadings =
                 this.room.getListOfSensors().get(sensorID).getHistoryLog();
         for (SensorRecord sensorReading : sensorReadings) {
-            String seconds = sensorReading.date().getSeconds() + "";
-            if (sensorReading.date().getSeconds() < 10) {
-                seconds = "0" + seconds;
+            String second = sensorReading.date().getSecond() + "";
+            if (sensorReading.date().getSecond() < 10) {
+                second = "0" + second;
             }
             series.getData()
                     .add(new XYChart.Data(
-                            sensorReading.date().getHours() + "."
-                                    + sensorReading.date().getMinutes() + "." + seconds,
+                            sensorReading.date().getHour() + "."
+                                    + sensorReading.date().getMinute() + "." + second,
                             sensorReading.value()));
         }
         ObservableList<XYChart.Series<String, Double>> seriesList =

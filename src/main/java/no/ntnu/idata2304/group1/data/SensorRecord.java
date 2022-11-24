@@ -7,5 +7,4 @@ import java.time.LocalDateTime;
  * A class for storing sensor data
  */
 public record SensorRecord(LocalDateTime date, double value) implements Serializable {
-
 }

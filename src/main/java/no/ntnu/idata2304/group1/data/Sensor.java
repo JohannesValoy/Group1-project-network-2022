@@ -88,24 +88,11 @@ public class Sensor implements Serializable {
     }
 
     /**
-     * Updates sensor readings
-     * 
-     * @deprecated this was meant to be used in testing for generating random data.
-     */
-    @Deprecated
-    public void updateReading() {
-        this.currentLevel = (this.currentLevel + (500 - randomGen.nextInt(1000)) / 200);
-        historyLog.add(new SensorRecord(LocalDateTime.now(), this.currentLevel));
-        System.out.println(historyLog.size());
-    }
-
-    /**
      * Returns the history log of the sensor.
      * 
      * @return List historyLog.
      */
     public List<SensorRecord> getHistoryLog() {
-        updateReading();
         return this.historyLog;
     }
 
