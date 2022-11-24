@@ -53,7 +53,10 @@ public class RoomWindowController {
     /**
      * Instantiates a new Room window controller.
      */
-    public RoomWindowController() {}
+    public RoomWindowController() {
+        pane.setPrefSize(420, 420);
+        pane.setStyle("-fx-background-color: grey;" + "-fx-border-radius: 150px;");
+    }
 
     /**
      * Sets room.
@@ -62,10 +65,6 @@ public class RoomWindowController {
      */
     public void setRoom(Room room) {
         this.room = room;
-        this.roomNumber = room.getRoomNumber();
-        pane.setPrefSize(420, 420);
-        pane.setStyle("-fx-background-color: grey;" + "-fx-border-radius: 150px;");
-
         autoUpdateChart(sensorChart, 0);
     }
 

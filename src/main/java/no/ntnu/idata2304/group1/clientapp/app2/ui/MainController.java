@@ -27,6 +27,8 @@ public class MainController extends Application {
     private ArrayList<RoomWindowController> roomWindowControllers;
     private FlowPane flowPane;
     private ArrayList<String> rooms;
+    private ClientSocket clientSocket;
+
 
 
     /**
@@ -37,67 +39,24 @@ public class MainController extends Application {
      * @throws IOException if the fxml file could not be loaded
      */
     public void start(Stage stage) {
-        ClientSocket clientSocket;
         this.roomWindowControllers = new ArrayList<>();
         this.rooms = new ArrayList<>();
 
-        String hostName = null;
-        int portNumber = 0;
-        String certPathStr = null;
         for (RoomWindowController roomWindowController : roomWindowControllers) {
             rooms.add(roomWindowController.getRoom().getName());
         }
 
         try {
-            TextInputDialog textDialogHostName = new TextInputDialog("Host IP (Ex: 10.24.90.163)");
-            textDialogHostName.setTitle("Host Name");
-            textDialogHostName.setHeaderText(
-                    "Please enter the host name of the server you want to connect to");
-            textDialogHostName.setContentText("Please enter the host name:");
-            Optional<String> result = textDialogHostName.showAndWait();
-            if (result.isPresent()) {
-                hostName = result.get();
-            }
-            TextInputDialog textDialogPortNumber = new TextInputDialog("Port Number (Ex: 8080)");
-            textDialogPortNumber.setTitle("Port Number");
-            textDialogPortNumber
-                    .setHeaderText("Please enter the port of the server you want to connect to");
-            textDialogPortNumber.setContentText("Please enter the port:");
-            Optional<String> portNumberResult = textDialogPortNumber.showAndWait();
-            if (result.isPresent()) {
-                portNumber = Integer.parseInt(portNumberResult.get());
-            }
-             
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Open Resource File");
-            fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("Text Files", "*.cer"));
-            fileChooser.setInitialDirectory(new java.io.File("C:\\Users\\johan\\Desktop\\Group1testfolder\\src\\test\\resources\\no\\ntnu\\idata2304\\group1\\clientapp\\app2\\network\\trustedCerts"));
-            fileChooser.showOpenDialog(stage);
-            Optional<String> certPath = Optional.of(fileChooser.getInitialDirectory().getAbsolutePath());
-            if (certPath.isPresent()) {
-                certPathStr = certPath.get();
-            }
-
-            System.out.println(certPathStr);
-            System.out.println("Loading UI");
 
             System.out.println("Loading Server");
-            clientSocket = new ClientSocket(hostName, portNumber,
-            certPath.get());
+            this.clientSocket = getServerConnection(stage);
             System.out.println("obtaining rooms");
-            int clientIndex = 0;
             ArrayList<Room> clientRooms = clientSocket.getRoomData(rooms);
             System.out.println("Recieved rooms from server");
-            while(clientIndex < clientRooms.size()){
-                System.out.println("Loading room: " + clientRooms.get(clientIndex).getName());
-                RoomWindowController roomWindowController = new RoomWindowController();
-                roomWindowController.setRoom(clientRooms.get(clientIndex));
-                roomWindowControllers.add(roomWindowController);
-                clientIndex++;
+            for(Room room : clientRooms) {
+                System.out.println("Loading room: " + room.getName());
+                addRoom(room, stage);
             }
-           
-
         } catch (IOException e) {
             System.out.println("Could not connect to server");
             Alert alert = new Alert(AlertType.ERROR);
@@ -123,7 +82,7 @@ public class MainController extends Application {
         mainWindowController = mainWindowLoader.getController();
 
         // Initiates flowPane
-        this.flowPane = this.mainWindowController.flowPane;
+        this.flowPane = this.mainWindowController.getFlowPane();
 
         // Binds the flowPane to the stage dimensions
         this.flowPane.prefWidthProperty().bind(stage.widthProperty());
@@ -146,7 +105,7 @@ public class MainController extends Application {
     public void addRoom(Room room, Stage stage) throws IOException {
         FXMLLoader roomWindowLoader =
                 new FXMLLoader(MainController.class.getResource("RoomScene.fxml"));
-        flowPane.getChildren().add(roomWindowLoader.load());
+        this.mainWindowController.getFlowPane().getChildren().add(roomWindowLoader.load());
         RoomWindowController roomWindowController = roomWindowLoader.getController();
         roomWindowControllers.add(roomWindowController);
         roomWindowController.setRoom(room);
@@ -217,6 +176,42 @@ public class MainController extends Application {
             sensorList.add(sensor);
         }
         roomWindowControllers.get(number).getRoom().setSensorList(sensorList);
+    }
+
+    public ClientSocket getServerConnection(Stage stage) throws IOException {
+        String hostName = "localhost";
+        int portNumber = 6008;
+        String certPathStr = null;
+
+        TextInputDialog textDialogHostName = new TextInputDialog("Host IP (Ex: 10.24.90.163)");
+        textDialogHostName.setTitle("Host Name");
+        textDialogHostName.setHeaderText(
+                "Please enter the host name of the server you want to connect to");
+        textDialogHostName.setContentText("Please enter the host name:");
+        Optional<String> result = textDialogHostName.showAndWait();
+        if (result.isPresent()) {
+            hostName = result.get();
+        }
+        TextInputDialog textDialogPortNumber = new TextInputDialog("Port Number (Ex: 8080)");
+            textDialogPortNumber.setTitle("Port Number");
+            textDialogPortNumber
+                    .setHeaderText("Please enter the port of the server you want to connect to");
+            textDialogPortNumber.setContentText("Please enter the port:");
+            Optional<String> portNumberResult = textDialogPortNumber.showAndWait();
+            if (portNumberResult.isPresent()) {
+                portNumber = Integer.parseInt(portNumberResult.get());
+            }
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open Resource File");
+            fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("Text Files", "*.cer"));
+            fileChooser.setInitialDirectory(new java.io.File("C:\\Users\\johan\\Desktop\\Group1testfolder\\src\\test\\resources\\no\\ntnu\\idata2304\\group1\\clientapp\\app2\\network\\trustedCerts"));
+            fileChooser.showOpenDialog(stage);
+            Optional<String> certPath = Optional.of(fileChooser.getInitialDirectory().getAbsolutePath());
+            if (certPath.isPresent()) {
+                certPathStr = certPath.get();
+            }
+        return new ClientSocket(hostName, portNumber, certPathStr); 
     }
 
     /**

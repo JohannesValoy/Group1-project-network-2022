@@ -11,9 +11,12 @@ import javafx.scene.layout.FlowPane;
 
 public class MainWindowController {
 
-    public FlowPane flowPane;
+    @FXML
+    private FlowPane flowPane;
+    @FXML
     public javafx.scene.layout.BorderPane BorderPane;
-    public ScrollPane scrollPane;
+    @FXML
+    private ScrollPane scrollPane;
 
     @FXML
     private LineChart<Integer, Integer> sensorChart;
