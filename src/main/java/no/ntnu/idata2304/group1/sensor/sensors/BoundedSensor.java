@@ -3,11 +3,12 @@ package no.ntnu.idata2304.group1.sensor.sensors;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Random;
+import no.ntnu.idata2304.group1.data.Sensor;
 
 /**
  * Provides sensor values within a given range
  */
-public abstract class BoundedSensor implements Sensor {
+public abstract class BoundedSensor extends Sensor {
     private double currentValue;
     private final double min;
     private final double max;
@@ -21,13 +22,14 @@ public abstract class BoundedSensor implements Sensor {
      * @param minValue minimum allowed value
      * @param maxValue maximum allowed value
      */
-    public BoundedSensor(double initialValue, double minValue, double maxValue) {
+    protected BoundedSensor(Sensor.Types type, String name, double initialValue, double minValue,
+            double maxValue) {
+        super(type, name);
         currentValue = initialValue;
         min = minValue;
         max = maxValue;
     }
 
-    @Override
     public double readValue() {
         changeCurrentValueRandomly();
         return currentValue;

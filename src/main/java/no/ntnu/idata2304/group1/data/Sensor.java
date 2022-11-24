@@ -2,7 +2,6 @@ package no.ntnu.idata2304.group1.data;
 
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;

@@ -63,18 +63,20 @@ public class ClientSocket {
     }
 
 
-    public ArrayList<Room> getRoomData(List<String> rooms) throws IOException, ClassNotFoundException {
-        output.writeObject(new GetLogsMessage(GetLogsMessage.Logs.TEMPERATURE, (ArrayList<String>) rooms));
+    public ArrayList<Room> getRoomData(List<String> rooms)
+            throws IOException, ClassNotFoundException {
+        output.writeObject(
+                new GetLogsMessage(GetLogsMessage.Logs.TEMPERATURE, (ArrayList<String>) rooms));
         Message messageResponse = response();
         ArrayList<Room> data = new ArrayList<>();
         if (messageResponse.getType() == Message.Types.OK) {
             DataMessage response = (DataMessage) messageResponse;
-            for(Iterator<Object> it = response.getData(); it.hasNext();) {
+            for (Iterator<Object> it = response.getData(); it.hasNext();) {
                 Room room = (Room) it.next();
                 data.add(room);
             }
 
-            }
+        }
         return data;
     }
 
