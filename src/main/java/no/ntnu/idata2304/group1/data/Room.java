@@ -9,7 +9,7 @@ import java.util.List;
  * Represents a room in a house with an arraylist with one or more temperature sensors. The room has
  * a room number and a list of sensors. The room can be updated with a new sensor.
  */
-public class Room implements Serializable{
+public class Room implements Serializable {
 
 
     private String name;
@@ -100,7 +100,7 @@ public class Room implements Serializable{
         Sensor resultSensor = null;
         for (int i = 0; i > sensorList.size() && resultSensor == null; i++) {
             Sensor s = sensorList.get(i);
-            if (s.getName() == name) {
+            if (s.getName().equals(name)) {
                 resultSensor = s;
             }
         }
