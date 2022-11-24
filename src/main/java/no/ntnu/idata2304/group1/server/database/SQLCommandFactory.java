@@ -1,19 +1,32 @@
 package no.ntnu.idata2304.group1.server.database;
 
-import java.sql.Timestamp;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.SimpleTimeZone;
+import java.util.List;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import no.ntnu.idata2304.group1.data.Room;
+import no.ntnu.idata2304.group1.data.Sensor;
 
 /**
  * A class for creating SQL commands for different requests
  */
 public class SQLCommandFactory {
 
+    private final static Logger LOGGER = Logger.getLogger(SQLCommandFactory.class.getName());
+
     private final static String SELECT = "SELECT * FROM ";
+
+    private final static String GETROOMDATA = "SELECT * FROM " + Tables.TEMP.getTable()
+            + " INNER JOIN " + Tables.ROOMS.getTable() + " ON " + Tables.ROOMS.getTable() + ".id = "
+            + Tables.TEMP.getTable() + ".roomid" + " INNER JOIN " + Tables.NODE.getTable() + " ON "
+            + Tables.NODE.getTable() + ".id = " + Tables.TEMP.getTable() + ".nodeid AND "
+            + Tables.NODE.getTable() + ".type LIKE ? WHERE rooms.RoomName LIKE ?";
 
     /**
      * Enum for linking the different kind of tables in the database
@@ -55,64 +68,47 @@ public class SQLCommandFactory {
 
     private SQLCommandFactory() {};
 
-    /**
-     * Gets temperature.
-     *
-     * @param rooms the rooms
-     * @return the temperature
-     * @throws IllegalArgumentException the illegal argument exception
-     */
-    public static String getTemperature(Iterator<String> rooms) throws IllegalArgumentException {
-        if (rooms == null) {
-            throw new IllegalArgumentException("The rooms cannot be null");
-        }
-        StringBuilder builder = new StringBuilder(SELECT + Tables.TEMP.getTable() + " INNER JOIN "
-                + Tables.ROOMS.getTable() + " ON " + Tables.ROOMS.getTable() + ".id = "
-                + Tables.TEMP.getTable() + ".roomid" + " INNER JOIN " + Tables.NODE.getTable()
-                + " ON " + Tables.NODE.getTable() + ".id = " + Tables.TEMP.getTable()
-                + ".nodeid AND " + Tables.NODE.getTable() + ".type LIKE 'Temperature' ");
-        String sqlQuery = "";
-        if (rooms.hasNext()) {
-            builder.append("WHERE rooms.name IN ( ");
-        }
-        while (rooms.hasNext()) {
-            String room = rooms.next();
-            if (checkValidString(room)) {
-                throw new IllegalArgumentException("Room name '" + room + "'' is not valid");
-            }
-            builder.append("\"" + room + "\"");
 
-            if (rooms.hasNext()) {
-                builder.append(",");
-            } else {
-                builder.append(")");
-            }
-        }
-        return builder.toString();
-    }
+    public static List<Room> getRoomData(Iterator<String> rooms, int limit, Date from, Date to,
+            Sensor.Types type) throws SQLException {
 
-    /**
-     * Gets temperature.
-     *
-     * @param rooms the rooms
-     * @param from the from
-     * @param to the to
-     * @return the temperature
-     * @throws IllegalArgumentException the illegal argument exception
-     */
-    public static String getTemperature(Iterator<String> rooms, Date from, Date to)
-            throws IllegalArgumentException {
-        if (rooms == null) {
-            throw new IllegalArgumentException("The rooms cannot be null");
+
+        ArrayList<Room> roomList = new ArrayList<>();
+        StringBuilder builder = new StringBuilder(GETROOMDATA);
+        if (from != null && to != null) {
+            builder.append(
+                    " AND " + Tables.TEMP.getTable() + ".timestamp BETWEEN " + from + " AND " + to);
+        } else if (from != null) {
+            builder.append(" AND " + Tables.TEMP.getTable() + ".timestamp > " + from);
+        } else if (to != null) {
+            builder.append(" AND " + Tables.TEMP.getTable() + ".timestamp < " + to);
         }
-        if (from == null || to == null) {
-            throw new IllegalArgumentException("The dates cannot be null");
+        builder.append(" LIMIT " + limit);
+        try (DBConnector connector = DBConnectorPool.getInstance().getConnector();
+                PreparedStatement statement = connector.prepareStatement(builder.toString())) {
+            statement.setString(1, type.getName());
+            // See if I can do this better
+            if (!rooms.hasNext()) {
+                rooms = getRooms(null).iterator();
+            }
+            while (rooms.hasNext()) {
+                String room = rooms.next();
+                statement.setString(2, room);
+                if (room == null) {
+                    throw new IllegalArgumentException("The rooms cannot contain null");
+                }
+                ResultSet result = statement.executeQuery();
+                Room roomData = SQLConverter.convertToRoom(result);
+                if (roomData != null) {
+                    roomList.add(roomData);
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.severe("Could not get room data: " + e.getMessage());
+            throw e;
         }
-        StringBuilder builder = new StringBuilder(getTemperature(rooms));
-        builder.append(" AND ");
-        builder.append(Tables.TEMP.getTable() + ".date BETWEEN " + from.getTime() + " AND "
-                + to.getTime());
-        return builder.toString();
+
+        return roomList;
     }
 
     /**
@@ -154,11 +150,21 @@ public class SQLCommandFactory {
         return builder.toString();
     }
 
-    public static String getRooms(String filter) {
+    public static List<String> getRooms(String filter) throws SQLException {
         String sqlQuery = SELECT + Tables.ROOMS.getTable();
+        List<String> rooms = null;
         if (filter != null) {
-            sqlQuery += " WHERE " + Tables.ROOMS.getTable() + ".name LIKE \"" + filter + "\"";
+            sqlQuery += " WHERE " + Tables.ROOMS.getTable() + ".roomName LIKE \"" + filter + "\"";
         }
-        return sqlQuery;
+        try (DBConnector connector = DBConnectorPool.getInstance().getConnector();
+                PreparedStatement statement = connector.prepareStatement(sqlQuery)) {
+            ResultSet result = statement.executeQuery();
+            rooms = SQLConverter.getRoomsName(result);
+        } catch (SQLException e) {
+            LOGGER.severe("Could not get rooms: " + e.getMessage());
+            throw e;
+        }
+
+        return rooms;
     }
 }

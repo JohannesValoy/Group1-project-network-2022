@@ -60,12 +60,14 @@ public class DBConnectorPool {
         return connector.executeQuery(query);
     }
 
-    private synchronized DBConnector getConnector() {
+    public synchronized DBConnector getConnector() {
         DBConnector connector = null;
-        for (int i = 0; i < POOLSIZE; i++) {
-            if (!pool[i].isBusy()) {
-                pool[i].setBusy();
-                connector = pool[i];
+        while (connector == null) {
+            for (int i = 0; i < POOLSIZE && connector == null; i++) {
+                if (!pool[i].isBusy()) {
+                    pool[i].setBusy();
+                    connector = pool[i];
+                }
             }
         }
         return connector;

@@ -1,7 +1,7 @@
 package no.ntnu.idata2304.group1.data.network.requests.get;
 
-import javafx.scene.Node;
 import no.ntnu.idata2304.group1.data.Room;
+import no.ntnu.idata2304.group1.data.Sensor;
 import no.ntnu.idata2304.group1.data.network.Message;
 
 /**
@@ -13,7 +13,7 @@ public abstract class GetMessage extends Message {
      * The type of get command to send
      */
     public enum DataTypes {
-        ROOMS(Room.class), NODES(Node.class), DATA(Room.class);
+        ROOMS(Room.class), Sensor(Sensor.class), DATA(Room.class);
 
         private Class type;
 
