@@ -41,6 +41,7 @@ public class MainController extends Application {
     public void start(Stage stage) {
         this.roomWindowControllers = new ArrayList<>();
         this.rooms = new ArrayList<>();
+        ArrayList<Room> clientRooms = new ArrayList<>();
 
         for (RoomWindowController roomWindowController : roomWindowControllers) {
             rooms.add(roomWindowController.getRoom().getName());
@@ -51,12 +52,8 @@ public class MainController extends Application {
             System.out.println("Loading Server");
             this.clientSocket = getServerConnection(stage);
             System.out.println("obtaining rooms");
-            ArrayList<Room> clientRooms = clientSocket.getRoomData(rooms);
+            clientRooms = clientSocket.getRoomData(rooms);
             System.out.println("Recieved rooms from server");
-            for(Room room : clientRooms) {
-                System.out.println("Loading room: " + room.getName());
-                addRoom(room, stage);
-            }
         } catch (IOException e) {
             System.out.println("Could not connect to server");
             Alert alert = new Alert(AlertType.ERROR);
@@ -87,6 +84,18 @@ public class MainController extends Application {
         // Binds the flowPane to the stage dimensions
         this.flowPane.prefWidthProperty().bind(stage.widthProperty());
         this.flowPane.prefHeightProperty().bind(stage.heightProperty());
+
+        for(Room room : clientRooms) {
+            System.out.println("Loading room: " + room.getName());
+            
+            try {
+                addRoom(room, stage);
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                Alert alert = new Alert(AlertType.ERROR, e.getMessage());
+                e.printStackTrace();
+            }
+        }
         // Example rooms.
         // try {
         //     addExampleRooms(stage);
@@ -177,6 +186,7 @@ public class MainController extends Application {
         }
         roomWindowControllers.get(number).getRoom().setSensorList(sensorList);
     }
+
 
     public ClientSocket getServerConnection(Stage stage) throws IOException {
         String hostName = "localhost";
