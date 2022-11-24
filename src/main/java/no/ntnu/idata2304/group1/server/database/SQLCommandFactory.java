@@ -1,7 +1,11 @@
 package no.ntnu.idata2304.group1.server.database;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.SimpleTimeZone;
 import java.util.regex.Pattern;
 
 /**
@@ -137,16 +141,16 @@ public class SQLCommandFactory {
      * @param value the value
      * @return the string
      */
-    public static String addLog(String apiKey, double value) {
-
+    public static String addLog(String apiKey, double value) throws IllegalArgumentException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         StringBuilder builder = new StringBuilder("INSERT INTO " + Tables.TEMP.getTable()
-                + " (nodeid, roomid, reading, date) VALUES (");
+                + " (nodeid, roomid, reading, timeStamp) VALUES (");
         builder.append("(SELECT id FROM " + Tables.NODE.getTable() + " WHERE "
                 + Tables.NODE.getTable() + ".key = \"" + apiKey + "\"), ");
         builder.append("(SELECT roomid FROM " + Tables.NODE.getTable() + " WHERE "
                 + Tables.NODE.getTable() + ".key = \"" + apiKey + "\"), ");
         builder.append(value + ", ");
-        builder.append(System.currentTimeMillis() + ")");
+        builder.append("\"" + format.format(new Date()) + "\")");
         return builder.toString();
     }
 

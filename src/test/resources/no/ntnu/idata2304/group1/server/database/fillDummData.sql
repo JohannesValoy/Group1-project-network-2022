@@ -14,10 +14,10 @@ INSERT INTO rooms (NAME) VALUES
 --- the key is a api key that is used to identify the sensor node so it ineeds to be uniqe for each node---
 
 INSERT INTO NODES(Name,key,roomID,type) VALUES 
-('Pete','abc-def-hij-klm',1,'Temperature'),
-('Rasp91','123-456-789-000',2,'Temperature'),
-('Ard3',"dsk-fsa-fsj-fs7",3,'Temperature'),
-("Rasp21", "iof-fsa-gap-fap",4,"Temperature")
+('Pete','abcdefhijklm',1,'Temperature'),
+('Rasp91','123456789000',2,'Temperature'),
+('Ard3',"dskfsafsjfs7",3,'Temperature'),
+("Rasp21", "ioffsagapfap",4,"Temperature")
 ;
 
 -- Some dummy data as logs for the rooms --
