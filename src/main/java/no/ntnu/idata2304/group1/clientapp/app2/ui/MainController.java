@@ -33,7 +33,6 @@ public class MainController extends Application {
     private ArrayList<String> rooms;
     private ClientSocket clientSocket;
     private ArrayList<Room> clientRooms;
-    private MultiInputDialog multiInputDialog;
 
 
 
@@ -45,19 +44,9 @@ public class MainController extends Application {
      * @throws IOException if the fxml file could not be loaded
      */
     public void start(Stage stage) {
-        this.multiInputDialog = new MultiInputDialog();
         this.roomWindowControllers = new ArrayList<>();
         this.rooms = new ArrayList<>();
         this.clientRooms = new ArrayList<>();
-
-        try {
-            MultiInputDialog.getSocketConnectionV2(stage);
-        } catch (IOException e1) {
-            ErrorDialogs123.couldNotConnectAlert(e1);
-        }
-        for (RoomWindowController roomWindowController : roomWindowControllers) {
-            rooms.add(roomWindowController.getRoom().getName());
-        }
 
         try {
             this.clientSocket = MultiInputDialog.getSocketConnectionV2(stage);
@@ -68,7 +57,7 @@ public class MainController extends Application {
             ErrorDialogs123.couldNotUpdateRoom(e);
         }
 
-        updateRoomData();
+        autoUpdateRoomData();
 
         // Loads mainScene
         FXMLLoader mainWindowLoader =
