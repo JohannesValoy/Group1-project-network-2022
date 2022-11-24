@@ -51,7 +51,7 @@ public class MainController extends Application {
         this.clientRooms = new ArrayList<>();
 
         try {
-            MultiInputDialog.getSocketConnection(stage);
+            MultiInputDialog.getSocketConnectionV2(stage);
         } catch (IOException e1) {
             ErrorDialogs123.couldNotConnectAlert(e1);
         }
@@ -60,7 +60,7 @@ public class MainController extends Application {
         }
 
         try {
-            this.clientSocket = multiInputDialog.getSocketConnection(stage);
+            this.clientSocket = MultiInputDialog.getSocketConnectionV2(stage);
             this.clientRooms = this.clientSocket.getRoomData(rooms);
         } catch (IOException e) {
             ErrorDialogs123.couldNotConnectAlert(e);
