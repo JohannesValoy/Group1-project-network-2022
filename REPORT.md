@@ -1,27 +1,3 @@
-# Report template
-
-This document provides a template for the project report in IDATA2304. The
-structure follows the same principles used in other reports (including bachelor
-projects).
-
-If you use this file as a template, **remember to delete all the "dummy texts"**
-.
-Your report must look like a proper engineer's report, not like a filled-in
-online form! A general tip - write the report like a story explaining your
-reasoning and the result. Also - the report is not about YOU, it is about the
-WORK you have done. So don't write a "letter to my mom" complaining how hard you
-have struggled with configuring MQTT and a laptop crash. As harsh as this may
-sound, this is a report for peer engineers who are interested in the work and in
-the professional result, not in emotions of individuals.
-
-The rest of the text is a template that you can use for the report.
-
-If you are new to Markdown syntax (the suggested way for writing the report),
-there are plenty of documentation sites and tutorials online, for
-example, [Basic
-Syntax article](https://www.markdownguide.org/basic-syntax/) in the Markdown
-Guide.
-
 # IDATA2304 Temperature Logger
 
 This is a school project in the course IDATA2304 Computer networks. 

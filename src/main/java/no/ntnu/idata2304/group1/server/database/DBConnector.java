@@ -17,7 +17,6 @@ public class DBConnector implements Closeable {
     private final java.util.logging.Logger Logger =
             java.util.logging.Logger.getLogger(DBConnector.class.getName());
     private Connection conn;
-    private Statement stmt;
     private String uri;
     private boolean busy = false;
 
@@ -37,7 +36,6 @@ public class DBConnector implements Closeable {
         try {
             this.uri = dbDrive + path.replace("%20", " ");
             this.conn = DriverManager.getConnection(uri);
-            this.stmt = conn.createStatement();
             if (setup) {
                 setup();
             }
@@ -61,7 +59,6 @@ public class DBConnector implements Closeable {
         this.uri = dbDrive + path.replace("%20", " ");
         try {
             this.conn = DriverManager.getConnection(uri);
-            this.stmt = conn.createStatement();
             if (setup) {
                 setup();
             }
@@ -86,9 +83,9 @@ public class DBConnector implements Closeable {
         String data = "CREATE TABLE IF NOT EXISTS logs (\n" + "ID integer PRIMARY KEY,"
                 + "roomID integer REFERENCES rooms(ID)," + "reading float NOT NULL,"
                 + "timeStamp DateTime NOT NULL," + "nodeID integer REFERENCES NODES(ID)" + ")";
-        executeQuery(roomSQL);
-        executeQuery(nodeSQL);
-        executeQuery(data);
+        execute(roomSQL);
+        execute(nodeSQL);
+        execute(data);
     }
 
     /**
@@ -122,19 +119,17 @@ public class DBConnector implements Closeable {
             throw new IllegalArgumentException("The SQL statement cannot be null or empty");
         }
         ResultSet result = null;
-        try {
+        try (Statement stmt = conn.createStatement()) {
             result = stmt.executeQuery(sqlStatement);
         } catch (SQLException e) {
-            if (e.getMessage().equals("query does not return ResultSet")) {
-                try {
-                    stmt.execute(sqlStatement);
-                } catch (SQLException e2) {
-                    busy = false;
-                    throw e2;
-                }
-            } else {
+            if (!e.getMessage().equals("query does not return ResultSet")) {
                 busy = false;
                 throw e;
+            } else {
+                try (Statement stmt = conn.createStatement()) {
+                    stmt.execute(sqlStatement);
+                }
+                busy = false;
             }
         }
         busy = false;
