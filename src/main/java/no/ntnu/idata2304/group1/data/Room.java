@@ -21,10 +21,18 @@ public class Room implements Serializable{
      * 
      * @param name name of the room
      * @param roomNumber number of the room
+     * @deprecated use {@link #Room(String)} instead. The room number is gonna be removed in the
+     *             future
      */
+    @Deprecated
     public Room(int roomNumber, String name) {
         this.name = name;
         this.roomNumber = roomNumber;
+    }
+
+    public Room(String name) {
+        this.name = name;
+        this.roomNumber = 0;
     }
 
     public void setName(String name) {
@@ -44,7 +52,9 @@ public class Room implements Serializable{
      * Returns the room number.
      * 
      * @return int roomNumber.
+     * @deprecated use {@link #getName()} instead. The room number is gonna be removed in the future
      */
+    @Deprecated
     public int getRoomNumber() {
         return this.roomNumber;
     }
@@ -84,7 +94,7 @@ public class Room implements Serializable{
      * Returns the first sensor it finds with that name
      * 
      * @param name the id of the sensor.
-     * @return the sensor with the given id.
+     * @return the sensor with the given name or null if it can't be found.
      */
     public Sensor findSensorByName(String name) {
         Sensor resultSensor = null;
@@ -93,9 +103,6 @@ public class Room implements Serializable{
             if (s.getName() == name) {
                 resultSensor = s;
             }
-        }
-        if (resultSensor == null) {
-            throw new IllegalArgumentException("Sensor not found");
         }
         return resultSensor;
     }

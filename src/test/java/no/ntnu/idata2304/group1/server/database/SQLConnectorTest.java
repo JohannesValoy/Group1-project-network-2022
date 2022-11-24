@@ -2,9 +2,9 @@ package no.ntnu.idata2304.group1.server.database;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.sql.SQLException;
 import org.junit.jupiter.api.Test;
-import no.ntnu.idata2304.group1.server.database.DBConnector;
 
 public class SQLConnectorTest {
     public static DBConnector getTestConnector() throws SQLException {
@@ -28,6 +28,7 @@ public class SQLConnectorTest {
         DBConnector connector = getTestConnector();
         String query = "SELECT * FROM rooms";
         assertDoesNotThrow(() -> connector.executeQuery(query));
+        assertTrue(connector.executeQuery(query).isBeforeFirst());
     }
 
 }

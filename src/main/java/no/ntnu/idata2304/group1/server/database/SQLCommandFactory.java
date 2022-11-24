@@ -66,10 +66,10 @@ public class SQLCommandFactory {
                 + Tables.ROOMS.getTable() + " ON " + Tables.ROOMS.getTable() + ".id = "
                 + Tables.TEMP.getTable() + ".roomid" + " INNER JOIN " + Tables.NODE.getTable()
                 + " ON " + Tables.NODE.getTable() + ".id = " + Tables.TEMP.getTable()
-                + ".nodeid AND " + Tables.NODE.getTable() + ".type LIKE 'temperature' ");
+                + ".nodeid AND " + Tables.NODE.getTable() + ".type LIKE 'Temperature' ");
         String sqlQuery = "";
         if (rooms.hasNext()) {
-            builder.append("WHERE rooms.name IN (");
+            builder.append("WHERE rooms.name IN ( ");
         }
         while (rooms.hasNext()) {
             String room = rooms.next();
@@ -77,12 +77,14 @@ public class SQLCommandFactory {
                 throw new IllegalArgumentException("Room name '" + room + "'' is not valid");
             }
             builder.append("\"" + room + "\"");
+
             if (rooms.hasNext()) {
-                builder.append(", ");
+                builder.append(",");
+            } else {
+                builder.append(")");
             }
         }
-        sqlQuery = builder.append(")").toString();
-        return sqlQuery;
+        return builder.toString();
     }
 
     /**
