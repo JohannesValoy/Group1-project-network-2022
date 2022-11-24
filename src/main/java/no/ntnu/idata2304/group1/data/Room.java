@@ -20,10 +20,18 @@ public class Room {
      * 
      * @param name name of the room
      * @param roomNumber number of the room
+     * @deprecated use {@link #Room(String)} instead. The room number is gonna be removed in the
+     *             future
      */
+    @Deprecated
     public Room(int roomNumber, String name) {
         this.name = name;
         this.roomNumber = roomNumber;
+    }
+
+    public Room(String name) {
+        this.name = name;
+        this.roomNumber = 0;
     }
 
     public void setName(String name) {
@@ -43,7 +51,9 @@ public class Room {
      * Returns the room number.
      * 
      * @return int roomNumber.
+     * @deprecated use {@link #getName()} instead. The room number is gonna be removed in the future
      */
+    @Deprecated
     public int getRoomNumber() {
         return this.roomNumber;
     }
