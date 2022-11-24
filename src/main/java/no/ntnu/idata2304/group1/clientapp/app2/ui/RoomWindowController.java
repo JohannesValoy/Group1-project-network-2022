@@ -128,11 +128,10 @@ public class RoomWindowController {
                 }
             } else {
                 new Alert(Alert.AlertType.ERROR,
-                        "Line Chart Failed to Load" + "in room " + room.getName()).showAndWait();
+                        "Line Chart Failed to Load in room: " + room.getName() + " try again or wait for and update to the software").showAndWait();
             }
         } else {
-            new Alert(Alert.AlertType.ERROR, "Room " + room.getName() + " Failed to load")
-                    .showAndWait();
+            new Alert(Alert.AlertType.ERROR, "Room does not exist").showAndWait();
         }
 
     }
