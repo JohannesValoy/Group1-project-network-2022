@@ -3,12 +3,20 @@ package no.ntnu.idata2304.group1.server.network.http;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * The type Http message.
+ */
 public abstract class HTTPMessage {
 
     private String httpVersion;
     private HashMap<String, String> header;
     private String body;
 
+    /**
+     * Instantiates a new Http message.
+     *
+     * @param message the message
+     */
     protected HTTPMessage(String message) {
         if (message == null) {
             throw new IllegalArgumentException("Message can't be null");
@@ -36,7 +44,7 @@ public abstract class HTTPMessage {
 
     /**
      * Returns the HeaderValue given a key
-     * 
+     *
      * @param key - the key to search for
      * @return the value of the header
      * @throws IllegalArgumentException if the key is null, empty or is not within the message
@@ -53,7 +61,7 @@ public abstract class HTTPMessage {
 
     /**
      * Returns the body as a string
-     * 
+     *
      * @return String - the body
      */
     public final String getBody() {
@@ -62,7 +70,7 @@ public abstract class HTTPMessage {
 
     /**
      * Returns the HTTP version
-     * 
+     *
      * @return String - the HTTP version
      */
     public final String getHttpVersion() {

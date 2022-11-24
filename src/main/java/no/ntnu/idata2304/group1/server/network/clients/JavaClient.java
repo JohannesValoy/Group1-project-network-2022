@@ -9,10 +9,9 @@ import no.ntnu.idata2304.group1.data.network.Message;
 
 /**
  * Responsible for sending and receiving network packages with Java serialization
- * 
+ *
  * @author Mathias J. Kirkeby
  */
-
 public class JavaClient extends ClientRunnable {
     private InputStream detectStream;
     private ObjectOutputStream output;
@@ -20,7 +19,7 @@ public class JavaClient extends ClientRunnable {
 
     /**
      * Creates a new JavaClient
-     * 
+     *
      * @param socket The socket to use
      * @throws IOException if the socket fails to connect
      */
