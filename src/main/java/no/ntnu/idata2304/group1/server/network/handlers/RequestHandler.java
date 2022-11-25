@@ -1,7 +1,7 @@
 package no.ntnu.idata2304.group1.server.network.handlers;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.List;
 import no.ntnu.idata2304.group1.data.Room;
 import no.ntnu.idata2304.group1.data.network.Message;
@@ -15,7 +15,6 @@ import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
 import no.ntnu.idata2304.group1.data.network.responses.OKMessage;
 import no.ntnu.idata2304.group1.server.database.DBConnectorPool;
 import no.ntnu.idata2304.group1.server.database.SQLCommandFactory;
-import no.ntnu.idata2304.group1.server.database.SQLConverter;
 
 /**
  * A class for handling requests from the client
@@ -104,9 +103,12 @@ public class RequestHandler {
         switch (request.getCommand()) {
             case DATA:
                 GetLogsMessage logsRequest = (GetLogsMessage) request;
-                List<Room> rooms = SQLCommandFactory.getRoomData(logsRequest.getRooms(),
-                        logsRequest.getLimit(), logsRequest.getFrom(), logsRequest.getTo(),
-                        logsRequest.getDataType());
+                Iterator<String> it = logsRequest.getRooms();
+                if (!it.hasNext()) {
+                    it = SQLCommandFactory.getRooms(null).iterator();
+                }
+                List<Room> rooms = SQLCommandFactory.getRoomData(it, logsRequest.getLimit(),
+                        logsRequest.getFrom(), logsRequest.getTo(), logsRequest.getDataType());
                 response = new DataMessage(rooms);
                 break;
             case ROOMS:
