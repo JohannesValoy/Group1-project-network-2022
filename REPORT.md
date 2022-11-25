@@ -1,8 +1,11 @@
 # IDATA2304 Temperature Logger
 
-This is a school project in the course IDATA2304 Computer networks. 
+This is a school project in the course IDATA2304 Computer Networks for the students within the computer engineering course 2022 on NTNU. 
+The project is part of our evaluation within the course with a 40% weight on out grades.  
 
 ## Abstract
+
+Temperature is something that effects us everyday. 
 
 This is the shortest version of your project's description. Think of a busy
 person who has 1 minute to get familiar with what this is about. The abstract
@@ -84,9 +87,13 @@ and what problems in our every-day lives it can help to solve.
 
 ## Theory and technology
 
+Our project revolves 
+While the professors gave us a finished MQTT we decided to design another server application.
+This was to both increase the potential of the product as well  
+
 Here you write about the "things" you have used in your project. At the same
 time these are things that another person must know about to be able to
-understand your project.  
+understand your project. 
 Some principles to follow:
 
 * Write about all the relevant theory, technologies and protocols that your
@@ -129,7 +136,9 @@ Some principles to follow:
   something from IDATA2303 Data modelling and databases? Or maybe you apply some
   statistical methods from ISTA1003 Statistics?
 
-# Methodology
+## Methodology
+
+We have focused on working in groups while giving us different tasks 
 
 Here you can write about the way you have worked. You don't need to write much
 about how you organized sprints, this documentation will be handled separately.
@@ -138,7 +147,7 @@ know about the way you worked? Did you do some user tests? Experiments? How did
 you measure, evaluate? Any best-practices you followed? What must the reader
 understand to be able to interpret the results properly?
 
-# Results
+## Results
 
 Here you describe the results you have obtained. Some considerations:
 
@@ -151,18 +160,18 @@ Here you describe the results you have obtained. Some considerations:
   reader get an impression of the result without running the system?
 * No need to include code in the report, all the code is in the repository.
 
-# Discussion
+## Discussion
 
 Here you can reflect on the result. What is working well? What is not working
 well and why?
 
-# Conclusion and future work
+## Conclusion and future work
 
 Here you summarize the work shortly, the status. Also, here you identify the
 potential work in the future. Note: think in general - how could this work be
 continued (by your group or by others)?
 
-# References
+## References
 
 Here you provide sources of information. In a written report you typically
 include list of references in the end and have only links to those in the text,
