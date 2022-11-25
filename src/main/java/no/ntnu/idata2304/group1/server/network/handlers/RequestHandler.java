@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.server.requests;
+package no.ntnu.idata2304.group1.server.network.handlers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.server.network;
+package no.ntnu.idata2304.group1.server.network.handlers;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;

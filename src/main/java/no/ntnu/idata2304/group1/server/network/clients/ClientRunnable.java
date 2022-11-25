@@ -8,7 +8,7 @@ import no.ntnu.idata2304.group1.data.network.Message;
 import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
-import no.ntnu.idata2304.group1.server.requests.RequestHandler;
+import no.ntnu.idata2304.group1.server.network.handlers.RequestHandler;
 
 /**
  * Responsible for sending and receiving network packages

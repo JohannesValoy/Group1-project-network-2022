@@ -10,9 +10,9 @@ import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSocket;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer;
 import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
-import no.ntnu.idata2304.group1.server.network.ClientHandler;
 import no.ntnu.idata2304.group1.server.network.SeverSSLKeyFactory;
 import no.ntnu.idata2304.group1.server.network.clients.ClientRunnable;
+import no.ntnu.idata2304.group1.server.network.handlers.ClientHandler;
 
 /**
  * Responsible for listening for new connections and creating new threads for each connection
@@ -26,8 +26,8 @@ public abstract class TCPListener extends Thread implements Closeable {
     /**
      * Creates a new TCP listener.
      *
-     * @param port             The port to listen on
-     * @param keyStoreName     the key store name
+     * @param port The port to listen on
+     * @param keyStoreName the key store name
      * @param keyStorePassword The password to the keystore
      * @throws IOException if the socket fails to connect or the keystore is not found
      */
