@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import no.ntnu.idata2304.group1.data.Sensor;
 import no.ntnu.idata2304.group1.data.network.Message;
 import no.ntnu.idata2304.group1.data.network.requests.get.GetLogsMessage;
-import no.ntnu.idata2304.group1.server.network.handlers.RequestHandler;
 
 public class RequestHandlerTest {
 

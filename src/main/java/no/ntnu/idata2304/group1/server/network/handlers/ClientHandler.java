@@ -61,7 +61,8 @@ public class ClientHandler extends Thread {
     @Override
     public void run() {
         while (true) {
-            ArrayList<ClientRunnable> clients = (ArrayList) this.clients.clone();
+            // While clone complains, we already knows that this is a ArrayList.
+            ArrayList<ClientRunnable> clients = (ArrayList<ClientRunnable>) this.clients.clone();
             for (ClientRunnable client : clients) {
                 if (!client.isRunning()) {
                     client.setAsRunning();

@@ -86,10 +86,6 @@ public class SQLCommandFactory {
         try (DBConnector connector = DBConnectorPool.getInstance().getConnector();
                 PreparedStatement statement = connector.prepareStatement(builder.toString())) {
             statement.setString(1, type.getName());
-            // See if I can do this better
-            if (!rooms.hasNext()) {
-                rooms = getRooms(null).iterator();
-            }
             while (rooms.hasNext()) {
                 String room = rooms.next();
                 statement.setString(2, room);

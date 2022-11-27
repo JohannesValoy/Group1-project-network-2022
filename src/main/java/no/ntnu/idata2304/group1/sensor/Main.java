@@ -1,62 +1,41 @@
 package no.ntnu.idata2304.group1.sensor;
 
-import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.logging.Logger;
+import no.ntnu.idata2304.group1.data.Sensor.Types;
 
-
-/**
- * A hacky solution for running multiple sensors at the same time.
- */
 public class Main {
 
-    private static String SERVER_ADDRESS = "10.24.90.163";
-    private static int SERVER_PORT = 6008;
-    private static String CUSTOMCERTS = "C:\\Users\\johan\\Desktop\\Group1testfolder\\src\\test\\resources\\no\\ntnu\\idata2304\\group1\\clientapp\\app2\\network\\trustedCerts";
+    private static int port = 6008;
+    private static String certPath = null;
+    private static final Logger LOGGER = Logger.getLogger(Main.class.getSimpleName());
 
-    private static ArrayList<SensorApplication> sensors = new ArrayList<>();
-
-
-    // Only simulating 10 sensors. The keys are within the testData that is injected into the test
-    // database. Should be in another file, but this is just a hacky solution.
-    private static String[] keys =
-            {"abcdefhijklm", "123456789000", "dskfsafsjfs7", "ioffsagapfap"};
-    private static String[] names = {"Sensor 1", "Sensor 2", "Sensor 3", "Sensor 4", "Sensor 5",
-            "Sensor 6", "Sensor 7", "Sensor 8", "Sensor 9", "Sensor 10"};
-    private static ExecutorService pool =
-            Executors.newFixedThreadPool(Math.min(keys.length, names.length));
-
-    /**
-     * Start the application
-     * 
-     * @param args Not used
-     */
     public static void main(String[] args) {
-        if (args.length == 3) {
-            SERVER_ADDRESS = args[0];
-            SERVER_PORT = Integer.parseInt(args[1]);
-            CUSTOMCERTS = args[2];
+        if (args.length < 4) {
+            LOGGER.warning(
+                    "Usage: java -jar sensor.jar <sensor type (Currently supporting Temperature, Humidity)> <sensor name> <api key> <server address> <optional server port> <optional trustedCertificate folder> ");
+            System.exit(1);
         }
-        System.out.println("Starting the application...");
-        for (int i = 0; i < keys.length && i < names.length; i++) {
-            try {
-                SensorApplication sensor = new SensorApplication(names[i], keys[i], SERVER_ADDRESS,
-                        SERVER_PORT, CUSTOMCERTS);
-                sensors.add(sensor);
-                
-            } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
-            }
-            
+        String sensorType = args[0];
+        String sensorId = args[1];
+        String apiKey = args[2];
+        String serverAdresse = args[3];
+        if (args.length > 4) {
+            port = Integer.parseInt(args[4]);
         }
-        while (true) {
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-            }
-            for (SensorApplication s : sensors) {
-                pool.execute(s);
-            }
+        if (args.length > 5) {
+            certPath = args[5];
         }
+        SensorApplication sensor = null;
+        try {
+            sensor = new SensorApplication(sensorId, apiKey, serverAdresse, port, certPath,
+                    Types.getTypeByName(sensorType));
+        } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            System.exit(1);
+        }
+
+        sensor.run();
+
+
     }
 }

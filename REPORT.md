@@ -1,11 +1,11 @@
 # IDATA2304 Temperature Logger
 
-This is a school project in the course IDATA2304 Computer Networks for the students within the computer engineering course 2022 on NTNU. 
+This is a school project in the course IDATA2304 Computer Networks for the students within the computer engineering course 2022 on NTNU.
 The project is part of our evaluation within the course with a 40% weight on out grades.  
 
 ## Abstract
 
-Temperature is something that effects us everyday. 
+Temperature is something that effects us everyday.
 
 This is the shortest version of your project's description. Think of a busy
 person who has 1 minute to get familiar with what this is about. The abstract
@@ -64,11 +64,11 @@ is to make sure that you are maintaining a healthy indoor air quality in the var
 such as your living room, bedroom, and bathroom. 
 Because if you don’t, you may risk affecting your, and others’, health.
 
-As previously stated, poor indoor air quality can bring some unfortunate consequences. 
-Mould in the house can cause sickness like a stuffy nose, sore throat, 
-coughing, burning eyes and rashes on your skin. 
-If you are allergic to mould, depending on the severity of the allergy, 
-can lead to very serious reactions, and hospital visits. 
+As previously stated, poor indoor air quality can bring some unfortunate consequences.
+Mould in the house can cause sickness like a stuffy nose, sore throat,
+coughing, burning eyes and rashes on your skin.
+If you are allergic to mould, depending on the severity of the allergy,
+can lead to very serious reactions, and hospital visits.
 It has also been documented that the proper temperature and humidity has direct impact on the quality of your sleep.
 
 If you have been having trouble getting a good night’s sleep, 
@@ -84,16 +84,19 @@ so that you wake up rested and can live a healthy and happy life.
 These are just a few examples of the importance of our project 
 and what problems in our every-day lives it can help to solve.
 
-
 ## Theory and technology
 
-Our project revolves 
-While the professors gave us a finished MQTT we decided to design another server application.
-This was to both increase the potential of the product as well  
+Since we build our own server and the client were also written in java we decided to use the ObjectInput and ObjectOutput streams so we could send objects back and forth. This was so the implementation of both sides could be easier done, and 
+
+These were highly inspired by the HTTP standard, both to allow for a good and fast implementation of allowing the HTTP protocols, and because the standard is one of the most recognizable.
+
+The project is highly reliant of the TCP protocol because we needed the reliability for the packages not becoming lost or corrupted. UDP was not a alternative since we were not "sending enough packages often enough". The only case within the project were that would be reliable enough was if you had enough sensors in a room to where inaccurate data would not be a problem anymore.
+
+
 
 Here you write about the "things" you have used in your project. At the same
 time these are things that another person must know about to be able to
-understand your project. 
+understand your project.
 Some principles to follow:
 
 * Write about all the relevant theory, technologies and protocols that your
@@ -166,6 +169,12 @@ Here you can reflect on the result. What is working well? What is not working
 well and why?
 
 ## Conclusion and future work
+
+While the project did not have all the functionality we wanted it was still a interesting and cool project to work on. We were able to create a minimal required product from scratch, and code that we could hopefully use in further projects that uses network.
+
+While we have created the minimal required product we still feel like the project has so much more potential. For example one, we originally wanted to use HTTP to communicate with the sensors to allow small micro-controllers, like arduino that run different languages, to communicate with the server. A general list would be finishing the features on the back-end.
+
+In general 
 
 Here you summarize the work shortly, the status. Also, here you identify the
 potential work in the future. Note: think in general - how could this work be
