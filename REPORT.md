@@ -86,58 +86,15 @@ and what problems in our every-day lives it can help to solve.
 
 ## Theory and technology
 
-Since we build our own server and the client were also written in java we decided to use the ObjectInput and ObjectOutput streams so we could send objects back and forth. This was so the implementation of both sides could be easier done, and 
+Since we build our own server and the client were also written in java we decided to use the ObjectInput and ObjectOutput streams so we could send objects back and forth. This was so the implementation of both sides could be easier done, and since it already was created it saved us for some work.
 
-These were highly inspired by the HTTP standard, both to allow for a good and fast implementation of allowing the HTTP protocols, and because the standard is one of the most recognizable.
+The message object that we are sending was highly inspired by the HTTP standard. There was 1 major benefits for doing it this way. It would allow for a good and fast implementation of allowing the HTTP protocols.
 
-The project is highly reliant of the TCP protocol because we needed the reliability for the packages not becoming lost or corrupted. UDP was not a alternative since we were not "sending enough packages often enough". The only case within the project were that would be reliable enough was if you had enough sensors in a room to where inaccurate data would not be a problem anymore.
+The project is highly reliant of the TCP protocol because we needed the reliability for the packages not becoming lost or corrupted. UDP was not a alternative since we were not "sending enough packages often enough". The only case within the project were that would be "good enough" was if you had enough sensors in a room to where inaccurate data would not be a problem anymore. We also wanted to implement the use of HTTP also within the project. This would allow for clients or code not running native java, like a arduino, to communicate with the server using JSON objects. Since both standards are well known, it would also be both easier for other developers to create sensors by giving them some requirements of what they had to send.
 
+The encryption method we decided on was the use of TLS. This was with the anticipation of allowing for web browsers to take contact with the server by using the HTTP protocol. While the solution in Java was "tricky" to implement it (Java does not have a "easy" solution for this) was worth it in the end. We decided against letting the java client trust everything and instead add functionality to fetch different self signed certificate from a folder. This allows us to take the full functionality of TLS to verify the source was trustworthy while also encrypting the content and ensuring it is not tampered with.
 
-
-Here you write about the "things" you have used in your project. At the same
-time these are things that another person must know about to be able to
-understand your project.
-Some principles to follow:
-
-* Write about all the relevant theory, technologies and protocols that your
-  project builds upon. For example, if you transfer data in JSON format using
-  the HTTP protocol, you should mention this and other protocols that it depends
-  on:
-    * HTTP
-    * JSON
-    * TCP
-    * IP
-    * Ethernet or wireless protocols you have used (is it 802.11x or something
-      else?)
-* Remember to mention the "why" - how is this "thing" you write about relevant
-  to your project? What does this protocol provide for your project? For
-  example, if you mention TCP - how is it important for your project? What if
-  you took away TCP, what would happen? What does TCP ensure for you?
-* Assume that the reader is your peer student - a computer science bachelor
-  student, midway through the study. Someone taking this course next year should
-  be able to read your report and understand it.
-* Don't go too deep. For example, you don't need to explain a lot of detail of
-  object-oriented programming. Every computer science student should know what
-  it is.
-* Prefer short description of many protocols instead of deep description of few
-  protocols.
-* Are there any specific aspects which are relevant for your project? If not,
-  don't describe those. For example, students sometimes spend several pages
-  describing the different methods (GET, POST, PUT) of HTTP protocol. Is that
-  important for your project? Do you use all these methods? If not, don't write
-  about these.
-* Is there any domain-knowledge the reader should know to understand the
-  project? For example, if you are monitoring temperature in a greenhouse, what
-  is known about it? Is the optimal temperature +20..30C, or is it -10..0C?
-* At the same time, remember that the focus of the course is computer networks
-  and networking protocols. Therefore, use more time describing
-  networking-related concepts.
-* Describe the theory and techniques have you used for data simulation,
-  processing and visualization?
-* What connection to your other subjects does this project have? Does it use any
-  methods learned from the IDATA2302 Algorithms and data structures? Maybe
-  something from IDATA2303 Data modelling and databases? Or maybe you apply some
-  statistical methods from ISTA1003 Statistics?
+THe only other subject we ended up implementing was IDATA2303, Data modeling and database application. This was to store the sensors, rooms and the log data. We take in the use of the database by using "connectors" to read and write data on the database file whenever the server gets a request.
 
 ## Methodology
 
