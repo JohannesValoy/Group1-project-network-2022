@@ -2,7 +2,6 @@ package no.ntnu.idata2304.group1.clientapp.app2.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -11,15 +10,11 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.FlowPane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import no.ntnu.idata2304.group1.clientapp.app2.network.ClientSocket;
 import no.ntnu.idata2304.group1.data.Room;
-import no.ntnu.idata2304.group1.clientapp.app2.ui.ErrorDialogs123;
 
 
 /**
