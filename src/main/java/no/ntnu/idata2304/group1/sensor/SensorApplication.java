@@ -1,8 +1,10 @@
 package no.ntnu.idata2304.group1.sensor;
 
 import java.io.IOException;
+import no.ntnu.idata2304.group1.data.Sensor;
 import no.ntnu.idata2304.group1.sensor.network.NodeSocket;
 import no.ntnu.idata2304.group1.sensor.sensors.BoundedSensor;
+import no.ntnu.idata2304.group1.sensor.sensors.RoomHumiditySensor;
 import no.ntnu.idata2304.group1.sensor.sensors.RoomTemperatureSensor;
 
 /**
@@ -18,11 +20,11 @@ public class SensorApplication implements Runnable {
     /**
      * Creates a new sensor application.
      *
-     * @param name          the name
-     * @param apiKey        the api key
+     * @param name the name
+     * @param apiKey the api key
      * @param serverAdresse the server adresse
-     * @param serverPort    the server port
-     * @param customCerts   the custom certs
+     * @param serverPort the server port
+     * @param customCerts the custom certs
      * @throws IOException the io exception
      */
     public SensorApplication(String name, String apiKey, String serverAdresse, int serverPort,
@@ -31,6 +33,21 @@ public class SensorApplication implements Runnable {
         sensor = new RoomTemperatureSensor(name);
         this.apiKey = apiKey;
     }
+
+    public SensorApplication(String name, String apiKey, String serverAdresse, int serverPort,
+            String customCerts, Sensor.Types type) throws IOException {
+        nodeSocket = new NodeSocket(serverAdresse, serverPort, customCerts);
+        if (type == Sensor.Types.TEMPERATURE) {
+            sensor = new RoomTemperatureSensor(name);
+        } else if (type == Sensor.Types.HUMIDITY) {
+            sensor = new RoomHumiditySensor(name);
+        } else {
+            throw new IllegalArgumentException("Unknown sensor type");
+        }
+        this.apiKey = apiKey;
+
+    }
+
 
     /**
      * Run the application, does not return, except if something goes wrong.
