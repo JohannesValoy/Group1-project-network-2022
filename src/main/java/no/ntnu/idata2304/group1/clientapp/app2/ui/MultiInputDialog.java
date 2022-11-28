@@ -63,6 +63,7 @@ public class MultiInputDialog extends Dialog {
 
         // Do some validation (using the Java 8 lambda syntax).
         username.textProperty().addListener((observable, oldValue, newValue) -> {
+            
             loginButton.setDisable(newValue.trim().isEmpty());
         });
 
