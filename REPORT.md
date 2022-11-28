@@ -7,6 +7,7 @@ The project is part of our evaluation within the course with a 40% weight on out
 
 Temperature is something that effects us everyday.
 
+--------------------------------------------------------------------------------
 This is the shortest version of your project's description. Think of a busy
 person who has 1 minute to get familiar with what this is about. The abstract
 should be short but descriptive.
@@ -19,7 +20,7 @@ Suggested content in the abstract:
 * Describe the experiments or evaluation you have done
 * Conclusions and possible future work
 
-
+ 
 
 Here is an example abstract of an imaginary project:
 Modern urban lifestyle has high demands on the individuals. We have busy
@@ -39,6 +40,18 @@ phone of a family member.
 
 Note: in your project you may not have user tests. Describe the analysis and
 evaluation you have had.
+--------------------------------------------------------------------------------
+In modern society sleeping problems is a common problem. Sleep problems might 
+have many different causes, but two of the most common causes is the room
+temperature and humidity. To avoid this problem, we have made a temperature 
+logger that measures the temperature in a room and sends the data to a database. 
+The data is then visualized in an application. This way the user can see what 
+temperature makes for the best sleep quality, and if the humidity is on the 
+best levels for good sleep and good health. Possible future work could be 
+adding the ability to see the average temperature and humidity at any time of day,
+and the ability to rate your sleep to see better what makes the sleep quality 
+increase, and what makes it decrease. 
+
 
 ## Introduction
 
@@ -55,6 +68,20 @@ Here you introduce your project in more detail. Include the following:
   in ["Methodology"]. Then the obtained [results] are presented, followed by
   [reflection and discussion of possible improvements]." Note: don't copy this
   text, write your own!
+
+In a world where more and more people struggle with sleep problems, it's 
+important to do research and make products that can help helping people
+fixing these problems to increase their quality of life. As a part of 
+the solution, our temperature sensor, is designed to be placed in the
+bedroom of a user, tracking the temperature and humidity of the room. 
+Methodology contains the method we used to get to the result, how we 
+worked in groups, how distributed the, tasks, how we got pased obstacles
+and how we evaluated the result. 
+
+
+
+In this report there will be a focus on the device and how it was created. The chapter theory and technology, will 
+define important terms used in the report and the specific technology in use in our product. 
 
 We have made an application that measures and records the temperature and humidity 
 in a room throughout the day via a temperature- and humidity-sensor.

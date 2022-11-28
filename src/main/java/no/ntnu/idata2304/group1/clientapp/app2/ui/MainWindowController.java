@@ -6,7 +6,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 
 /**
- * makes a window with data with a grid pane for every room.
+ * Makes a window with data with a grid pane for every room.
+ * 
  */
 
 public class MainWindowController {
