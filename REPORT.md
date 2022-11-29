@@ -20,8 +20,6 @@ Suggested content in the abstract:
 * Describe the experiments or evaluation you have done
 * Conclusions and possible future work
 
- 
-
 Here is an example abstract of an imaginary project:
 Modern urban lifestyle has high demands on the individuals. We have busy
 schedules and need to remember many things. One of the most irritating things in
@@ -125,14 +123,11 @@ THe only other subject we ended up implementing was IDATA2303, Data modeling and
 
 ## Methodology
 
-We have focused on working in groups while giving us different tasks 
+We have focused on working individually by splitting the different parts of the projects. We had mostly two people working on the client side and one working on the server side. Meeting up often has allowed us for opening discussions or asking questions between the different group members. This has allowed us to keep up to date on what the other group members are doing and give either insight, advice or ask about implementation of their code.
 
-Here you can write about the way you have worked. You don't need to write much
-about how you organized sprints, this documentation will be handled separately.
-Again - think about the next engineer-reader. What does the engineer need to
-know about the way you worked? Did you do some user tests? Experiments? How did
-you measure, evaluate? Any best-practices you followed? What must the reader
-understand to be able to interpret the results properly?
+We as a group did not have a "standard" way of doing things. This is because of different visions, insight and experiences between the different group members. While some created branches to label their code task others pushed straight to main with belief that the commit messages was a good enough description. This has both caused negative effects, like unfinished code would be pushed to main causing errors to show up in others code and positive effects, like getting out code faster and in some cases more reliable because of the coder being caution that the code actually works.
+
+We have next to none "user test" since the program was very late finished within the project period. Some other types of tests we conducted was with the use of JUnit on some classes where we found it necessary to ensure that the code stilled worked after modification. This could have been done more often as there were multiple times where we had the need to modify finished code and it either reported wrong or failed after testing when communicating with clients or sensor nodes over the internet.
 
 ## Results
 
@@ -157,8 +152,6 @@ well and why?
 While the project did not have all the functionality we wanted it was still a interesting and cool project to work on. We were able to create a minimal required product from scratch, and code that we could hopefully use in further projects that uses network.
 
 While we have created the minimal required product we still feel like the project has so much more potential. For example one, we originally wanted to use HTTP to communicate with the sensors to allow small micro-controllers, like arduino that run different languages, to communicate with the server. A general list would be finishing the features on the back-end.
-
-In general 
 
 Here you summarize the work shortly, the status. Also, here you identify the
 potential work in the future. Note: think in general - how could this work be
