@@ -5,7 +5,7 @@ The project is part of our evaluation within the course with a 40% weight on out
 
 ## Abstract
 
-Temperature is something that effects us everyday.
+Temperature is something that effects us every day.
 
 --------------------------------------------------------------------------------
 This is the shortest version of your project's description. Think of a busy
@@ -40,7 +40,7 @@ Note: in your project you may not have user tests. Describe the analysis and
 evaluation you have had.
 --------------------------------------------------------------------------------
 In modern society sleeping problems is a common problem. Sleep problems might 
-have many different causes, but two of the most common causes is the room
+have many causes, but two of the most common causes is the room
 temperature and humidity. To avoid this problem, we have made a temperature 
 logger that measures the temperature in a room and sends the data to a database. 
 The data is then visualized in an application. This way the user can see what 
@@ -68,12 +68,12 @@ Here you introduce your project in more detail. Include the following:
   text, write your own!
 
 In a world where more and more people struggle with sleep problems, it's 
-important to do research and make products that can help helping people
+important to do research and make products that can help people
 fixing these problems to increase their quality of life. As a part of 
 the solution, our temperature sensor, is designed to be placed in the
 bedroom of a user, tracking the temperature and humidity of the room. 
 Methodology contains the method we used to get to the result, how we 
-worked in groups, how distributed the, tasks, how we got pased obstacles
+worked in groups, how distributed the, tasks, how we got passed obstacles
 and how we evaluated the result. 
 
 
@@ -111,13 +111,13 @@ and what problems in our every-day lives it can help to solve.
 
 ## Theory and technology
 
-Since we build our own server and the client were also written in java we decided to use the ObjectInput and ObjectOutput streams so we could send objects back and forth. This was so the implementation of both sides could be easier done, and since it already was created it saved us for some work.
+Since we build our own server and the client were also written in java we decided to use the ObjectInput and ObjectOutput streams, so we could send objects back and forth. This was so the implementation of both sides could be easier done, and since it already was created it saved us for some work.
 
 The message object that we are sending was highly inspired by the HTTP standard. There was 1 major benefits for doing it this way. It would allow for a good and fast implementation of allowing the HTTP protocols.
 
 The project is highly reliant of the TCP protocol because we needed the reliability for the packages not becoming lost or corrupted. UDP was not a alternative since we were not "sending enough packages often enough". The only case within the project were that would be "good enough" was if you had enough sensors in a room to where inaccurate data would not be a problem anymore. We also wanted to implement the use of HTTP also within the project. This would allow for clients or code not running native java, like a arduino, to communicate with the server using JSON objects. Since both standards are well known, it would also be both easier for other developers to create sensors by giving them some requirements of what they had to send.
 
-The encryption method we decided on was the use of TLS. This was with the anticipation of allowing for web browsers to take contact with the server by using the HTTP protocol. While the solution in Java was "tricky" to implement it (Java does not have a "easy" solution for this) was worth it in the end. We decided against letting the java client trust everything and instead add functionality to fetch different self signed certificate from a folder. This allows us to take the full functionality of TLS to verify the source was trustworthy while also encrypting the content and ensuring it is not tampered with.
+The encryption method we decided on was the use of TLS. This was with the anticipation of allowing for web browsers to take contact with the server by using the HTTP protocol. While the solution in Java was "tricky" to implement it (Java does not have a "easy" solution for this) was worth it in the end. We decided against letting the java client trust everything and instead add functionality to fetch different self-signed certificate from a folder. This allows us to take the full functionality of TLS to verify the source was trustworthy while also encrypting the content and ensuring it is not tampered with.
 
 THe only other subject we ended up implementing was IDATA2303, Data modeling and database application. This was to store the sensors, rooms and the log data. We take in the use of the database by using "connectors" to read and write data on the database file whenever the server gets a request.
 
@@ -127,7 +127,7 @@ We have focused on working individually by splitting the different parts of the 
 
 We as a group did not have a "standard" way of doing things. This is because of different visions, insight and experiences between the different group members. While some created branches to label their code task others pushed straight to main with belief that the commit messages was a good enough description. This has both caused negative effects, like unfinished code would be pushed to main causing errors to show up in others code and positive effects, like getting out code faster and in some cases more reliable because of the coder being caution that the code actually works.
 
-We have next to none "user test" since the program was very late finished within the project period. Some other types of tests we conducted was with the use of JUnit on some classes where we found it necessary to ensure that the code stilled worked after modification. This could have been done more often as there were multiple times where we had the need to modify finished code and it either reported wrong or failed after testing when communicating with clients or sensor nodes over the internet.
+We have next to none "user test" since the program was very late finished within the project period. Some other types of tests we conducted was with the use of JUnit on some classes where we found it necessary to ensure that the code stilled worked after modification. This could have been done more often as there were multiple times when we had the need to modify finished code and it either reported wrong or failed after testing when communicating with clients or sensor nodes over the internet.
 
 ## Results
 
@@ -157,9 +157,9 @@ well and why?
 
 ## Conclusion and future work
 
-While the project did not have all the functionality we wanted it was still a interesting and cool project to work on. We were able to create a minimal required product from scratch, and code that we could hopefully use in further projects that uses network.
+While the project did not have all the functionality we wanted it was still an interesting and cool project to work on. We were able to create a minimal required product from scratch, and code that we could hopefully use in further projects that uses network.
 
-While we have created the minimal required product we still feel like the project has so much more potential. For example one, we originally wanted to use HTTP to communicate with the sensors to allow small micro-controllers, like arduino that run different languages, to communicate with the server. A general list would be finishing the features on the back-end.
+While we have created the minimal required product we still feel like the project has so much more potential. For example one, we originally wanted to use HTTP to communicate with the sensors to allow small microcontrollers, like arduino that run different languages, to communicate with the server. A general list would be finishing the features on the back-end.
 
 Here you summarize the work shortly, the status. Also, here you identify the
 potential work in the future. Note: think in general - how could this work be
