@@ -105,6 +105,8 @@ but should be around 50% in the winter and a little higher in the summer, but no
 Using our temperature and humidity sensor could assist greatly in making sure your sleep conditions are optimal,
 so that you wake up rested and can live a healthy and happy life.
 
+# Above this needs to have references
+
 These are just a few examples of the importance of our project
 and what problems in our every-day lives it can help to solve.
 
@@ -147,6 +149,14 @@ The reason for creating the clientHandler and DBConnector pool is to allow for s
 There is still a bunch of features the server can do, but needs to implement like adding new nodes and rooms. This is would easily implemented using a combination of the SQLConverter, CommandFactory and the RequestsHandler.
 
 ### Clients
+
+The current working Java client uses the following implementation:
+
+![A UML Diagram of the current working client solution.](Images/clientappClassDiagram.png)
+
+The application for clients is a JavaFX application. The application is split into three parts. The first part is the conection screen. The connection screen is used to connect to the server. The second part the send and recive screen. The send and recive screen is used to send and recive data from and to the server. The third is the main screen. The main screen is used to view the different rooms and sensors. The main screen also allows for the user to add new rooms and sensors.
+
+The client application uses the ClientSo
 
 ### Sensors
 

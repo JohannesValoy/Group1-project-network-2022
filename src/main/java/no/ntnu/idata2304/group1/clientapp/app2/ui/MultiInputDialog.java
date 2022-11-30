@@ -1,5 +1,6 @@
 package no.ntnu.idata2304.group1.clientapp.app2.ui;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.cert.CertPath;
 import java.util.Optional;
@@ -104,11 +105,11 @@ public class MultiInputDialog extends Dialog {
                 new FileChooser.ExtensionFilter("Text Files", "*.cer"));
         // fileChooser.setInitialDirectory(new
         // java.io.File(System.getProperty("user.home") + "/Desktop"));
-        fileChooser.setInitialDirectory(new java.io.File(certPathStr));
-        fileChooser.showOpenDialog(stage);
-        Optional<String> certPath = Optional.of(fileChooser.getInitialDirectory().getAbsolutePath());
-        if (certPath.isPresent()) {
-            certPathStr = certPath.get();
+        // fileChooser.setInitialDirectory(new java.io.File(certPathStr));
+        File cert = fileChooser.showOpenDialog(stage);
+        // Optional<String> certPath = Optional.of(fileChooser.getInitialDirectory().getAbsolutePath());
+        if (cert != null && cert.exists()) {
+            certPathStr = cert.getAbsolutePath();
         }
 
         return certPathStr;

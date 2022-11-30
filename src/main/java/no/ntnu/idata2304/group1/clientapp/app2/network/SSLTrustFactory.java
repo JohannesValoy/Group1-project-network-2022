@@ -15,6 +15,8 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -95,8 +97,15 @@ public class SSLTrustFactory {
             throws GeneralSecurityException {
         CertificateFactory cf = CertificateFactory.getInstance("X.509");
         File trustedCertsFolder = new File(path);
-        if (trustedCertsFolder.isDirectory() && trustedCertsFolder.exists()) {
-            for (File file : trustedCertsFolder.listFiles()) {
+        if (trustedCertsFolder.exists()) {
+            ArrayList<File> files = new ArrayList<>();
+            if (trustedCertsFolder.isDirectory()) {
+                files.addAll(Arrays.asList(trustedCertsFolder.listFiles()));
+
+            } else {
+                files.add(trustedCertsFolder);
+            }
+            for (File file : files) {
                 if (file.getAbsolutePath().endsWith(".cer")) {
                     try (InputStream stream = new FileInputStream(file)) {
                         trustStore.setCertificateEntry(file.getName(),
