@@ -146,6 +146,8 @@ Every time the ClientRunnable finds a response, it uses the RequestHandler to pr
 
 The reason for creating the clientHandler and DBConnector pool is to allow for small optimization. The DBConnector is to already have a bunch of connectors available instead of designating one DBConnector per client. This removes the opening and closing connection on the databases whenever a client connects or disconnects. This also creates a better environment for the connector since a model where every client has it's own will work, but the connector may not be in use and only use space within the ram. The same within the clientHandler. Instead of designating a thread per client, that would be faster, it's not necessary. Since the probability of every client sending requests at the same time is very low, we could instead just check it one per time we go trough the list. This reduces the amount of thread necessarily from x clients to (1+pool size) times (1 + Clients/LimitOnClientHandler) rounded down. This makes the the amount of threads the server needs scale much better.
 
+There is still a bunch of features the server can do, but needs to implement like adding new nodes and rooms. This is would easily implemented using a combination of the SQLConverter, CommandFactory and the RequestsHandler.
+
 ### Clients
 
 The current working Java client uses the following implementation:
@@ -158,16 +160,9 @@ The client application uses the ClientSo
 
 ### Sensors
 
-Here you describe the results you have obtained. Some considerations:
+The sensors is a modified version of the one given by us from <https://github.com/ntnu-datakomm/project-resources/tree/main/sensor-node-example>. This was done because we originally wanted to use microcontrollers but prioritized other stuff like optimizing the server. The things we modified was linking it to the already created sensor version we had in the data folder and adding a nodeSocket, quite similar to the clientSocket.
 
-* Have a top-down approach. Start with a short introduction, then go more into
-  details. For example, a good way to start the section could be with a picture
-  showing the overall architecture of the solution and a short text describing
-  it. After that you can go into more details on each component of the system.
-* Describe the structure you got, the general principles of how it works.
-* You could also include some screenshots showing the system. How could the
-  reader get an impression of the result without running the system?
-* No need to include code in the report, all the code is in the repository.
+We wanted to restrict what sensor nodes that could send information. Therefor we have listed the different nodes within the database with api-keys and the type of sensor it is. That way the sensor need only to send it's key to be identified within the system and the database could be able to distinguish when fetching the data to know what kind it is.
 
 ## Discussion
 

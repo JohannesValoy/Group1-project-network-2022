@@ -23,6 +23,7 @@ public class TCPListenerTest {
      */
     @Test
     public void messageTest() {
+
         try (TCPListener listener = new JavaListener(6008,
                 TCPListener.class.getResource("TestKeys").getPath().toString().replace("%20", " "),
                 "123");) {
