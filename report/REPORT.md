@@ -39,17 +39,17 @@ phone of a family member.
 Note: in your project you may not have user tests. Describe the analysis and
 evaluation you have had.
 --------------------------------------------------------------------------------
-In modern society sleeping problems is a common problem. Sleep problems might 
-have many causes, but two of the most common causes is the room
-temperature and humidity. To avoid this problem, we have made a temperature 
-logger that measures the temperature in a room and sends the data to a database. 
-The data is then visualized in an application. This way the user can see what 
-temperature makes for the best sleep quality, and if the humidity is on the 
-best levels for good sleep and good health. Possible future work could be 
-adding the ability to see the average temperature and humidity at any time of day,
-and the ability to rate your sleep to see better what makes the sleep quality 
-increase, and what makes it decrease. 
 
+In modern society sleeping problems is a common problem. Sleep problems might
+have many causes, but two of the most common causes is the room
+temperature and humidity. To avoid this problem, we have made a temperature
+logger that measures the temperature in a room and sends the data to a database.
+The data is then visualized in an application. This way the user can see what
+temperature makes for the best sleep quality, and if the humidity is on the
+best levels for good sleep and good health. Possible future work could be
+adding the ability to see the average temperature and humidity at any time of day,
+and the ability to rate your sleep to see better what makes the sleep quality
+increase, and what makes it decrease.
 
 ## Introduction
 
@@ -67,26 +67,24 @@ Here you introduce your project in more detail. Include the following:
   [reflection and discussion of possible improvements]." Note: don't copy this
   text, write your own!
 
-In a world where more and more people struggle with sleep problems, it's 
+In a world where more and more people struggle with sleep problems, it's
 important to do research and make products that can help people
-fixing these problems to increase their quality of life. As a part of 
+fixing these problems to increase their quality of life. As a part of
 the solution, our temperature sensor, is designed to be placed in the
-bedroom of a user, tracking the temperature and humidity of the room. 
-Methodology contains the method we used to get to the result, how we 
+bedroom of a user, tracking the temperature and humidity of the room.
+Methodology contains the method we used to get to the result, how we
 worked in groups, how distributed the, tasks, how we got passed obstacles
-and how we evaluated the result. 
+and how we evaluated the result.
 
+In this report there will be a focus on the device and how it was created. The chapter theory and technology, will
+define important terms used in the report and the specific technology in use in our product.
 
-
-In this report there will be a focus on the device and how it was created. The chapter theory and technology, will 
-define important terms used in the report and the specific technology in use in our product. 
-
-We have made an application that measures and records the temperature and humidity 
+We have made an application that measures and records the temperature and humidity
 in a room throughout the day via a temperature- and humidity-sensor.
-There are many benefits to monitoring your indoor environmental conditions with an application such as this. 
-One of the most important reasons to use a sensor like this, 
-is to make sure that you are maintaining a healthy indoor air quality in the various rooms in your house, 
-such as your living room, bedroom, and bathroom. 
+There are many benefits to monitoring your indoor environmental conditions with an application such as this.
+One of the most important reasons to use a sensor like this,
+is to make sure that you are maintaining a healthy indoor air quality in the various rooms in your house,
+such as your living room, bedroom, and bathroom.
 Because if you don’t, you may risk affecting your, and others’, health.
 
 As previously stated, poor indoor air quality can bring some unfortunate consequences.
@@ -96,17 +94,17 @@ If you are allergic to mould, depending on the severity of the allergy,
 can lead to very serious reactions, and hospital visits.
 It has also been documented that the proper temperature and humidity has direct impact on the quality of your sleep.
 
-If you have been having trouble getting a good night’s sleep, 
-it might be worth taking into consideration the temperature and humidity in your bedroom during the night. 
-Depending on where your bedroom windows are located, and the climate your country experiences, 
-you might be having some humidity and temperature swings during the night that can negatively influence your sleep. 
-Research shows that the ideal temperature for a bedroom is around 14-18 degrees Celsius. 
-The proper humidity in a bedroom fluctuates depending on the season, 
+If you have been having trouble getting a good night’s sleep,
+it might be worth taking into consideration the temperature and humidity in your bedroom during the night.
+Depending on where your bedroom windows are located, and the climate your country experiences,
+you might be having some humidity and temperature swings during the night that can negatively influence your sleep.
+Research shows that the ideal temperature for a bedroom is around 14-18 degrees Celsius.
+The proper humidity in a bedroom fluctuates depending on the season,
 but should be around 50% in the winter and a little higher in the summer, but not above 60%.
-Using our temperature and humidity sensor could assist greatly in making sure your sleep conditions are optimal, 
+Using our temperature and humidity sensor could assist greatly in making sure your sleep conditions are optimal,
 so that you wake up rested and can live a healthy and happy life.
 
-These are just a few examples of the importance of our project 
+These are just a few examples of the importance of our project
 and what problems in our every-day lives it can help to solve.
 
 ## Theory and technology
@@ -134,6 +132,16 @@ We have next to none "user test" since the program was very late finished within
 While we hade big ambition, we only managed to create a minimal viable product. The product is able to allow for temperature/humidity sensors to send data as long as it is registered in the database and allow for the clients to view the different rooms and sensors. We allowed for the traffic to be sent with TLS to validate and encrypt the packages.
 
 ### Server
+
+The current working Java server uses the following implementation:
+
+![A UML Diagram of the ](Images/JavaServer.png)
+
+When the server receives a request trough the JavaListener it creates a new JavaClient and adds it to the ClientHandler. The JavaListener is a extension of the TCPListener that will add the client to the ClientHandler. The reason for using different specific classes to the communication is to allow for a faster and cleaner implementation of other protocols. Theoretically everything that needs to be done to implement another service to just create another listener based on the TCPListener an another Client class form ClientRunnable.
+
+Every time the ClientRunnable finds a response, it uses the RequestHandler to process and create the proper response message. The requestHandler's job is to process the message object received from the getRequest method in the ClientRunnable. It starts by filtering the message object into the different kinds of available message types and further calls methods responsible for those kinds. It will in the end call the SQLCommandFactory that will create the right SQL statement and convert it to a java object trough the SQLConverter.
+
+The reason for creating the clientHandler and DBConnector pool is to allow for small optimization. The DBConnector is to already have a bunch of connectors available instead of designating one DBConnector per client. This removes the opening and closing connection on the databases whenever a client connects or disconnects. This also creates a better environment for the connector since a model where every client has it's own will work, but the connector may not be in use and only use space within the ram. The same within the clientHandler. Instead of designating a thread per client, that would be faster, it's not necessary. Since the probability of every client sending requests at the same time is very low, we could instead just check it one per time we go trough the list. This reduces the amount of thread necessarily from x clients to (1+pool size) times (1 + Clients/LimitOnClientHandler) rounded down. This makes the the amount of threads the server needs scale much better.
 
 ### Clients
 
