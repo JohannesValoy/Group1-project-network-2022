@@ -146,6 +146,8 @@ The reason for creating the clientHandler and DBConnector pool is to allow for s
 
 ### Clients
 
+
+
 ### Sensors
 
 Here you describe the results you have obtained. Some considerations:
