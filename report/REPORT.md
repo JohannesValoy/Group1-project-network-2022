@@ -131,6 +131,13 @@ We have next to none "user test" since the program was very late finished within
 
 ## Results
 
+While we hade big ambition, we only managed to create a minimal viable product. The product is able to allow for temperature/humidity sensors to send data as long as it is registered in the database and allow for the clients to view the different rooms and sensors. We allowed for the traffic to be sent with TLS to validate and encrypt the packages.
+
+### Server
+
+### Clients
+
+### Sensors
 
 Here you describe the results you have obtained. Some considerations:
 
