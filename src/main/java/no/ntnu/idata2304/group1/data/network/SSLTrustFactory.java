@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.clientapp.app2.network;
+package no.ntnu.idata2304.group1.data.network;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -8,7 +8,7 @@ import javax.net.SocketFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
-import no.ntnu.idata2304.group1.clientapp.app2.network.SSLTrustFactory;
+import no.ntnu.idata2304.group1.data.network.SSLTrustFactory;
 import no.ntnu.idata2304.group1.data.network.Message;
 import no.ntnu.idata2304.group1.data.network.requests.add.AddMessage;
 import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;

@@ -1,10 +1,9 @@
-package no.ntnu.idata2304.group1.sensors;
+package no.ntnu.idata2304.group1.sensor;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.junit.jupiter.api.Test;
-import no.ntnu.idata2304.group1.sensor.SensorApplication;
 
 
 /**
