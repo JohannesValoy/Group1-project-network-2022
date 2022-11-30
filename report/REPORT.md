@@ -136,7 +136,7 @@ While we hade big ambition, we only managed to create a minimal viable product. 
 
 The current working Java server uses the following implementation:
 
-![A UML Diagram of the ](Images/JavaServer.png)
+![A UML Diagram of the current working server solution](Images/JavaServer.png)
 
 When the server receives a request trough the JavaListener it creates a new JavaClient and adds it to the ClientHandler. The JavaListener is a extension of the TCPListener that will add the client to the ClientHandler. The reason for using different specific classes to the communication is to allow for a faster and cleaner implementation of other protocols. Theoretically everything that needs to be done to implement another service to just create another listener based on the TCPListener an another Client class form ClientRunnable.
 
