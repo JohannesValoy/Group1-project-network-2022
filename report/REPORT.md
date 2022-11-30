@@ -136,6 +136,8 @@ While we hade big ambition, we only managed to create a minimal viable product. 
 
 ### Clients
 
+
+
 ### Sensors
 
 Here you describe the results you have obtained. Some considerations:
