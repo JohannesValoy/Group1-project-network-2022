@@ -105,6 +105,8 @@ but should be around 50% in the winter and a little higher in the summer, but no
 Using our temperature and humidity sensor could assist greatly in making sure your sleep conditions are optimal,
 so that you wake up rested and can live a healthy and happy life.
 
+# Above this needs to have references
+
 These are just a few examples of the importance of our project
 and what problems in our every-day lives it can help to solve.
 
@@ -145,6 +147,10 @@ Every time the ClientRunnable finds a response, it uses the RequestHandler to pr
 The reason for creating the clientHandler and DBConnector pool is to allow for small optimization. The DBConnector is to already have a bunch of connectors available instead of designating one DBConnector per client. This removes the opening and closing connection on the databases whenever a client connects or disconnects. This also creates a better environment for the connector since a model where every client has it's own will work, but the connector may not be in use and only use space within the ram. The same within the clientHandler. Instead of designating a thread per client, that would be faster, it's not necessary. Since the probability of every client sending requests at the same time is very low, we could instead just check it one per time we go trough the list. This reduces the amount of thread necessarily from x clients to (1+pool size) times (1 + Clients/LimitOnClientHandler) rounded down. This makes the the amount of threads the server needs scale much better.
 
 ### Clients
+
+The current working Java client uses the following implementation:
+
+![A UML Diagram of the cliantapp classes.](Images/clientappClassDiagram.png)
 
 
 
