@@ -13,7 +13,6 @@ import no.ntnu.idata2304.group1.data.network.requests.get.GetRoomsMessage;
 import no.ntnu.idata2304.group1.data.network.responses.DataMessage;
 import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
 import no.ntnu.idata2304.group1.data.network.responses.OKMessage;
-import no.ntnu.idata2304.group1.server.database.DBConnectorPool;
 import no.ntnu.idata2304.group1.server.database.SQLCommandFactory;
 
 /**
@@ -24,14 +23,11 @@ public class RequestHandler {
 
     // TODO: Implement Login
 
-    private DBConnectorPool connector;
 
     /**
      * Creates a new RequestHandler
      */
-    public RequestHandler() {
-        this.connector = DBConnectorPool.getInstance();
-    }
+    private RequestHandler() {}
 
 
     /**
@@ -40,7 +36,7 @@ public class RequestHandler {
      * @param request The request to handle
      * @return Message object containing the response
      */
-    public Message getResponse(Message request) {
+    public static Message getResponse(Message request) {
         if (request == null) {
             throw new IllegalArgumentException("The request cannot be null");
         }
@@ -60,11 +56,11 @@ public class RequestHandler {
         return response;
     }
 
-    private Message handleUpdate(UpdateMessage request) throws SQLException {
+    private static Message handleUpdate(UpdateMessage request) throws SQLException {
         return new OKMessage();
     }
 
-    private Message handleAdd(AddMessage request) throws SQLException {
+    private static Message handleAdd(AddMessage request) throws SQLException {
         switch (request.getCommand()) {
             case LOG:
                 if (!SQLCommandFactory.checkNodeKey(request.getApiKey())) {
@@ -98,7 +94,8 @@ public class RequestHandler {
      * @param request The request to handle
      * @return Message object containing the response
      */
-    private Message handleGet(GetMessage request) throws IllegalArgumentException, SQLException {
+    private static Message handleGet(GetMessage request)
+            throws IllegalArgumentException, SQLException {
         DataMessage response = null;
         switch (request.getCommand()) {
             case DATA:
@@ -126,7 +123,7 @@ public class RequestHandler {
     }
 
 
-    private DataMessage handleGetData(GetLogsMessage request) throws SQLException {
+    private static DataMessage handleGetData(GetLogsMessage request) throws SQLException {
         DataMessage response = null;
 
         return response;
