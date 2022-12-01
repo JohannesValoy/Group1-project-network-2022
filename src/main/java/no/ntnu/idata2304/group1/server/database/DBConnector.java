@@ -2,6 +2,7 @@ package no.ntnu.idata2304.group1.server.database;
 
 import java.io.Closeable;
 import java.sql.Connection;
+import java.util.logging.Logger;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,9 +14,8 @@ import java.sql.Statement;
  */
 public class DBConnector implements Closeable {
 
-    private static final String dbDrive = "jdbc:sqlite:";
-    private final java.util.logging.Logger Logger =
-            java.util.logging.Logger.getLogger(DBConnector.class.getName());
+    private static final String DBDRIVE = "jdbc:sqlite:";
+    private static final Logger LOGGER = Logger.getLogger(DBConnector.class.getName());
     private Connection conn;
     private String uri;
     private boolean busy = false;
@@ -34,13 +34,15 @@ public class DBConnector implements Closeable {
             path = getClass().getResource("").toString() + "data.db";
         }
         try {
-            this.uri = dbDrive + path.replace("%20", " ");
+            this.uri = DBDRIVE + path.replace("%20", " ");
             this.conn = DriverManager.getConnection(uri);
             if (setup) {
+                LOGGER.info("Running setup script");
                 setup();
             }
 
         } catch (Exception e) {
+            LOGGER.severe("Could not connect to the database");
             throw new RuntimeException("Could not connect to database");
         }
 
@@ -56,7 +58,7 @@ public class DBConnector implements Closeable {
         if (path == null || path.isEmpty()) {
             throw new IllegalArgumentException("The path cannot be null or empty");
         }
-        this.uri = dbDrive + path.replace("%20", " ");
+        this.uri = DBDRIVE + path.replace("%20", " ");
         try {
             this.conn = DriverManager.getConnection(uri);
             if (setup) {
@@ -93,10 +95,8 @@ public class DBConnector implements Closeable {
      * 
      * @param sqlStatement the SQL statement to execute
      * @throws SQLException if the statement could not be executed
-     * @deprecated Use {@link #executeQuery(String)} instead
      */
-    @Deprecated
-    public synchronized void execute(String sqlStatement) throws SQLException {
+    private synchronized void execute(String sqlStatement) throws SQLException {
         busy = true;
         if (sqlStatement == null || sqlStatement.isEmpty()) {
             throw new IllegalArgumentException("The SQL statement cannot be null or empty");
