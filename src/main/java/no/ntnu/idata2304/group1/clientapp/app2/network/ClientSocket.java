@@ -96,7 +96,9 @@ public class ClientSocket {
      */
     public ArrayList<Room> getRoomData(List<String> rooms)
             throws IOException, ClassNotFoundException {
-        output.writeObject(new GetLogsMessage(Sensor.Types.TEMPERATURE, (ArrayList<String>) rooms));
+                GetLogsMessage getLogsMessage = new GetLogsMessage(Sensor.Types.TEMPERATURE, (ArrayList<String>) rooms);
+                getLogsMessage.setLimit(10000);
+        output.writeObject(getLogsMessage);
         Message messageResponse = response();
         ArrayList<Room> data = new ArrayList<>();
         if (messageResponse.getType() == Message.Types.OK) {
@@ -105,7 +107,6 @@ public class ClientSocket {
                 Room room = (Room) it.next();
                 data.add(room);
             }
-
         }
         return data;
     }
