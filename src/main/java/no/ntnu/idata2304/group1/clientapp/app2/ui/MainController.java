@@ -48,9 +48,9 @@ public class MainController extends Application {
             this.clientSocket = MultiInputDialog.getSocketConnectionV2(stage);
             this.clientRooms = this.clientSocket.getRoomData(rooms);
         } catch (IOException e) {
-            ErrorDialogs123.couldNotConnectAlert(e);
+            ErrorDialogs.couldNotConnectAlert(e);
         } catch (ClassNotFoundException e) {
-            ErrorDialogs123.couldNotUpdateRoom(e);
+            ErrorDialogs.couldNotUpdateRoom(e);
         }
 
         autoUpdateRoomData();
@@ -106,10 +106,10 @@ public class MainController extends Application {
                 }
             }
         } catch (IOException e) {
-            ErrorDialogs123.couldNotConnectAlert(e);
+            ErrorDialogs.couldNotConnectAlert(e);
 
         } catch (ClassNotFoundException e) {
-           ErrorDialogs123.couldNotUpdateRoom(e);
+           ErrorDialogs.couldNotUpdateRoom(e);
         }
     }
 
