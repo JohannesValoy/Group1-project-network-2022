@@ -2,15 +2,20 @@ package no.ntnu.idata2304.group1.clientapp.app2.ui;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.cert.CertPath;
 import java.util.Optional;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
@@ -81,34 +86,48 @@ public class MultiInputDialog extends Dialog {
             return null;
         });
 
-        Optional<Pair<String, String>> result = dialog.showAndWait();
 
         String hostName = "localhost";
         int portNumber = 6008;
-        if (result.isPresent()) {
-            hostName = result.get().getKey();
-            portNumber = Integer.parseInt(result.get().getValue());
-        }
+
+        try {
+            Optional<Pair<String, String>> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                hostName = result.get().getKey();
+                portNumber = Integer.parseInt(result.get().getValue());
+            }
 
         certPathStr = getCertFile(stage);
+        } catch (Exception e) {
+            new Alert(AlertType.ERROR, "Error: no port number enterd; Port number is necessary in order to connect to the server\n" + e.getMessage()).showAndWait();
+            //MultiInputDialog.getSocketConnectionV2(stage);
+        }
+
         return new ClientSocket(hostName, portNumber, certPathStr);
     }
 
     private static String getCertFile(Stage stage) {
-        String certPathStr = "C:\\Users\\johan\\Desktop\\Group1testfolder\\src\\test\\resources\\no\\ntnu\\idata2304\\group1\\clientapp\\app2\\network\\trustedCerts";
+        String certPathStr = null;
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Text Files", "*.cer"));
         // fileChooser.setInitialDirectory(new
         // java.io.File(System.getProperty("user.home") + "/Desktop"));
-        // fileChooser.setInitialDirectory(new java.io.File(certPathStr));
-        File cert = fileChooser.showOpenDialog(stage);
-        // Optional<String> certPath = Optional.of(fileChooser.getInitialDirectory().getAbsolutePath());
-        if (cert != null && cert.exists()) {
-            certPathStr = cert.getAbsolutePath();
+        String str = fileChooser.showOpenDialog(stage).getAbsolutePath();
+        try {
+            Optional<String> certPath = Optional.of(str);
+            System.out.println(certPath.get());
+            if (certPath.isPresent()) {
+                System.out.println("present");
+                certPathStr = certPath.get();
+            }
+        } catch (Exception e) {
+            new Alert(AlertType.ERROR, "Error: no certificate file selected; Certificate file is necessary in order to connect to the server\n" + e.getMessage()).showAndWait();
         }
 
+        System.out.println("im here");
+        System.out.println(certPathStr);
         return certPathStr;
 
     }
