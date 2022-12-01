@@ -11,7 +11,7 @@ import no.ntnu.idata2304.group1.sensor.sensors.RoomTemperatureSensor;
  * Represents the whole application, including the logic.
  */
 public class SensorApplication implements Runnable {
-    private static final long SLEEP_DURATION_MS = 2000;
+    private long SLEEP_DURATION_MS = 2000;
     private double lastTemperatureReading;
     private NodeSocket nodeSocket;
     private BoundedSensor sensor;
@@ -78,5 +78,11 @@ public class SensorApplication implements Runnable {
         } catch (InterruptedException e) {
             System.out.println("Ooops, someone woke us up in the middle of a nap");
         }
+    }
+    public void setNapTime(long nappis) throws IllegalArgumentException {
+        if (nappis < 500) {
+            throw new IllegalArgumentException("NapTime can not be less than 500ms");
+        }
+        this.SLEEP_DURATION_MS = nappis;
     }
 }

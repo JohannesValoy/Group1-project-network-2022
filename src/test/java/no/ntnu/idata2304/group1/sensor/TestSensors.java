@@ -40,6 +40,7 @@ public class TestSensors {
                 SensorApplication sensor = new SensorApplication(names[i], keys[i], SERVER_ADDRESS,
                         SERVER_PORT, CUSTOMCERTS);
                 sensors.add(sensor);
+                sensor.setNapTime(500);
 
             } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
@@ -48,7 +49,7 @@ public class TestSensors {
         }
         while (true) {
             try {
-                Thread.sleep(10000);
+                Thread.sleep(750);
             } catch (InterruptedException e) {
             }
             for (SensorApplication s : sensors) {
