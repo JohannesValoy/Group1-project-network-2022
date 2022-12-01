@@ -5,7 +5,7 @@ The project is part of our evaluation within the course with a 40% weight on out
 
 ## Abstract
 
-Temperature is something that effects us every day.
+
 
 --------------------------------------------------------------------------------
 This is the shortest version of your project's description. Think of a busy
@@ -41,6 +41,8 @@ evaluation you have had.
 
 --------------------------------------------------------------------------------
 
+### Alernative 1
+
 In modern society sleeping problems is a common problem. Sleep problems might
 have many causes, but two of the most common causes is the room
 temperature and humidity. To avoid this problem, we have made a temperature
@@ -51,6 +53,10 @@ best levels for good sleep and good health. Possible future work could be
 adding the ability to see the average temperature and humidity at any time of day,
 and the ability to rate your sleep to see better what makes the sleep quality
 increase, and what makes it decrease.
+
+### Alternative 2
+
+Temperature and humidity is something that effects us every day. In some cases can it cause drastic changes to our life, like bad sleep or hy
 
 ## Introduction
 
@@ -146,7 +152,7 @@ Every time the ClientRunnable finds a response, it uses the RequestHandler to pr
 
 The reason for creating the clientHandler and DBConnector pool is to allow for small optimization. The DBConnector is to already have a bunch of connectors available instead of designating one DBConnector per client. This removes the opening and closing connection on the databases whenever a client connects or disconnects. This also creates a better environment for the connector since a model where every client has it's own will work, but the connector may not be in use and only use space within the ram. The same within the clientHandler. Instead of designating a thread per client, that would be faster, it's not necessary. Since the probability of every client sending requests at the same time is very low, we could instead just check it one per time we go trough the list. This reduces the amount of thread necessarily from x clients to (1+pool size) times (1 + Clients/LimitOnClientHandler) rounded down. This makes the the amount of threads the server needs scale much better.
 
-There is still a bunch of features the server can do, but needs to implement like adding new nodes and rooms. This is would easily implemented using a combination of the SQLConverter, CommandFactory and the RequestsHandler.
+There is still a bunch of features the server can do, but needs to implement like adding new nodes and rooms. While it is missing these features the skeleton of the server application is finished.
 
 ### Clients
 
@@ -166,6 +172,7 @@ We wanted to restrict what sensor nodes that could send information. Therefor we
 
 ## Discussion
 
+
 Here you can reflect on the result. What is working well? What is not working
 well and why?
 
@@ -173,13 +180,18 @@ well and why?
 
 While the project did not have all the functionality we wanted it was still an interesting and cool project to work on. We were able to create a minimal required product from scratch, and code that we could hopefully use in further projects that uses network.
 
-While we have created the minimal required product we still feel like the project has so much more potential. For example one, we originally wanted to use HTTP to communicate with the sensors to allow small microcontrollers, like arduino that run different languages, to communicate with the server. A general list would be finishing the features on the back-end.
+While we have created the minimal required product we still feel like the project has more potential. For example one, we originally wanted to use HTTP to communicate with the sensors to allow small microcontrollers, like arduino that run different languages, to allow for communication with the server.
 
 Here you summarize the work shortly, the status. Also, here you identify the
 potential work in the future. Note: think in general - how could this work be
 continued (by your group or by others)?
 
 ## References
+
+[Site: National Library of medicine, Article: Planting Healthier Indoor, Author: Luz Claudio, October 2011](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3230460/)
+
+[Site: The Sleep Charity, Article: Sleep Environment, Desember 2022](https://thesleepcharity.org.uk/information-support/adults/sleep-environment/)
+
 
 Here you provide sources of information. In a written report you typically
 include list of references in the end and have only links to those in the text,

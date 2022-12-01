@@ -121,12 +121,4 @@ public class RequestHandler {
         }
         return response;
     }
-
-
-    private static DataMessage handleGetData(GetLogsMessage request) throws SQLException {
-        DataMessage response = null;
-
-        return response;
-    }
-
 }
