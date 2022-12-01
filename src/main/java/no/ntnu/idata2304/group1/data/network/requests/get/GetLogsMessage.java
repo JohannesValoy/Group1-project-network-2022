@@ -98,11 +98,12 @@ public class GetLogsMessage extends GetMessage {
     /**
      * Sets the limit of the amount of data to get
      * 
-     * @param limit number between 0 and 100
+     * @param limit number higher 0 
+     * @throws IllegalArgumentException if limit is lower than 1 
      */
     public void setLimit(int limit) throws IllegalArgumentException {
-        if (0 > limit || limit > 100) {
-            throw new IllegalArgumentException("Limit must be between 0 and 100");
+        if (0 >= limit) {
+            throw new IllegalArgumentException("Limit must above 0");
         }
         this.limit = limit;
     }
