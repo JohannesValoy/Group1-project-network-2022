@@ -18,12 +18,12 @@ import no.ntnu.idata2304.group1.data.Sensor;
  */
 public class SQLCommandFactory {
 
-    private final static Logger LOGGER = Logger.getLogger(SQLCommandFactory.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SQLCommandFactory.class.getName());
 
-    private final static String SELECT = "SELECT * FROM ";
+    private static final String SELECT = "SELECT * FROM ";
 
-    private final static String GETROOMDATA = "SELECT * FROM " + Tables.TEMP.getTable()
-            + " INNER JOIN " + Tables.ROOMS.getTable() + " ON " + Tables.ROOMS.getTable() + ".id = "
+    private static final String GETROOMDATA = SELECT + Tables.TEMP.getTable() + " INNER JOIN "
+            + Tables.ROOMS.getTable() + " ON " + Tables.ROOMS.getTable() + ".id = "
             + Tables.TEMP.getTable() + ".roomid" + " INNER JOIN " + Tables.NODE.getTable() + " ON "
             + Tables.NODE.getTable() + ".id = " + Tables.TEMP.getTable() + ".nodeid AND "
             + Tables.NODE.getTable() + ".type LIKE ? WHERE rooms.RoomName LIKE ?";
