@@ -13,6 +13,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import no.ntnu.idata2304.group1.data.Room;
 import no.ntnu.idata2304.group1.data.SensorRecord;
+import no.ntnu.idata2304.group1.data.SortbyDate;
 
 import java.util.Collections;
 import java.util.List;
@@ -125,6 +126,7 @@ public class RoomWindowController {
                 } catch (Exception e) {
                     autoUpdate = false;
                     new Alert(Alert.AlertType.ERROR, e.getMessage() + " error updating the sensor chart").showAndWait();
+                    System.exit(0);
                 }
             } else {
                 new Alert(Alert.AlertType.ERROR,
@@ -161,19 +163,15 @@ public class RoomWindowController {
         series.setName(this.room.getListOfSensors().get(sensorID).getTypeName());
         this.title.setText("Room Number " + this.room.getName());
         List<SensorRecord> sensorReadings = this.room.getListOfSensors().get(sensorID).getHistoryLog();
-                if((sensorReadings.get(1).date().getSecond() < sensorReadings.get(0).date().getSecond() || sensorReadings.get(1).date().getMinute() < sensorReadings.get(0).date().getMinute() || sensorReadings.get(1).date().getHour() < sensorReadings.get(0).date().getHour())){
-                    Collections.reverse(sensorReadings);
-                    System.out.println("Reversed");
-                } else {
-                    System.out.println("No need to reverse");
-                }
+              sensorReadings.sort(new SortbyDate());
         for (SensorRecord sensorReading : sensorReadings) {
             
             series.getData()
-                    .add(new XYChart.Data(
+                    .add(new XYChart.Data<>(
                             convertIntToTwoDigits(sensorReading.date().getHour()) + "."
                                     + convertIntToTwoDigits(sensorReading.date().getMinute()) + "." + convertIntToTwoDigits(sensorReading.date().getSecond()),
                             sensorReading.value()));
+
         }
         ObservableList<XYChart.Series<String, Double>> seriesList =
                 FXCollections.observableArrayList();
@@ -182,11 +180,12 @@ public class RoomWindowController {
         return seriesList;
     }
 
-    public int convertIntToTwoDigits(int number) {
+    public String convertIntToTwoDigits(int number) {
+        String numberStr = Integer.toString(number);
         if (number < 10) {
-            return Integer.parseInt("0" + number);
+            numberStr = "0" + number;
         }
-        return number;
+        return numberStr;
     }
 
     /**

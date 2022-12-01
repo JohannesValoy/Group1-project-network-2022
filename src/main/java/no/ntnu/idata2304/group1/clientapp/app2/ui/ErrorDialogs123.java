@@ -21,5 +21,6 @@ public static void couldNotConnectAlert(IOException e) {
 
 public static void couldNotUpdateRoom(ClassNotFoundException e){
     new Alert(AlertType.ERROR, e.getMessage() + " - Could not update room data").showAndWait();
+    System.exit(0);
 }
 }
