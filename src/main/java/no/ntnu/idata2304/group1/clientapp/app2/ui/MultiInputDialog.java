@@ -102,7 +102,7 @@ public class MultiInputDialog extends Dialog {
             new Alert(AlertType.ERROR, "Error: no port number enterd; Port number is necessary in order to connect to the server\n" + e.getMessage()).showAndWait();
             //MultiInputDialog.getSocketConnectionV2(stage);
         }
-        
+
         return new ClientSocket(hostName, portNumber, certPathStr);
     }
 
@@ -125,7 +125,7 @@ public class MultiInputDialog extends Dialog {
         } catch (Exception e) {
             new Alert(AlertType.ERROR, "Error: no certificate file selected; Certificate file is necessary in order to connect to the server\n" + e.getMessage()).showAndWait();
         }
-        
+
         System.out.println("im here");
         System.out.println(certPathStr);
         return certPathStr;

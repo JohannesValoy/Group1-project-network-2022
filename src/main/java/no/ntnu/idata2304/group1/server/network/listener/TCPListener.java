@@ -2,14 +2,11 @@ package no.ntnu.idata2304.group1.server.network.listener;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
+import java.util.logging.Logger;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLSocket;
-import no.ntnu.idata2304.group1.server.messages.LogOutputer;
-import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
 import no.ntnu.idata2304.group1.server.network.SeverSSLKeyFactory;
 import no.ntnu.idata2304.group1.server.network.clients.ClientRunnable;
 import no.ntnu.idata2304.group1.server.network.handlers.ClientHandler;
@@ -21,7 +18,7 @@ public abstract class TCPListener extends Thread implements Closeable {
     private SSLServerSocket socket;
     private ClientHandler clientHandler;
 
-    private static final Logger LOGGER = System.getLogger(TCPListener.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(TCPListener.class.getName());
 
     /**
      * Creates a new TCP listener.
@@ -47,24 +44,23 @@ public abstract class TCPListener extends Thread implements Closeable {
 
     @Override
     public void run() {
+        LOGGER.info("Starting to listening for Java Clients");
         while (true) {
-            LogOutputer.print(MessageType.INFO, "Starting to listening for clients");
             SSLSocket client = null;
             try {
                 client = (SSLSocket) socket.accept();
                 client.startHandshake();
-                LogOutputer.print(MessageType.INFO, "Client connected");
+                LOGGER.info("Client connected at " + client.getInetAddress().getHostAddress());
                 clientHandler.addClient(createClient(client));
             } catch (IOException e) {
                 if (client != null) {
                     try {
                         client.close();
                     } catch (IOException e1) {
-                        LOGGER.log(Level.ERROR,
-                                "Error trying to close clientThread after failing to create", e1);
+                        LOGGER.warning("Could not close client socket");
                     }
                 }
-                LogOutputer.print(MessageType.ERROR, "Error connecting to a client");
+                LOGGER.warning("Could not accept client: " + e.getMessage());
             }
         }
     }
