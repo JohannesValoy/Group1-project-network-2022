@@ -161,7 +161,12 @@ public class RoomWindowController {
         series.setName(this.room.getListOfSensors().get(sensorID).getTypeName());
         this.title.setText("Room Number " + this.room.getName());
         List<SensorRecord> sensorReadings = this.room.getListOfSensors().get(sensorID).getHistoryLog();
-                Collections.reverse(sensorReadings);
+                if((sensorReadings.get(1).date().getSecond() < sensorReadings.get(0).date().getSecond() || sensorReadings.get(1).date().getMinute() < sensorReadings.get(0).date().getMinute() || sensorReadings.get(1).date().getHour() < sensorReadings.get(0).date().getHour())){
+                    Collections.reverse(sensorReadings);
+                    System.out.println("Reversed");
+                } else {
+                    System.out.println("No need to reverse");
+                }
         for (SensorRecord sensorReading : sensorReadings) {
             
             series.getData()
