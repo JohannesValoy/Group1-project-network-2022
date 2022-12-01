@@ -1,6 +1,5 @@
 package no.ntnu.idata2304.group1.clientapp.app2.ui;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,8 +16,6 @@ import no.ntnu.idata2304.group1.data.SensorRecord;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * The type Room window controller.

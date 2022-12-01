@@ -17,12 +17,14 @@ public class MainWindowController {
     @FXML
     public javafx.scene.layout.BorderPane BorderPane;
     @FXML
-    private FlowPane mainFlowPane;
+    private ScrollPane scrollPane;
 
     @FXML
     private LineChart<Integer, Integer> sensorChart;
 
-    public MainWindowController() {}
+    public MainWindowController() {
+
+    }
 
     /**
      * returns the flow pane
@@ -30,6 +32,8 @@ public class MainWindowController {
      * @return flow pane
      */
     public FlowPane getFlowPane() {
+        this.scrollPane.setFitToWidth(true);
+        this.scrollPane.setFitToHeight(true);
         return this.flowPane;
     }
     
