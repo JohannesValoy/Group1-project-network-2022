@@ -2,7 +2,6 @@ package no.ntnu.idata2304.group1.clientapp.app2.ui;
 
 import java.io.File;
 import java.io.IOException;
-import java.security.cert.CertPath;
 import java.util.Optional;
 
 import javafx.application.Platform;
@@ -11,9 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;

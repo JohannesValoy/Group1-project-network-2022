@@ -7,10 +7,12 @@ import java.util.TimerTask;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import no.ntnu.idata2304.group1.clientapp.app2.network.ClientSocket;
@@ -24,7 +26,9 @@ import no.ntnu.idata2304.group1.data.Room;
 public class MainController extends Application {
     private MainWindowController mainWindowController;
     private ArrayList<RoomWindowController> roomWindowControllers;
+    @FXML
     private FlowPane flowPane;
+
     private ArrayList<String> rooms;
     private ClientSocket clientSocket;
     private ArrayList<Room> clientRooms;
