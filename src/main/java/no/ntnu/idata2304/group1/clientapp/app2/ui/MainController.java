@@ -12,7 +12,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import no.ntnu.idata2304.group1.clientapp.app2.network.ClientSocket;
@@ -108,6 +107,7 @@ public class MainController extends Application {
             }
         } catch (IOException e) {
             ErrorDialogs123.couldNotConnectAlert(e);
+
         } catch (ClassNotFoundException e) {
            ErrorDialogs123.couldNotUpdateRoom(e);
         }

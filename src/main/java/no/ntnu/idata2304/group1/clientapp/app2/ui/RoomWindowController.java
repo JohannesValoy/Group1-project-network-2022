@@ -126,6 +126,7 @@ public class RoomWindowController {
                 } catch (Exception e) {
                     autoUpdate = false;
                     new Alert(Alert.AlertType.ERROR, e.getMessage() + " error updating the sensor chart").showAndWait();
+                    System.exit(0);
                 }
             } else {
                 new Alert(Alert.AlertType.ERROR,
@@ -179,11 +180,12 @@ public class RoomWindowController {
         return seriesList;
     }
 
-    public int convertIntToTwoDigits(int number) {
+    public String convertIntToTwoDigits(int number) {
+        String numberStr = Integer.toString(number);
         if (number < 10) {
-            return Integer.parseInt("0" + number);
+            numberStr = "0" + number;
         }
-        return number;
+        return numberStr;
     }
 
     /**
