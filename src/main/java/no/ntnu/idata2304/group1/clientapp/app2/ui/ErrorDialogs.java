@@ -5,8 +5,8 @@ import java.io.IOException;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-public class ErrorDialogs123{
-    private ErrorDialogs123(){}
+public class ErrorDialogs {
+    private ErrorDialogs(){}
 
 
 
