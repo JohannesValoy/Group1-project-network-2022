@@ -13,6 +13,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import no.ntnu.idata2304.group1.data.Room;
 import no.ntnu.idata2304.group1.data.SensorRecord;
+import no.ntnu.idata2304.group1.data.SortbyDate;
 
 import java.util.Collections;
 import java.util.List;
@@ -162,13 +163,15 @@ public class RoomWindowController {
         series.setName(this.room.getListOfSensors().get(sensorID).getTypeName());
         this.title.setText("Room Number " + this.room.getName());
         List<SensorRecord> sensorReadings = this.room.getListOfSensors().get(sensorID).getHistoryLog();
+              sensorReadings.sort(new SortbyDate());
         for (SensorRecord sensorReading : sensorReadings) {
             
             series.getData()
-                    .add(new XYChart.Data(
+                    .add(new XYChart.Data<>(
                             convertIntToTwoDigits(sensorReading.date().getHour()) + "."
                                     + convertIntToTwoDigits(sensorReading.date().getMinute()) + "." + convertIntToTwoDigits(sensorReading.date().getSecond()),
                             sensorReading.value()));
+
         }
         ObservableList<XYChart.Series<String, Double>> seriesList =
                 FXCollections.observableArrayList();
