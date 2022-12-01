@@ -138,7 +138,7 @@ public class RoomWindowController {
     }
 
     /**
-     * Get room room.
+     * Get room the room.
      *
      * @return the room
      */

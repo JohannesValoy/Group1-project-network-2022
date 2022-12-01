@@ -156,18 +156,20 @@ The current working Java client uses the following implementation:
 
 The application for clients is a JavaFX application. The application is split into three parts. The first part is the conection screen. The connection screen is used to connect to the server. The second part the send and recive screen. The send and recive screen is used to send and recive data and certificate from and to the server. The third is the main screen. The main screen is used to view the different rooms and sensors.
 
-The client application uses the ClientSo
+The ClientSocket class is used for comunication with the server.
 
 ### Sensors
 
 The sensors is a modified version of the one given by us from <https://github.com/ntnu-datakomm/project-resources/tree/main/sensor-node-example>. This was done because we originally wanted to use microcontrollers but prioritized other stuff like optimizing the server. The things we modified was linking it to the already created sensor version we had in the data folder and adding a nodeSocket, quite similar to the clientSocket.
 
-We wanted to restrict what sensor nodes that could send information. Therefor we have listed the different nodes within the database with api-keys and the type of sensor it is. That way the sensor need only to send it's key to be identified within the system and the database could be able to distinguish when fetching the data to know what kind it is. This allows us to track what each sensor is sending but also restricts so that we must have the sensor within the database to allow it. 
+We wanted to restrict what sensor nodes that could send information. Therefor we have listed the different nodes within the database with api-keys and the type of sensor it is. That way the sensor need only to send it's key to be identified within the system and the database could be able to distinguish when fetching the data to know what kind it is. This allows us to track what each sensor is sending but also restricts so that we must have the sensor within the database to allow it.
 
 ## Discussion
 
 Here you can reflect on the result. What is working well? What is not working
 well and why?
+
+The ui could be improved by adding a way to add new rooms and sensors. This would be done by adding a new screen that would allow for the user to add a new room or sensor. This would be done by sending a request to the server with the information about the new room or sensor. The server would then add the new room or sensor to the database and send a response to the client. The client would then update the ui with the new room or sensor.
 
 ## Conclusion and future work
 
