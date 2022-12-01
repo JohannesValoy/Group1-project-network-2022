@@ -18,7 +18,7 @@ The documentation of the application can be found trough the [wiki](https://gith
 
 ## Report
 
-The report can be found [here](REPORT.md)
+The report can be found [here](./report/REPORT.md)
 
 ## Demonstration
 

@@ -14,6 +14,7 @@ import javax.net.ssl.SSLSocketFactory;
 import no.ntnu.idata2304.group1.data.Room;
 import no.ntnu.idata2304.group1.data.Sensor;
 import no.ntnu.idata2304.group1.data.network.Message;
+import no.ntnu.idata2304.group1.data.network.SSLTrustFactory;
 import no.ntnu.idata2304.group1.data.network.requests.get.GetLogsMessage;
 import no.ntnu.idata2304.group1.data.network.responses.DataMessage;
 import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;

@@ -17,7 +17,7 @@ public class MainWindowController {
     @FXML
     public javafx.scene.layout.BorderPane BorderPane;
     @FXML
-    private ScrollPane scrollPane;
+    private FlowPane mainFlowPane;
 
     @FXML
     private LineChart<Integer, Integer> sensorChart;

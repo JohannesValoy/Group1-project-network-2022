@@ -1,13 +1,10 @@
 package no.ntnu.idata2304.group1.server.network.clients;
 
-import java.io.EOFException;
 import java.io.IOException;
 import java.util.logging.Logger;
 import javax.net.ssl.SSLSocket;
 import no.ntnu.idata2304.group1.data.network.Message;
 import no.ntnu.idata2304.group1.data.network.responses.ErrorMessage;
-import no.ntnu.idata2304.group1.server.messages.LogOutputer;
-import no.ntnu.idata2304.group1.server.messages.LogOutputer.MessageType;
 import no.ntnu.idata2304.group1.server.network.handlers.RequestHandler;
 
 /**
@@ -17,7 +14,6 @@ import no.ntnu.idata2304.group1.server.network.handlers.RequestHandler;
  */
 public abstract class ClientRunnable implements Runnable {
     private SSLSocket socket;
-    private RequestHandler handler;
     private boolean running;
 
     private static final Logger logger = Logger.getLogger(ClientRunnable.class.getName());
@@ -30,7 +26,6 @@ public abstract class ClientRunnable implements Runnable {
      */
     protected ClientRunnable(SSLSocket socket) throws IOException {
         this.socket = socket;
-        this.handler = new RequestHandler();
         this.running = false;
     }
 
@@ -46,21 +41,22 @@ public abstract class ClientRunnable implements Runnable {
                 if (request != null) {
                     logger.info(
                             "Received request from " + socket.getInetAddress().getHostAddress());
-                    Message response = handler.getResponse(request);
+                    Message response = RequestHandler.getResponse(request);
                     sendResponse(response);
                 }
-            } catch (EOFException e) {
-
             } catch (IllegalArgumentException e) {
                 try {
                     sendResponse(new ErrorMessage(e.getMessage()));
                 } catch (Exception f) {
-                    LogOutputer.print(MessageType.ERROR, f.getMessage());
+                    logger.severe(f.getMessage());
                 }
             } catch (IOException e) {
-
+                try {
+                    socket.close();
+                } catch (IOException f) {
+                    logger.severe("Tried closing the socket. Got error: " + f.getMessage());
+                }
             }
-
         }
         running = false;
     }

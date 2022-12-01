@@ -1,5 +1,6 @@
 package no.ntnu.idata2304.group1.clientapp.app2.ui;
 
+import java.io.File;
 import java.io.IOException;
 import java.security.cert.CertPath;
 import java.util.Optional;
