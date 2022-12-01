@@ -146,7 +146,7 @@ public class SQLCommandFactory {
      */
     public static boolean addLog(String apiKey, double value)
             throws IllegalArgumentException, SQLException {
-        boolean result = false;;
+        boolean result = false;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         StringBuilder builder = new StringBuilder("INSERT INTO " + Tables.TEMP.getTable()
                 + " (nodeid, roomid, reading, timeStamp) VALUES (");
@@ -176,7 +176,6 @@ public class SQLCommandFactory {
                 PreparedStatement statement = connector.prepareStatement(sqlQuery)) {
             ResultSet result = statement.executeQuery();
             rooms = SQLConverter.getRoomsName(result);
-            statement.close();
         } catch (SQLException e) {
             LOGGER.severe("Could not get rooms: " + e.getMessage());
             throw e;
