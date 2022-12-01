@@ -35,8 +35,6 @@ public class MainController extends Application {
      * starts the application.
      *
      * @param stage the stage
-     *
-     * @throws IOException if the fxml file could not be loaded
      */
     public void start(Stage stage) {
         this.roomWindowControllers = new ArrayList<>();
@@ -164,8 +162,7 @@ public class MainController extends Application {
      *
      * @throws IOException If the loader fails to load the stage.
      */
-    public Stage makeStage(FXMLLoader fxmlLoader, Stage stage, int width, int height)
-            throws IOException {
+    public Stage makeStage(FXMLLoader fxmlLoader, Stage stage, int width, int height) throws IOException {
         Scene scene = new Scene(fxmlLoader.load(), width, height);
         stage.setTitle("Hello!");
         stage.setScene(scene);

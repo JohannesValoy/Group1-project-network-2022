@@ -154,7 +154,7 @@ The current working Java client uses the following implementation:
 
 ![A UML Diagram of the current working client solution.](Images/clientappClassDiagram.png)
 
-The application for clients is a JavaFX application. The application is split into three parts. The first part is the conection screen. The connection screen is used to connect to the server. The second part the send and recive screen. The send and recive screen is used to send and recive data from and to the server. The third is the main screen. The main screen is used to view the different rooms and sensors. The main screen also allows for the user to add new rooms and sensors.
+The application for clients is a JavaFX application. The application is split into three parts. The first part is the conection screen. The connection screen is used to connect to the server. The second part the send and recive screen. The send and recive screen is used to send and recive data and certificate from and to the server. The third is the main screen. The main screen is used to view the different rooms and sensors.
 
 The client application uses the ClientSo
 
