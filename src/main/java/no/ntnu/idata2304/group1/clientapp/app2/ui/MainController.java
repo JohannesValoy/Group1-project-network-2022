@@ -101,8 +101,8 @@ public class MainController extends Application {
             for(Room clientRoom : clientSocket.getRoomData(rooms)){
                 for(RoomWindowController roomWindowController : roomWindowControllers){
                     if(roomWindowController.getRoom().getName().equals(clientRoom.getName())){
-                        roomWindowController.update();
                         roomWindowController.setRoom(clientRoom);
+                        roomWindowController.update();
                     }
                 }
             }
