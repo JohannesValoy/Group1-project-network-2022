@@ -14,4 +14,6 @@ module Group1NetworkProject {
     exports no.ntnu.idata2304.group1.data;
     exports no.ntnu.idata2304.group1.data.network;
     opens no.ntnu.idata2304.group1.data.network;
+    exports no.ntnu.idata2304.group1.clientapp.app2 to javafx.graphics;
+    opens no.ntnu.idata2304.group1.clientapp.app2 to javafx.fxml;
 }
