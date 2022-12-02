@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.control.ScrollPane?>
+<VBox xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idata2304.group1.clientapp.app.ui.MainWindowController">
+   <BorderPane fx:id="BorderPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+      <center>
+         <ScrollPane fx:id="scrollPane">
+            <FlowPane fx:id="flowPane" alignment="CENTER" hgap="50.0" vgap="50.0">
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </FlowPane>
+         </ScrollPane>
+      </center>
+      <top>
+         <HBox alignment="TOP_CENTER"  BorderPane.alignment="CENTER">
+            <Label alignment="CENTER" contentDisplay="CENTER"
+                   text="Weather station 1.0" textAlignment="CENTER">
+               <font>
+                  <Font name="Calibri" size="24.0"/>
+               </font>
+            </Label>
+         </HBox>
+      </top>
+   </BorderPane>
+</VBox>
