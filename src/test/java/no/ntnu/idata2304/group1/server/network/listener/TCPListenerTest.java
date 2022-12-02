@@ -18,8 +18,7 @@ public class TCPListenerTest {
     /**
      * This test is not really a test, it is just here to make sure that the server can be started
      * and receives a message
-     * 
-     * @param args
+     *
      */
     @Test
     public void messageTest() {

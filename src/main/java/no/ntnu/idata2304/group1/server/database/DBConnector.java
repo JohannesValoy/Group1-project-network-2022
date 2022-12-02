@@ -174,8 +174,7 @@ public class DBConnector implements Closeable {
     /**
      * Sets the Connector to busy. This is used to prevent the connector from being closed and used
      * while a query is being executed.
-     * 
-     * @param b boolean true if busy, false otherwise
+     *
      */
     public void setBusy() {
         busy = true;
