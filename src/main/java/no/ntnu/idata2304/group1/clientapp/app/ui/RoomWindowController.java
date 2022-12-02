@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.clientapp.app2.ui;
+package no.ntnu.idata2304.group1.clientapp.app.ui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -139,7 +139,7 @@ public class RoomWindowController {
     }
 
     /**
-     * Get room room.
+     * Get room the room.
      *
      * @return the room
      */

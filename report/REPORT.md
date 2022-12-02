@@ -16,6 +16,10 @@ adding the ability to see the average temperature and humidity at any time of da
 and the ability to rate your sleep to see better what makes the sleep quality
 increase, and what makes it decrease.
 
+### Alternative 2
+
+Temperature and humidity is something that effects us every day. In some cases can it cause drastic changes to our life, like bad sleep or hy
+
 ## Introduction
 In a world where more and more people struggle with sleep problems, it's
 important to do research and make products that can help people
@@ -69,7 +73,7 @@ The project is highly reliant of the TCP protocol because we needed the reliabil
 
 The encryption method we decided on was the use of TLS. This was with the anticipation of allowing for web browsers to take contact with the server by using the HTTP protocol. While the solution in Java was "tricky" to implement it (Java does not have a "easy" solution for this) was worth it in the end. We decided against letting the java client trust everything and instead add functionality to fetch different self-signed certificate from a folder. This allows us to take the full functionality of TLS to verify the source was trustworthy while also encrypting the content and ensuring it is not tampered with.
 
-THe only other subject we ended up implementing was IDATA2303, Data modeling and database application. This was to store the sensors, rooms and the log data. We take in the use of the database by using "connectors" to read and write data on the database file whenever the server gets a request.
+The only other subject we ended up implementing was IDATA2303, Data modeling and database application. This was to store the sensors, rooms and the log data. We take in the use of the database by using "connectors" to read and write data on the database file whenever the server gets a request.
 
 ## Methodology
 
@@ -95,7 +99,7 @@ Every time the ClientRunnable finds a response, it uses the RequestHandler to pr
 
 The reason for creating the clientHandler and DBConnector pool is to allow for small optimization. The DBConnector is to already have a bunch of connectors available instead of designating one DBConnector per client. This removes the opening and closing connection on the databases whenever a client connects or disconnects. This also creates a better environment for the connector since a model where every client has it's own will work, but the connector may not be in use and only use space within the ram. The same within the clientHandler. Instead of designating a thread per client, that would be faster, it's not necessary. Since the probability of every client sending requests at the same time is very low, we could instead just check it one per time we go trough the list. This reduces the amount of thread necessarily from x clients to (1+pool size) times (1 + Clients/LimitOnClientHandler) rounded down. This makes the the amount of threads the server needs scale much better.
 
-There is still a bunch of features the server can do, but needs to implement like adding new nodes and rooms. This is would easily implemented using a combination of the SQLConverter, CommandFactory and the RequestsHandler.
+There is still a bunch of features the server can do, but needs to implement like adding new nodes and rooms. While it is missing these features the skeleton of the server application is finished.
 
 ### Clients
 
@@ -105,30 +109,38 @@ The current working Java client uses the following implementation:
 
 The application for clients is a JavaFX application. The application is split into three parts. The first part is the conection screen. The connection screen is used to connect to the server. The second part the send and recive screen. The send and recive screen is used to send and recive data and certificate from and to the server. The third is the main screen. The main screen is used to view the different rooms and sensors.
 
-The client application uses the ClientSo
+The ClientSocket class is used for comunication with the server.
 
 ### Sensors
 
 The sensors is a modified version of the one given by us from <https://github.com/ntnu-datakomm/project-resources/tree/main/sensor-node-example>. This was done because we originally wanted to use microcontrollers but prioritized other stuff like optimizing the server. The things we modified was linking it to the already created sensor version we had in the data folder and adding a nodeSocket, quite similar to the clientSocket.
 
-We wanted to restrict what sensor nodes that could send information. Therefor we have listed the different nodes within the database with api-keys and the type of sensor it is. That way the sensor need only to send it's key to be identified within the system and the database could be able to distinguish when fetching the data to know what kind it is. This allows us to track what each sensor is sending but also restricts so that we must have the sensor within the database to allow it. 
+We wanted to restrict what sensor nodes that could send information. Therefor we have listed the different nodes within the database with api-keys and the type of sensor it is. That way the sensor need only to send it's key to be identified within the system and the database could be able to distinguish when fetching the data to know what kind it is. This allows us to track what each sensor is sending but also restricts so that we must have the sensor within the database to allow it.
 
 ## Discussion
 
+
 Here you can reflect on the result. What is working well? What is not working
 well and why?
+
+The ui could be improved by adding a way to add new rooms and sensors. This would be done by adding a new screen that would allow for the user to add a new room or sensor. This would be done by sending a request to the server with the information about the new room or sensor. The server would then add the new room or sensor to the database and send a response to the client. The client would then update the ui with the new room or sensor.
 
 ## Conclusion and future work
 
 While the project did not have all the functionality we wanted it was still an interesting and cool project to work on. We were able to create a minimal required product from scratch, and code that we could hopefully use in further projects that uses network.
 
-While we have created the minimal required product we still feel like the project has so much more potential. For example one, we originally wanted to use HTTP to communicate with the sensors to allow small microcontrollers, like arduino that run different languages, to communicate with the server. A general list would be finishing the features on the back-end.
+While we have created the minimal required product we still feel like the project has more potential. For example one, we originally wanted to use HTTP to communicate with the sensors to allow small microcontrollers, like arduino that run different languages, to allow for communication with the server.
 
 Here you summarize the work shortly, the status. Also, here you identify the
 potential work in the future. Note: think in general - how could this work be
 continued (by your group or by others)?
 
 ## References
+
+[Site: National Library of medicine, Article: Planting Healthier Indoor, Author: Luz Claudio, October 2011](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3230460/)
+
+[Site: The Sleep Charity, Article: Sleep Environment, Desember 2022](https://thesleepcharity.org.uk/information-support/adults/sleep-environment/)
+
 
 Here you provide sources of information. In a written report you typically
 include list of references in the end and have only links to those in the text,

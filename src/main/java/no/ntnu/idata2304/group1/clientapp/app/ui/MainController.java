@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.clientapp.app2.ui;
+package no.ntnu.idata2304.group1.clientapp.app.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
-import no.ntnu.idata2304.group1.clientapp.app2.network.ClientSocket;
+import no.ntnu.idata2304.group1.clientapp.app.network.ClientSocket;
 import no.ntnu.idata2304.group1.data.Room;
 
 
@@ -48,9 +48,9 @@ public class MainController extends Application {
             this.clientSocket = MultiInputDialog.getSocketConnectionV2(stage);
             this.clientRooms = this.clientSocket.getRoomData(rooms);
         } catch (IOException e) {
-            ErrorDialogs123.couldNotConnectAlert(e);
+            ErrorDialogs.couldNotConnectAlert(e);
         } catch (ClassNotFoundException e) {
-            ErrorDialogs123.couldNotUpdateRoom(e);
+            ErrorDialogs.couldNotUpdateRoom(e);
         } catch (NullPointerException e) {
             System.exit(0);
         }
@@ -108,10 +108,10 @@ public class MainController extends Application {
                 }
             }
         } catch (IOException e) {
-            ErrorDialogs123.couldNotConnectAlert(e);
+            ErrorDialogs.couldNotConnectAlert(e);
 
         } catch (ClassNotFoundException e) {
-           ErrorDialogs123.couldNotUpdateRoom(e);
+           ErrorDialogs.couldNotUpdateRoom(e);
         }
     }
 

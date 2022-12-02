@@ -106,15 +106,12 @@ public class SSLTrustFactory {
                 files.add(trustedCertsFolder);
             }
             for (File file : files) {
-                if (file.getAbsolutePath().endsWith(".cer")) {
-                    try (InputStream stream = new FileInputStream(file)) {
-                        trustStore.setCertificateEntry(file.getName(),
-                                cf.generateCertificate(stream));
-                    } catch (FileNotFoundException e) {
-                        logger.log(Level.SEVERE, "File not found", e);
-                    } catch (IOException e) {
-                        logger.log(Level.SEVERE, "IO Exception", e);
-                    }
+                try (InputStream stream = new FileInputStream(file)) {
+                    trustStore.setCertificateEntry(file.getName(), cf.generateCertificate(stream));
+                } catch (FileNotFoundException e) {
+                    logger.log(Level.SEVERE, "File not found", e);
+                } catch (IOException e) {
+                    logger.log(Level.SEVERE, "IO Exception", e);
                 }
             }
         }

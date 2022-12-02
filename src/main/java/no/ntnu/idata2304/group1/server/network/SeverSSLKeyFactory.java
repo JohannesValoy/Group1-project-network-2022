@@ -24,7 +24,8 @@ public class SeverSSLKeyFactory {
      * @param keyStorePassword
      * @return
      */
-    // TODO: Maybe using pm1's solution insteaad of keystore?
+    // TODO: Add support for a pk1 file with another password on the key then the keystore
+
     public static SSLContext createSSLContext(String keyStorePath, String keyStorePassword) {
         SSLContext ctx = null;
         try {
@@ -34,7 +35,7 @@ public class SeverSSLKeyFactory {
             }
             KeyManagerFactory kmf =
                     KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-            kmf.init(keyStore, "".toCharArray());
+            kmf.init(keyStore, keyStorePassword.toCharArray());
             ctx = SSLContext.getInstance("TLS");
             ctx.init(kmf.getKeyManagers(), null, SecureRandom.getInstanceStrong());
         } catch (Exception e) {

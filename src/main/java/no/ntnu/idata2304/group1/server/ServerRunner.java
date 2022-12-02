@@ -18,13 +18,8 @@ public class ServerRunner {
     /**
      * Starts the server
      * 
-     * @param args The arguments to the program the following arguments are supported:
-     *        <ul>
-     *        First argument: The keyStore path
-     *        </ul>
-     *        <ul>
-     *        Second argument: The keystore password
-     *        </ul>
+     * @param args The arguments to the program the following arguments are supported: Keystore
+     *        path, Keystore password
      * @throws IOException if the server fails to start å
      */
     public static void main(String[] args) throws IOException, SQLException {
