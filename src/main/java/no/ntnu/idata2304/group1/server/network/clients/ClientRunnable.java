@@ -67,7 +67,7 @@ public abstract class ClientRunnable implements Runnable {
             throws IllegalArgumentException, IOException;
 
     /**
-     * Tries to recieve a message from the client. If no message is recieved, it
+     * Tries to receive a message from the client. If no message is received, it
      * will return null
      *
      * @return Return the request

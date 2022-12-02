@@ -10,7 +10,7 @@ We chose to work with a temperature sensor using a arduino, building our own TCP
 
 ## Documentation
 
-The documentation of the application can be found trough the [wiki](https://github.com/JohannesValoy/Group1-project-network-2022/wiki). It will consist of
+The documentation of the application can be found through the [wiki](https://github.com/JohannesValoy/Group1-project-network-2022/wiki). It will consist of
 
 - The full task received from the teachers
 - How the application works
