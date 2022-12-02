@@ -170,7 +170,6 @@ public class MainController extends Application {
      */
     public Stage makeStage(FXMLLoader fxmlLoader, Stage stage, int width, int height) throws IOException {
         Scene scene = new Scene(fxmlLoader.load(), width, height);
-        stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
         return stage;
