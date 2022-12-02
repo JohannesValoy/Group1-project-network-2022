@@ -1,7 +1,7 @@
 package no.ntnu.idata2304.group1.clientapp.app.ui;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -16,28 +16,18 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 import no.ntnu.idata2304.group1.clientapp.app.network.ClientSocket;
 
-public class MultiInputDialog extends Dialog {
-
-    String certPath;
-
-    static Dialog<Pair<String, String>> dialog;
+public class MultiInputDialog extends Dialog<ClientSocket> {
 
     public MultiInputDialog() {
-        this.certPath = null;
-    }
-
-    public static ClientSocket getSocketConnectionV2(Stage stage) throws IOException {
-        // Create the custom dialog.
-        Dialog<Pair<String, String>> dialog = new Dialog<>();
-        dialog.setTitle("Server selector Dialog");
-        dialog.setHeaderText("Please Insert the serverDetails here");
+        this.setTitle("Server selector Dialog");
+        this.setHeaderText("Please Insert the serverDetails here");
 
         // Set the button types.
-        ButtonType loginButtonType = new ButtonType("Select Security Certificate", ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+        ButtonType loginButtonType =
+                new ButtonType("Select Security Certificate", ButtonData.OK_DONE);
+        this.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
 
         // Create the username and password labels and fields.
         GridPane grid = new GridPane();
@@ -55,55 +45,41 @@ public class MultiInputDialog extends Dialog {
         grid.add(new Label("Port number:"), 0, 1);
         grid.add(password, 1, 1);
 
-        
+
         // Enable/Disable login button depending on whether a username was entered.
-        Node loginButton = dialog.getDialogPane().lookupButton(loginButtonType);
+        Node loginButton = this.getDialogPane().lookupButton(loginButtonType);
         loginButton.setDisable(true);
 
         // Do some validation (using the Java 8 lambda syntax).
         username.textProperty().addListener((observable, oldValue, newValue) -> {
-            
+
             loginButton.setDisable(newValue.trim().isEmpty());
         });
 
-        dialog.getDialogPane().setContent(grid);
+        this.getDialogPane().setContent(grid);
 
         // Request focus on the username field by default.
         Platform.runLater(() -> username.requestFocus());
 
-        String certPathStr = null;
-
         // Convert the result to a username-password-pair when the login button is
         // clicked.
-        dialog.setResultConverter(dialogButton -> {
+        this.setResultConverter(dialogButton -> {
+            ClientSocket returnValue = null;
             if (dialogButton == loginButtonType) {
-                return new Pair<>(username.getText(), password.getText());
-            }
-            return null;
-        });
-
-
-        String hostName = "localhost";
-        int portNumber = 6008;
-        ClientSocket clientSocket = null;
-
-        try {
-            Optional<Pair<String, String>> result = dialog.showAndWait();
-            if (result.isPresent()) {
-                hostName = result.get().getKey();
-                portNumber = Integer.parseInt(result.get().getValue());
-                certPathStr = getCertFile(stage);
-                if (certPathStr != null) {
-                    clientSocket = new ClientSocket(hostName, portNumber, certPathStr);
+                String hostname = username.getText();
+                Stage stage2 = new Stage();
+                String cert = getCertFile(stage2);
+                if (cert != null) {
+                    int port = Integer.parseInt(password.getText());
+                    try {
+                        returnValue = new ClientSocket(hostname, port, cert);
+                    } catch (IOException e) {
+                    }
                 }
-            }
-        } catch (Exception e) {
-            new Alert(AlertType.ERROR, "Error: no port number entered; Port number is necessary in order to connect to the server\n" + e.getMessage()).showAndWait();
-            getSocketConnectionV2(stage);
-            //MultiInputDialog.getSocketConnectionV2(stage);
-        }
 
-        return clientSocket;
+            }
+            return returnValue;
+        });
     }
 
     private static String getCertFile(Stage stage) {
@@ -111,23 +87,17 @@ public class MultiInputDialog extends Dialog {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Certificate file ", "*.crt"), 
-                new FileChooser.ExtensionFilter("Certificate file ", "*.cer") ,
+                new FileChooser.ExtensionFilter("Certificate file ", "*.crt"),
+                new FileChooser.ExtensionFilter("Certificate file ", "*.cer"),
                 new FileChooser.ExtensionFilter("All Files", "*.*"));
-        String str = null;
-        try {
-            str = fileChooser.showOpenDialog(stage).getAbsolutePath();
-            Optional<String> certPath = Optional.of(str);
-            System.out.println(certPath.get());
-            if (certPath.isPresent()) {
-                System.out.println("present");
-                certPathStr = certPath.get();
-            }
-        } catch (Exception e) {
-            new Alert(AlertType.ERROR, "Error: no certificate file selected; Certificate file is necessary in order to connect to the server\n" + e.getMessage() + e.getClass()).showAndWait();
+        File certFile = fileChooser.showOpenDialog(stage);
+        if (certFile == null) {
+            new Alert(AlertType.ERROR,
+                    "Error: no certificate file selected; Certificate file is necessary in order to connect to the server\n");
+        } else {
+            certPathStr = certFile.getAbsolutePath();
         }
         return certPathStr;
 
     }
-
 }
