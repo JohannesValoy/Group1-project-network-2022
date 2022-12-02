@@ -168,7 +168,7 @@ public class RoomWindowController {
         }
         ObservableList<XYChart.Series<String, Number>> seriesList =
                 FXCollections.observableArrayList();
-        seriesList.addAll(series);
+        seriesList.add(series);
 
         return seriesList;
     }

@@ -66,7 +66,7 @@ public class SQLCommandFactory {
     }
 
 
-    private SQLCommandFactory() {};
+    private SQLCommandFactory() {}
 
 
     public static List<Room> getRoomData(Iterator<String> rooms, int limit, Date from, Date to,
@@ -75,14 +75,13 @@ public class SQLCommandFactory {
         ArrayList<Room> roomList = new ArrayList<>();
         StringBuilder builder = new StringBuilder(GETROOMDATA);
         if (from != null && to != null) {
-            builder.append(
-                    " AND " + Tables.TEMP.getTable() + ".timestamp BETWEEN " + from + " AND " + to);
+            builder.append(" AND ").append(Tables.TEMP.getTable()).append(".timestamp BETWEEN ").append(from).append(" AND ").append(to);
         } else if (from != null) {
-            builder.append(" AND " + Tables.TEMP.getTable() + ".timestamp > " + from);
+            builder.append(" AND ").append(Tables.TEMP.getTable()).append(".timestamp > ").append(from);
         } else if (to != null) {
-            builder.append(" AND " + Tables.TEMP.getTable() + ".timestamp < " + to);
+            builder.append(" AND ").append(Tables.TEMP.getTable()).append(".timestamp < ").append(to);
         }
-        builder.append(" Order by TimeStamp DESC LIMIT " + limit);
+        builder.append(" Order by TimeStamp DESC LIMIT ").append(limit);
         try (DBConnector connector = DBConnectorPool.getInstance().getConnector();
                 PreparedStatement statement = connector.prepareStatement(builder.toString())) {
             statement.setString(1, type.getName());
@@ -116,7 +115,7 @@ public class SQLCommandFactory {
         if (checkValidString(key)) {
             throw new IllegalArgumentException("The key is invalid");
         }
-        boolean result = false;
+        boolean result;
         String query = SELECT + Tables.NODE.getTable() + " WHERE " + Tables.NODE.getTable()
                 + ".key LIKE ?";
 
@@ -146,18 +145,15 @@ public class SQLCommandFactory {
      */
     public static boolean addLog(String apiKey, double value)
             throws IllegalArgumentException, SQLException {
-        boolean result = false;
+        boolean result;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        StringBuilder builder = new StringBuilder("INSERT INTO " + Tables.TEMP.getTable()
-                + " (nodeid, roomid, reading, timeStamp) VALUES (");
-        builder.append("(SELECT id FROM " + Tables.NODE.getTable() + " WHERE "
-                + Tables.NODE.getTable() + ".key = \"" + apiKey + "\"), ");
-        builder.append("(SELECT roomid FROM " + Tables.NODE.getTable() + " WHERE "
-                + Tables.NODE.getTable() + ".key = \"" + apiKey + "\"), ");
-        builder.append(value + ", ");
-        builder.append("\"" + format.format(new Date()) + "\")");
+        String builder = "INSERT INTO " + Tables.TEMP.getTable()
+                + " (nodeid, roomid, reading, timeStamp) VALUES (" + "(SELECT id FROM " + Tables.NODE.getTable() + " WHERE " + Tables.NODE.getTable() + ".key = \"" + apiKey + "\"), " +
+                "(SELECT roomid FROM " + Tables.NODE.getTable() + " WHERE " + Tables.NODE.getTable() + ".key = \"" + apiKey + "\"), " +
+                value + ", " +
+                "\"" + format.format(new Date()) + "\")";
         try (DBConnector connector = DBConnectorPool.getInstance().getConnector();
-                PreparedStatement statement = connector.prepareStatement(builder.toString())) {
+                PreparedStatement statement = connector.prepareStatement(builder)) {
             result = statement.execute();
         } catch (SQLException e) {
             LOGGER.severe("Could not get rooms: " + e.getMessage());
@@ -168,7 +164,7 @@ public class SQLCommandFactory {
 
     public static List<String> getRooms(String filter) throws SQLException {
         String sqlQuery = SELECT + Tables.ROOMS.getTable();
-        List<String> rooms = null;
+        List<String> rooms;
         if (filter != null) {
             sqlQuery += " WHERE " + Tables.ROOMS.getTable() + ".roomName LIKE \"" + filter + "\"";
         }
