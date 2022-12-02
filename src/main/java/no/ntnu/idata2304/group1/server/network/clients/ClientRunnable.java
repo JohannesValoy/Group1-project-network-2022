@@ -24,7 +24,7 @@ public abstract class ClientRunnable implements Runnable {
      * @param socket the socket
      * @throws IOException the io exception
      */
-    protected ClientRunnable(SSLSocket socket) throws IOException {
+    protected ClientRunnable(SSLSocket socket) {
         this.socket = socket;
         this.running = false;
     }
@@ -61,23 +61,23 @@ public abstract class ClientRunnable implements Runnable {
         running = false;
     }
 
-
     /**
      * A function that sends the data to the client
      *
      * @param response the response
      * @throws IllegalArgumentException the illegal argument exception
-     * @throws IOException the io exception
+     * @throws IOException              the io exception
      */
     public abstract void sendResponse(Message response)
             throws IllegalArgumentException, IOException;
 
     /**
-     * Tries to recieve a message from the client. If no message is recieved, it will return null
+     * Tries to recieve a message from the client. If no message is recieved, it
+     * will return null
      *
      * @return request
      * @throws IllegalArgumentException the illegal argument exception
-     * @throws IOException the io exception
+     * @throws IOException              the io exception
      */
     protected abstract Message getRequest() throws IllegalArgumentException, IOException;
 

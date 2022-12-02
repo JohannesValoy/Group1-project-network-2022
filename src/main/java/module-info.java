@@ -3,7 +3,6 @@ module Group1NetworkProject {
     requires javafx.fxml;
     requires transitive javafx.graphics;
     requires java.sql;
-    requires org.json;
 
     opens no.ntnu.idata2304.group1.clientapp.app.ui to javafx.fxml;
 
