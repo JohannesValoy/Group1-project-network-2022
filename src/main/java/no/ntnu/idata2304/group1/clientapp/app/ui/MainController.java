@@ -2,32 +2,35 @@ package no.ntnu.idata2304.group1.clientapp.app.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import javafx.application.Application;
+import java.util.concurrent.ScheduledExecutorService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import javafx.stage.Stage;
 import no.ntnu.idata2304.group1.clientapp.app.network.ClientSocket;
 import no.ntnu.idata2304.group1.data.Room;
 
 
 /**
- * Main controller for the UI. 
- * Creates and loads the main window and loads the room windows into the main window.
+ * Main controller for the UI. Creates and loads the main window and loads the room windows into the
+ * main window.
  */
-public class MainController extends Application {
-    private MainWindowController mainWindowController;
+public class MainController {
     private ArrayList<RoomWindowController> roomWindowControllers;
+    private MultiInputDialog multiInputDialog = new MultiInputDialog();
     @FXML
     private FlowPane flowPane;
-
+    @FXML
+    private BorderPane borderPane;
+    @FXML
+    private ScrollPane scrollPane;
     private ArrayList<String> rooms;
     private ClientSocket clientSocket;
     private ArrayList<Room> clientRooms;
@@ -39,94 +42,83 @@ public class MainController extends Application {
      *
      * @param stage the stage
      */
-    public void start(Stage stage) {
+    @FXML
+    public void initialize() {
         this.roomWindowControllers = new ArrayList<>();
         this.rooms = new ArrayList<>();
         this.clientRooms = new ArrayList<>();
-
         try {
-            this.clientSocket = MultiInputDialog.getSocketConnectionV2(stage);
+            this.clientSocket = multiInputDialog.showAndWait().get();
             this.clientRooms = this.clientSocket.getRoomData(rooms);
         } catch (IOException e) {
             ErrorDialogs.couldNotConnectAlert(e);
         } catch (ClassNotFoundException e) {
             ErrorDialogs.couldNotUpdateRoom(e);
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | NoSuchElementException e) {
             System.exit(0);
         }
 
         autoUpdateRoomData();
 
-        // Loads mainScene
-        FXMLLoader mainWindowLoader =
-                new FXMLLoader(MainController.class.getResource("MainScene.fxml"));
-        try {
-            Stage mainStage = makeStage(mainWindowLoader, stage, 1000, 700);
-            mainStage.setTitle("Rooms");
-        } catch (IOException e) {
-            new Alert(AlertType.ERROR, "Could not load main window").showAndWait();
-        }
-
-        mainWindowController = mainWindowLoader.getController();
-
-        // Retrieves flowPane
-        this.flowPane = this.mainWindowController.getFlowPane();
-
         // Binds the flowPane to the stage dimensions
-        this.flowPane.prefWidthProperty().bind(stage.widthProperty());
-        this.flowPane.prefHeightProperty().bind(stage.heightProperty());
 
-        for(Room room : clientRooms) {            
+        this.flowPane.prefWidthProperty().bind(borderPane.widthProperty());
+        this.flowPane.prefHeightProperty().bind(borderPane.heightProperty());
+
+        for (Room room : clientRooms) {
             try {
-                addRoom(room, stage);
+                addRoom(room);
             } catch (IOException e) {
                 new Alert(AlertType.ERROR, e.getMessage() + " - Could not add room").showAndWait();
             }
         }
     }
 
-    public void autoUpdateRoomData(){
-            Timer timer = new Timer();
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    Platform.runLater(() -> {
-                        updateRoomData();
-                    });
-                }
-            }, 1, 5000);
+    public void autoUpdateRoomData() {
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    updateRoomData();
+                });
+            }
+        }, 1, 5000);
     }
 
-    public void updateRoomData(){
+    public void updateRoomData() {
         try {
-            for(Room clientRoom : clientSocket.getRoomData(rooms)){
-                for(RoomWindowController roomWindowController : roomWindowControllers){
-                    if(roomWindowController.getRoom().getName().equals(clientRoom.getName())){
+            for (Room clientRoom : clientSocket.getRoomData(rooms)) {
+                for (RoomWindowController roomWindowController : roomWindowControllers) {
+                    if (roomWindowController.getRoom().getName().equals(clientRoom.getName())) {
                         roomWindowController.setRoom(clientRoom);
                         roomWindowController.update();
                     }
                 }
+                this.scrollPane.setFitToWidth(true);
+                this.scrollPane.setFitToHeight(true);
             }
         } catch (IOException e) {
             ErrorDialogs.couldNotConnectAlert(e);
 
         } catch (ClassNotFoundException e) {
-           ErrorDialogs.couldNotUpdateRoom(e);
+            ErrorDialogs.couldNotUpdateRoom(e);
         }
     }
 
 
 
     /**
-     * Loads the rooms into the main window
-     * abcd
+     * Loads the rooms into the main window abcd
+     * 
      * @param stage the main stage
      * @throws IOException if the fxml file could not be loaded;
      */
-    public void addRoom(Room room, Stage stage) throws IOException {
+    public void addRoom(Room room) throws IOException {
         FXMLLoader roomWindowLoader =
                 new FXMLLoader(MainController.class.getResource("RoomScene.fxml"));
-        this.mainWindowController.getFlowPane().getChildren().add(roomWindowLoader.load());
+        this.flowPane.getChildren().add(roomWindowLoader.load());
+
         RoomWindowController roomWindowController = roomWindowLoader.getController();
         roomWindowControllers.add(roomWindowController);
         roomWindowController.setRoom(room);
@@ -137,11 +129,11 @@ public class MainController extends Application {
         // Sets the on click event for the room
         roomWindowController.getPane().setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getClickCount() == 2)
-                roomWindowController.expandRoomView(stage.getWidth(), stage.getHeight());
+                roomWindowController.expandRoomView(borderPane.getWidth(), borderPane.getHeight());
         });
 
         // Contracts the roomWindow if the room is clicked
-        mainWindowController.getFlowPane().setOnMouseClicked(mouseEvent -> {
+        this.flowPane.setOnMouseClicked(mouseEvent -> {
             if (mouseEvent.getClickCount() != 2) {
                 contractPane();
             }
@@ -156,29 +148,4 @@ public class MainController extends Application {
             roomWindowController.contractRoomView();
     }
 
-
-    /**
-     * Creates a stage from a loader, stage, width and height.
-     *
-     * @param fxmlLoader The loader to load the stage from.
-     * @param stage The stage to load the loader into.
-     * @param width The width of the stage.
-     * @param height The height of the stage.
-     * @return The stage.
-     *
-     * @throws IOException If the loader fails to load the stage.
-     */
-    public Stage makeStage(FXMLLoader fxmlLoader, Stage stage, int width, int height) throws IOException {
-        Scene scene = new Scene(fxmlLoader.load(), width, height);
-        stage.setScene(scene);
-        stage.show();
-        return stage;
-    }
-
-    /**
-     * Main method
-     */
-    public static void main(String[] args) {
-        launch();
-    }
 }
