@@ -20,7 +20,6 @@
          <Label alignment="CENTER" contentDisplay="CENTER" text="Weather station 1.0" textAlignment="CENTER">
             <font>
                <Font name="Calibri" size="24.0"/>
-
             </font>
          </Label>
       </HBox>
