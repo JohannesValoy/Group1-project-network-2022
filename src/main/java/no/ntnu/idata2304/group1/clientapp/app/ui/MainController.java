@@ -23,7 +23,7 @@ import no.ntnu.idata2304.group1.data.Room;
  */
 public class MainController {
     private ArrayList<RoomWindowController> roomWindowControllers;
-    private MultiInputDialog multiInputDialog = new MultiInputDialog();
+    private final MultiInputDialog multiInputDialog = new MultiInputDialog();
     @FXML
     private FlowPane flowPane;
     @FXML
@@ -77,9 +77,7 @@ public class MainController {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                Platform.runLater(() -> {
-                    updateRoomData();
-                });
+                Platform.runLater(MainController.this::updateRoomData);
             }
         }, 1, 5000);
     }

@@ -2,8 +2,6 @@ package no.ntnu.idata2304.group1.clientapp.app.ui;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
-
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -68,7 +66,7 @@ public class MultiInputDialog extends Dialog<ClientSocket> {
         this.getDialogPane().setContent(grid);
 
         // Request focus on the username field by default.
-        Platform.runLater(() -> username.requestFocus());
+        Platform.runLater(username::requestFocus);
 
         // Convert the result to a username-password-pair when the login button is
         // clicked.

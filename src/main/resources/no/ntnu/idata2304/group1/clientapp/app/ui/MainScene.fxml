@@ -17,25 +17,21 @@
 <BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idata2304.group1.clientapp.app.ui.MainController">
    <center>
       <ScrollPane fx:id="scrollPane" fitToHeight="true" fitToWidth="true" prefHeight="700.0" prefWidth="1000.0">
-         <content>
-            <FlowPane fx:id="flowPane" alignment="CENTER" hgap="50.0" vgap="50.0">
-               <padding>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </padding>
-            </FlowPane>
-         </content>
+         <FlowPane fx:id="flowPane" alignment="CENTER" hgap="50.0" vgap="50.0">
+            <padding>
+               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+            </padding>
+         </FlowPane>
       </ScrollPane>
    </center>
    <top>
       <HBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
-         <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" text="Weather station 1.0" textAlignment="CENTER">
-               <font>
-                  <Font name="Calibri" size="24.0" />
+         <Label alignment="CENTER" contentDisplay="CENTER" text="Weather station 1.0" textAlignment="CENTER">
+            <font>
+               <Font name="Calibri" size="24.0"/>
 
-               </font>
-            </Label>
-         </children>
+            </font>
+         </Label>
       </HBox>
    </top>
 </BorderPane>

@@ -14,8 +14,6 @@ import javafx.scene.layout.Pane;
 import no.ntnu.idata2304.group1.data.Room;
 import no.ntnu.idata2304.group1.data.SensorRecord;
 import no.ntnu.idata2304.group1.data.SortbyDate;
-
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,12 +34,12 @@ public class RoomWindowController {
      * The H box.
      */
     @FXML
-    private FlowPane HBox;
+    private FlowPane graphFlowPane;
     /**
      * The Current temperature.
      */
     @FXML
-    private Label CurrentTemperature;
+    private Label lastTemperature;
     @FXML
     private LineChart<String, Number> sensorChart;
     private Room room;
@@ -51,12 +49,6 @@ public class RoomWindowController {
      */
     boolean autoUpdate = true;
 
-
-    /**
-     * Instantiates a new Room window controller.
-     */
-    public RoomWindowController() {
-    }
 
     /**
      * Sets room.
@@ -83,11 +75,11 @@ public class RoomWindowController {
      */
     public void expandRoomView(double height, double width) {
         sensorChart.setPrefSize(width * 10 / 21, height / 2);
-        HBox.setPrefWidth(width);
+        graphFlowPane.setPrefWidth(width);
         for (int i = 1; i < room.getListOfSensors().size(); i++) {
             LineChart<String, Number> sensorChart2 =
                     new LineChart<>(new CategoryAxis(), new NumberAxis()) {};
-            HBox.getChildren().add(sensorChart2);
+            graphFlowPane.getChildren().add(sensorChart2);
             sensorChart2.setPrefSize(width * 10 / 21, height / 2);
             updateChart(sensorChart2, i);
         }
@@ -99,13 +91,12 @@ public class RoomWindowController {
     public void contractRoomView() {
         sensorChart.setPrefSize(400, 350);
         pane.setPrefSize(420, 420);
-        HBox.setPrefSize(420, 420);
-        for (int i = 1; i < HBox.getChildren().size(); i++) {
+        graphFlowPane.setPrefSize(420, 420);
+        for (int i = 1; i < graphFlowPane.getChildren().size(); i++) {
             try {
-                HBox.getChildren().remove(i);
+                graphFlowPane.getChildren().remove(i);
             } catch (Exception e) {
                 System.out.println("Error removing sensor chart");
-                //TODO: handle exception; This is a hacky fix for a bug that I don't know how to fix;
             }
         }
     }
@@ -164,6 +155,7 @@ public class RoomWindowController {
         this.title.setText("Room Number " + this.room.getName());
         List<SensorRecord> sensorReadings = this.room.getListOfSensors().get(sensorID).getHistoryLog();
               sensorReadings.sort(new SortbyDate());
+              lastTemperature.setText("Last temp: "+sensorReadings.get(sensorReadings.size() - 1).value());
         for (SensorRecord sensorReading : sensorReadings) {
             
             series.getData()
