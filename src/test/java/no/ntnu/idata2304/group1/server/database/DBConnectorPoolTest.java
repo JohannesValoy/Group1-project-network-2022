@@ -5,8 +5,14 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.sql.ResultSet;
 import org.junit.jupiter.api.Test;
 
+/**
+ * The type Db connector pool test.
+ */
 public class DBConnectorPoolTest {
 
+    /**
+     * Test pool.
+     */
     @Test
     public void testPool() {
         DBConnectorPool pool = DBConnectorPool.getInstance();
@@ -19,6 +25,9 @@ public class DBConnectorPoolTest {
         }
     }
 
+    /**
+     * Test pool with custom path.
+     */
     @Test
     public void testPoolWithCustomPath() {
         DBConnectorPool pool = DBConnectorPool.getInstance();

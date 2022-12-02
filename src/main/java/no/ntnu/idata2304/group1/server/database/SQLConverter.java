@@ -12,7 +12,6 @@ import no.ntnu.idata2304.group1.data.SensorRecord;
 /**
  * A class for converting SQL results to Java objects
  */
-
 public class SQLConverter {
 
     private SQLConverter() {}
@@ -61,6 +60,12 @@ public class SQLConverter {
         return new ArrayList<>(roomLogs.values());
     }
 
+    /**
+     * Convert result to room.
+     *
+     * @param result the result
+     * @return the room
+     */
     public static Room convertToRoom(ResultSet result) {
         Room room = null;
         try {
@@ -88,6 +93,12 @@ public class SQLConverter {
         return room;
     }
 
+    /**
+     * Gets rooms name.
+     *
+     * @param result the result
+     * @return the rooms name
+     */
     public static List<String> getRoomsName(ResultSet result) {
         List<String> roomNames = new ArrayList<>();
         try {

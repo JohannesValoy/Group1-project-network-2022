@@ -6,8 +6,14 @@ import java.util.Iterator;
 import org.junit.jupiter.api.Test;
 import no.ntnu.idata2304.group1.data.Sensor.Types;
 
+/**
+ * The type Sql command factory test.
+ */
 public class SQLCommandFactoryTest {
 
+    /**
+     * Test sql command factory.
+     */
     @Test
     public void testSQLCommandFactory() {
         ArrayList<String> rooms = new ArrayList<>();
@@ -19,6 +25,9 @@ public class SQLCommandFactoryTest {
                 () -> SQLCommandFactory.getRoomData(iterator, 10, null, null, Types.TEMPERATURE));
     }
 
+    /**
+     * Test sql command factory no rooms.
+     */
     @Test
     public void testSQLCommandFactoryNoRooms() {
         ArrayList<String> rooms = new ArrayList<>();
@@ -27,6 +36,9 @@ public class SQLCommandFactoryTest {
                 () -> SQLCommandFactory.getRoomData(iterator, 10, null, null, Types.TEMPERATURE));
     }
 
+    /**
+     * Gets rooms.
+     */
     @Test
     public void getRooms() {
         assertDoesNotThrow(() -> SQLCommandFactory.getRooms(null));

@@ -12,6 +12,8 @@ public class RoomTemperatureSensor extends BoundedSensor {
 
     /**
      * Create a sensor which will imitate temperature readings within a room
+     *
+     * @param name the name
      */
     public RoomTemperatureSensor(String name) {
         super(Sensor.Types.TEMPERATURE, name, NORMAL_ROOM_TEMPERATURE, MIN_ROOM_TEMPERATURE,

@@ -24,7 +24,7 @@ public class HTTPRequest extends HTTPMessage {
     /**
      * Returns the method of the request
      *
-     * @return method
+     * @return the method
      */
     public String getMethod() {
         return method;

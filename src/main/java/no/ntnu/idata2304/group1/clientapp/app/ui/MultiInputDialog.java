@@ -19,8 +19,14 @@ import no.ntnu.idata2304.group1.clientapp.app.network.ClientSocket;
 import static no.ntnu.idata2304.group1.clientapp.app.ui.ErrorDialogs.generalError;
 import static no.ntnu.idata2304.group1.clientapp.app.ui.ErrorDialogs.invalidPortNumber;
 
+/**
+ * The type Multi input dialog.
+ */
 public class MultiInputDialog extends Dialog<ClientSocket> {
 
+    /**
+     * Instantiates a new Multi input dialog.
+     */
     public MultiInputDialog() {
         this.setTitle("Server selector Dialog");
         this.setHeaderText("Please Insert the serverDetails here");

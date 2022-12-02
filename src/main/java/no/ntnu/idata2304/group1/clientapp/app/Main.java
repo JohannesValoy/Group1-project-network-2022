@@ -7,6 +7,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import no.ntnu.idata2304.group1.clientapp.app.ui.MainController;
 
+import java.util.Objects;
+
+/**
+ * The type Main.
+ */
 public class Main extends Application {
 
     /**
@@ -21,7 +26,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent mainWindow = FXMLLoader.load(MainController.class.getResource("MainScene.fxml"));
+        Parent mainWindow = FXMLLoader.load(Objects.requireNonNull(MainController.class.getResource("MainScene.fxml")));
         Scene scene = new Scene(mainWindow);
         primaryStage.setTitle("Room Manager");
         primaryStage.setScene(scene);

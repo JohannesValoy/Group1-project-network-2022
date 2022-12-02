@@ -13,18 +13,24 @@ public class DataMessage extends OKMessage {
 
     private final Class type;
     private final List<Object> data;
-    /*
-     * Creates a new ResponseMessage**
-     * 
-     * @param data the data
-     */
 
+    /**
+     * Instantiates a new Data message.
+     *
+     * @param dataClass the data class
+     * @param data      the data
+     */
     public DataMessage(Class dataClass, List data) {
         super(true);
         this.type = dataClass;
         this.data = new ArrayList<>(data);
     }
 
+    /**
+     * Instantiates a new Data message.
+     *
+     * @param data the data
+     */
     public DataMessage(List<Room> data) {
         super(true);
         this.type = DataTypes.ROOMS.getClass();
@@ -39,7 +45,7 @@ public class DataMessage extends OKMessage {
     /**
      * Gets the data.
      *
-     * @return data
+     * @return the data
      */
     public Iterator<Object> getData() {
         return data.iterator();

@@ -3,12 +3,20 @@ package no.ntnu.idata2304.group1.sensor;
 import java.util.logging.Logger;
 import no.ntnu.idata2304.group1.data.Sensor.Types;
 
+/**
+ * The type Main.
+ */
 public class Main {
 
     private static int port = 6008;
     private static String certPath = null;
     private static final Logger LOGGER = Logger.getLogger(Main.class.getSimpleName());
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         if (args.length < 4) {
             LOGGER.warning(

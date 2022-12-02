@@ -69,6 +69,17 @@ public class SQLCommandFactory {
     private SQLCommandFactory() {};
 
 
+    /**
+     * Gets room data.
+     *
+     * @param rooms the rooms
+     * @param limit the limit
+     * @param from  the from
+     * @param to    the to
+     * @param type  the type
+     * @return the room data
+     * @throws SQLException the sql exception
+     */
     public static List<Room> getRoomData(Iterator<String> rooms, int limit, Date from, Date to,
             Sensor.Types type) throws SQLException {
 
@@ -111,6 +122,7 @@ public class SQLCommandFactory {
      *
      * @param key the key
      * @return the string
+     * @throws SQLException the sql exception
      */
     public static boolean checkNodeKey(String key) throws SQLException {
         if (checkValidString(key)) {
@@ -141,8 +153,10 @@ public class SQLCommandFactory {
      * Add log string.
      *
      * @param apiKey the api key
-     * @param value the value
+     * @param value  the value
      * @return the string
+     * @throws IllegalArgumentException the illegal argument exception
+     * @throws SQLException             the sql exception
      */
     public static boolean addLog(String apiKey, double value)
             throws IllegalArgumentException, SQLException {
@@ -166,6 +180,13 @@ public class SQLCommandFactory {
         return result;
     }
 
+    /**
+     * Gets rooms.
+     *
+     * @param filter the filter
+     * @return the rooms
+     * @throws SQLException the sql exception
+     */
     public static List<String> getRooms(String filter) throws SQLException {
         String sqlQuery = SELECT + Tables.ROOMS.getTable();
         List<String> rooms = null;

@@ -3,10 +3,19 @@ package no.ntnu.idata2304.group1.server.database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * The type Db connector pool.
+ */
 public class DBConnectorPool {
 
+    /**
+     * The Pool.
+     */
     DBConnector[] pool;
     private static final int POOLSIZE = 10;
+    /**
+     * The Current size.
+     */
     int currentSize;
 
     private static DBConnectorPool instance;
@@ -28,6 +37,11 @@ public class DBConnectorPool {
 
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static DBConnectorPool getInstance() {
         if (instance == null) {
             instance = new DBConnectorPool(null);
@@ -35,6 +49,12 @@ public class DBConnectorPool {
         return instance;
     }
 
+    /**
+     * Gets instance.
+     *
+     * @param path the path
+     * @return the instance
+     */
     public static DBConnectorPool getInstance(String path) {
         if (instance == null) {
             instance = new DBConnectorPool(path);
@@ -42,6 +62,13 @@ public class DBConnectorPool {
         return instance;
     }
 
+    /**
+     * Execute query result set.
+     *
+     * @param query the query
+     * @return the result set
+     * @throws SQLException the sql exception
+     */
     public ResultSet executeQuery(String query) throws SQLException {
         if (query == null) {
             throw new IllegalArgumentException("Task cannot be null");
@@ -60,6 +87,11 @@ public class DBConnectorPool {
         return connector.executeQuery(query);
     }
 
+    /**
+     * Gets connector.
+     *
+     * @return the connector
+     */
     public synchronized DBConnector getConnector() {
         DBConnector connector = null;
         while (connector == null) {
@@ -73,6 +105,11 @@ public class DBConnectorPool {
         return connector;
     }
 
+    /**
+     * Execute.
+     *
+     * @param sqlQuery the sql query
+     */
     public void execute(String sqlQuery) {
 
     }

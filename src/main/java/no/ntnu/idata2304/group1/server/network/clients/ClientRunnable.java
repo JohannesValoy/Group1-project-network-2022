@@ -22,7 +22,6 @@ public abstract class ClientRunnable implements Runnable {
      * Instantiates a new Client runnable.
      *
      * @param socket the socket
-     * @throws IOException the io exception
      */
     protected ClientRunnable(SSLSocket socket) {
         this.socket = socket;
@@ -75,7 +74,7 @@ public abstract class ClientRunnable implements Runnable {
      * Tries to recieve a message from the client. If no message is recieved, it
      * will return null
      *
-     * @return request
+     * @return Return the request
      * @throws IllegalArgumentException the illegal argument exception
      * @throws IOException              the io exception
      */

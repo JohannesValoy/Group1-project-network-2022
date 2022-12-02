@@ -10,14 +10,19 @@ public class ErrorMessage extends Message {
 
     /**
      * Creates a new ErrorMessage
-     * 
+     *
      * @param message the message to send
      */
     public ErrorMessage(String message) {
-        super(Message.Types.ERROR);
+        super(Type.ERROR);
         this.message = message;
     }
 
+    /**
+     * Gets error message.
+     *
+     * @return the error message
+     */
     public String getErrorMessage() {
         return message;
     }

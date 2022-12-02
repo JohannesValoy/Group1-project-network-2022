@@ -13,7 +13,18 @@ public abstract class GetMessage extends Message {
      * The type of get command to send
      */
     public enum DataTypes {
-        ROOMS(Room.class), Sensor(Sensor.class), DATA(Room.class);
+        /**
+         * Rooms data types.
+         */
+        ROOMS(Room.class),
+        /**
+         * Sensor data types.
+         */
+        Sensor(Sensor.class),
+        /**
+         * Data data types.
+         */
+        DATA(Room.class);
 
         private Class type;
 
@@ -21,6 +32,11 @@ public abstract class GetMessage extends Message {
             this.type = type;
         }
 
+        /**
+         * Gets class data.
+         *
+         * @return the class type
+         */
         public Class getDataClass() {
             return type;
         }
@@ -28,14 +44,19 @@ public abstract class GetMessage extends Message {
 
     private final GetMessage.DataTypes command;
 
+    /**
+     * Instantiates a new Get message.
+     *
+     * @param type the type
+     */
     protected GetMessage(DataTypes type) {
-        super(Message.Types.GET);
+        super(Type.GET);
         this.command = type;
     }
 
     /**
      * Gets the command to send
-     * 
+     *
      * @return The command to send
      */
     public GetMessage.DataTypes getCommand() {

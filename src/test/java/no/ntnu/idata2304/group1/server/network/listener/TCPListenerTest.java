@@ -3,8 +3,16 @@ package no.ntnu.idata2304.group1.server.network.listener;
 import org.junit.jupiter.api.Test;
 
 
+/**
+ * The type Tcp listener test.
+ */
 public class TCPListenerTest {
 
+    /**
+     * Check that it runs.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void checkThatItRuns() throws Exception {
         if (TCPListener.class.getResourceAsStream("TestKeys") == null) {
@@ -18,7 +26,6 @@ public class TCPListenerTest {
     /**
      * This test is not really a test, it is just here to make sure that the server can be started
      * and receives a message
-     *
      */
     @Test
     public void messageTest() {

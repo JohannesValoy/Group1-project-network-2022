@@ -11,7 +11,7 @@ public class UpdateMessage extends Message {
      * Instantiates a new Update message.
      */
     protected UpdateMessage() {
-        super(Message.Types.UPDATE);
+        super(Type.UPDATE);
         // TODO Auto-generated constructor stub
     }
 

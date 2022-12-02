@@ -101,7 +101,7 @@ public class ClientSocket {
         output.writeObject(getLogsMessage);
         Message messageResponse = response();
         ArrayList<Room> data = new ArrayList<>();
-        if (messageResponse.getType() == Message.Types.OK) {
+        if (messageResponse.getType() == Message.Type.OK) {
             DataMessage response = (DataMessage) messageResponse;
             for (Iterator<Object> it = response.getData(); it.hasNext();) {
                 Room room = (Room) it.next();

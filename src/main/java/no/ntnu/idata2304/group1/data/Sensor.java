@@ -13,7 +13,18 @@ public class Sensor implements Serializable {
      * The Different types of sensors.
      */
     public enum Types {
-        TEMPERATURE("Temperature"), HUMIDITY("Humidity"), UNDEFINED("Undefined");
+        /**
+         * Temperature types.
+         */
+        TEMPERATURE("Temperature"),
+        /**
+         * Humidity types.
+         */
+        HUMIDITY("Humidity"),
+        /**
+         * Undefined types.
+         */
+        UNDEFINED("Undefined");
 
         private final String name;
 
@@ -28,7 +39,7 @@ public class Sensor implements Serializable {
 
         /**
          * Returns the name of the sensor type.
-         * 
+         *
          * @return String name.
          */
         public String getName() {
@@ -37,7 +48,7 @@ public class Sensor implements Serializable {
 
         /**
          * Returns the enum type from a string.
-         * 
+         *
          * @param name the name of the type.
          * @return the enum type.
          * @throws IllegalArgumentException if the name is not a valid type or if it can't be found.
@@ -63,7 +74,7 @@ public class Sensor implements Serializable {
 
     /**
      * Uses type as type of sensor and name as the name of the sensor
-     * 
+     *
      * @param type as Temperature or humidity
      * @param name as the name/ID of the sensor
      */
@@ -75,7 +86,7 @@ public class Sensor implements Serializable {
 
     /**
      * Returns the name of the sensor.
-     * 
+     *
      * @return string Name.
      */
     public String getTypeName() {
@@ -84,7 +95,7 @@ public class Sensor implements Serializable {
 
     /**
      * Returns the history log of the sensor.
-     * 
+     *
      * @return List historyLog.
      */
     public List<SensorRecord> getHistoryLog() {
@@ -93,7 +104,7 @@ public class Sensor implements Serializable {
 
     /**
      * Returns the name of the sensor.
-     * 
+     *
      * @return String the name.
      */
     public String getName() {
@@ -102,13 +113,18 @@ public class Sensor implements Serializable {
 
     /**
      * Returns the type of the sensor.
-     * 
+     *
      * @return String type.
      */
     public Types getType() {
         return this.type;
     }
 
+    /**
+     * Add record boolean.
+     *
+     * @param roomRecord the room record
+     */
     public void addRecord(SensorRecord roomRecord) {
         this.historyLog.add(roomRecord);
     }

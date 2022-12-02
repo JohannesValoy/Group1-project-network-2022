@@ -22,23 +22,34 @@ public class SensorApplication implements Runnable {
     /**
      * Creates a new sensor application.
      *
-     * @param name the name
-     * @param apiKey the api key
-     * @param serverAdresse the server adresse
-     * @param serverPort the server port
-     * @param customCerts the custom certs
+     * @param name          the name
+     * @param apiKey        the api key
+     * @param serverAddress the server address
+     * @param serverPort    the server port
+     * @param customCerts   the custom certs
      * @throws IOException the io exception
      */
-    public SensorApplication(String name, String apiKey, String serverAdresse, int serverPort,
+    public SensorApplication(String name, String apiKey, String serverAddress, int serverPort,
             String customCerts) throws IOException {
-        nodeSocket = new NodeSocket(serverAdresse, serverPort, customCerts);
+        nodeSocket = new NodeSocket(serverAddress, serverPort, customCerts);
         sensor = new RoomTemperatureSensor(name);
         this.apiKey = apiKey;
     }
 
-    public SensorApplication(String name, String apiKey, String serverAdresse, int serverPort,
+    /**
+     * Instantiates a new Sensor application.
+     *
+     * @param name          the name
+     * @param apiKey        the api key
+     * @param serverAddress the server address
+     * @param serverPort    the server port
+     * @param customCerts   the custom certs
+     * @param type          the type
+     * @throws IOException the io exception
+     */
+    public SensorApplication(String name, String apiKey, String serverAddress, int serverPort,
             String customCerts, Sensor.Types type) throws IOException {
-        nodeSocket = new NodeSocket(serverAdresse, serverPort, customCerts);
+        nodeSocket = new NodeSocket(serverAddress, serverPort, customCerts);
         if (type == Sensor.Types.TEMPERATURE) {
             sensor = new RoomTemperatureSensor(name);
         } else if (type == Sensor.Types.HUMIDITY) {
@@ -81,6 +92,12 @@ public class SensorApplication implements Runnable {
         }
     }
 
+    /**
+     * Sets nap time.
+     *
+     * @param nappis the nappis
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public void setNapTime(long nappis) throws IllegalArgumentException {
         if (nappis < 500) {
             throw new IllegalArgumentException("NapTime can not be less than 500ms");

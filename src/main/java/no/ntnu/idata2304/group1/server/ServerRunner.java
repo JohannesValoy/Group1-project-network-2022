@@ -17,10 +17,10 @@ public class ServerRunner {
 
     /**
      * Starts the server
-     * 
-     * @param args The arguments to the program the following arguments are supported: Keystore
-     *        path, Keystore password
-     * @throws IOException if the server fails to start å
+     *
+     * @param args The arguments to the program the following arguments are supported: Keystore        path, Keystore password
+     * @throws IOException  if the server fails to start
+     * @throws SQLException the sql exception
      */
     public static void main(String[] args) throws IOException, SQLException {
         LOGGER.info("Starting the server");
