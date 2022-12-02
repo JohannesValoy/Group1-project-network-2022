@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * The type Room window controller.
+ * Controls the window showing the sensors in a room.
  */
 public class RoomWindowController {
     /**
