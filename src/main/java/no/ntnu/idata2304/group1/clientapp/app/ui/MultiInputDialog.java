@@ -1,6 +1,7 @@
 package no.ntnu.idata2304.group1.clientapp.app.ui;
 
 import java.io.File;
+import java.io.IOException;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -91,7 +92,8 @@ public class MultiInputDialog extends Dialog<ClientSocket> {
                         int port = Integer.parseInt(password.getText());
                         returnValue = new ClientSocket(hostname, port, cert);
                     } catch (NumberFormatException e) {
-                        invalidPortNumber("invalid port number: " + password.getText());
+                        System.out.println("Invalid port number");
+                        invalidPortNumber(password.getText());
                         System.exit(0);
                     } catch (Exception e) {
                         generalError(e);

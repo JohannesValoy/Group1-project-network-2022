@@ -13,7 +13,8 @@ import no.ntnu.idata2304.group1.server.network.handlers.RequestHandler;
  * @author Mathias J. Kirkeby
  */
 public abstract class ClientRunnable implements Runnable {
-    private final SSLSocket socket;
+    private SSLSocket socket;
+    private boolean running;
 
     private static final Logger logger = Logger.getLogger(ClientRunnable.class.getName());
 
@@ -21,9 +22,11 @@ public abstract class ClientRunnable implements Runnable {
      * Instantiates a new Client runnable.
      *
      * @param socket the socket
+     * @throws IOException the io exception
      */
-    protected ClientRunnable(SSLSocket socket) {
+    protected ClientRunnable(SSLSocket socket) throws IOException {
         this.socket = socket;
+        this.running = false;
     }
 
     /**
@@ -31,6 +34,7 @@ public abstract class ClientRunnable implements Runnable {
      */
     @Override
     public void run() {
+        running = true;
         if (socket.isConnected()) {
             try {
                 Message request = getRequest();
@@ -54,25 +58,26 @@ public abstract class ClientRunnable implements Runnable {
                 }
             }
         }
+        running = false;
     }
+
 
     /**
      * A function that sends the data to the client
      *
      * @param response the response
      * @throws IllegalArgumentException the illegal argument exception
-     * @throws IOException              the io exception
+     * @throws IOException the io exception
      */
     public abstract void sendResponse(Message response)
             throws IllegalArgumentException, IOException;
 
     /**
-     * Tries to receive a message from the client. If no message is received, it
-     * will return null
+     * Tries to recieve a message from the client. If no message is recieved, it will return null
      *
-     * @return Return the request
+     * @return request
      * @throws IllegalArgumentException the illegal argument exception
-     * @throws IOException              the io exception
+     * @throws IOException the io exception
      */
     protected abstract Message getRequest() throws IllegalArgumentException, IOException;
 
@@ -85,4 +90,19 @@ public abstract class ClientRunnable implements Runnable {
         return socket.isClosed();
     }
 
+    /**
+     * Checks if the client is running
+     *
+     * @return True if the client is running
+     */
+    public boolean isRunning() {
+        return running;
+    }
+
+    /**
+     * Set as running.
+     */
+    public synchronized void setAsRunning() {
+        running = true;
+    }
 }

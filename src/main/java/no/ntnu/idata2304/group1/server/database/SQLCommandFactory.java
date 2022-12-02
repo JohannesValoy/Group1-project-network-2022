@@ -49,7 +49,7 @@ public class SQLCommandFactory {
          */
         USERS("users");
 
-        private final String table;
+        private String table;
 
         Tables(String tableName) {
             this.table = tableName;
