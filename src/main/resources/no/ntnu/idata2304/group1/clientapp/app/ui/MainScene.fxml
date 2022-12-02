@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.control.ScrollPane?>
 
 <BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idata2304.group1.clientapp.app.ui.MainController">
    <center>
@@ -29,7 +20,6 @@
          <Label alignment="CENTER" contentDisplay="CENTER" text="Weather station 1.0" textAlignment="CENTER">
             <font>
                <Font name="Calibri" size="24.0"/>
-
             </font>
          </Label>
       </HBox>
