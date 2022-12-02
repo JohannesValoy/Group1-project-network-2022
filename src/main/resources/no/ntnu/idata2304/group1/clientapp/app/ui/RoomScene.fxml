@@ -27,6 +27,6 @@
                     <NumberAxis side="LEFT" tickLabelFill="WHITE" />
                 </yAxis>
             </LineChart>
-            <Label fx:id="lastTemperature" textAlignment="CENTER" />
+            <Label fx:id="lastTemperature" textAlignment="CENTER" textFill="red" />
         </FlowPane>
 </FlowPane>
