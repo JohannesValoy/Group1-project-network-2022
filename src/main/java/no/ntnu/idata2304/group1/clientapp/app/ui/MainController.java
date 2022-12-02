@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ScheduledExecutorService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,7 +39,6 @@ public class MainController {
     /**
      * starts the application.
      *
-     * @param stage the stage
      */
     @FXML
     public void initialize() {
@@ -109,9 +107,8 @@ public class MainController {
 
 
     /**
-     * Loads the rooms into the main window abcd
-     * 
-     * @param stage the main stage
+     * Loads the rooms into the main window
+     *
      * @throws IOException if the fxml file could not be loaded;
      */
     public void addRoom(Room room) throws IOException {
