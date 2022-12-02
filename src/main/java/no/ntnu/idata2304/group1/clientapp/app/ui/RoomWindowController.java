@@ -112,7 +112,7 @@ public class RoomWindowController {
      * @param sensorID    the sensor id
      */
     @FXML
-    public void updateSensorChart(LineChart<String, Number> sensorChart, int sensorID) {
+    public void updateSensorChart(LineChart sensorChart, int sensorID) {
         if (this.room != null) {
             if (sensorChart != null) {
                 sensorChart.getData().clear();
@@ -148,9 +148,9 @@ public class RoomWindowController {
      * @param sensorID the id of the sensor to get the data from
      * @return returns observable list
      */
-    private ObservableList<XYChart.Series<String, Number>> getChartData(int sensorID) {
+    private ObservableList<XYChart.Series<String, Double>> getChartData(int sensorID) {
 
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        XYChart.Series<String, Double> series = new XYChart.Series<>();
         if (this.room.getListOfSensors().size() <= sensorID) {
             throw new IllegalArgumentException("Requested sensor " + sensorID + " but room "
                     + room.getName() + " has " + this.room.getListOfSensors().size() + " sensors");
@@ -169,7 +169,7 @@ public class RoomWindowController {
                             sensorReading.value()));
 
         }
-        ObservableList<XYChart.Series<String, Number>> seriesList =
+        ObservableList<XYChart.Series<String, Double>> seriesList =
                 FXCollections.observableArrayList();
         seriesList.add(series);
 

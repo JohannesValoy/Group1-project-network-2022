@@ -78,6 +78,16 @@ public class RequestHandler {
 
     }
 
+
+    // private boolean isValidKey(String apiKey) throws SQLException, IllegalArgumentException {
+    // if (apiKey == null || apiKey.isBlank() || apiKey.contains(" ")) {
+    // throw new IllegalArgumentException("The key is invalid");
+    // }
+    // String sql = SQLCommandFactory.checkNodeKey(apiKey);
+    // ResultSet result = connector.executeQuery(sql);
+    // return result.next();
+    // }
+
     /**
      * Handles a GET request
      * 
