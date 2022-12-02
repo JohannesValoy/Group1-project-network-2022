@@ -35,10 +35,7 @@ public class DataMessage extends OKMessage {
         super(true);
         this.type = DataTypes.ROOMS.getClass();
         this.data = new ArrayList<>();
-        for (Iterator<Room> iterator = data.iterator(); iterator.hasNext();) {
-            Room next = iterator.next();
-            this.data.add(next);
-        }
+        this.data.addAll(data);
     }
 
 
