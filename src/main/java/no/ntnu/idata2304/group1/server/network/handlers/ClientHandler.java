@@ -30,7 +30,6 @@ public class ClientHandler extends Thread {
     public static ClientHandler getInstance() {
         if (instance == null) {
             instance = new ClientHandler();
-
             instance.start();
         }
         return instance;
@@ -42,7 +41,7 @@ public class ClientHandler extends Thread {
      * @param client The client to add
      */
     public synchronized void addClient(ClientRunnable client) {
-        if (client != null && !clients.contains(client)) {
+        if (client != null) {
             ClientTask task = new ClientTask(client);
             clients.add(task);
         }
