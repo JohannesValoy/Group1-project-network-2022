@@ -4,16 +4,16 @@ module Group1NetworkProject {
     requires java.sql;
     requires org.json;
 
-    opens no.ntnu.idata2304.group1.clientapp.app2.ui to javafx.fxml;
+    opens no.ntnu.idata2304.group1.clientapp.app.ui to javafx.fxml;
 
-    opens no.ntnu.idata2304.group1.clientapp.app2.network;
+    opens no.ntnu.idata2304.group1.clientapp.app.network;
 
-    exports no.ntnu.idata2304.group1.clientapp.app2.network;
+    exports no.ntnu.idata2304.group1.clientapp.app.network;
 
-    exports no.ntnu.idata2304.group1.clientapp.app2.ui to javafx.graphics;
+    exports no.ntnu.idata2304.group1.clientapp.app.ui to javafx.graphics;
     exports no.ntnu.idata2304.group1.data;
     exports no.ntnu.idata2304.group1.data.network;
     opens no.ntnu.idata2304.group1.data.network;
-    exports no.ntnu.idata2304.group1.clientapp.app2 to javafx.graphics;
-    opens no.ntnu.idata2304.group1.clientapp.app2 to javafx.fxml;
+    exports no.ntnu.idata2304.group1.clientapp.app;
+    opens no.ntnu.idata2304.group1.clientapp.app;
 }

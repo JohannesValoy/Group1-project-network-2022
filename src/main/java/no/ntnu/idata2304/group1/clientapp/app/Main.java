@@ -1,6 +1,6 @@
-package no.ntnu.idata2304.group1.clientapp.app2;
+package no.ntnu.idata2304.group1.clientapp.app;
 
-import no.ntnu.idata2304.group1.clientapp.app2.ui.MainController;
+import no.ntnu.idata2304.group1.clientapp.app.ui.MainController;
 
 public class Main {
 

@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.clientapp.app2.ui;
+package no.ntnu.idata2304.group1.clientapp.app.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
-import no.ntnu.idata2304.group1.clientapp.app2.network.ClientSocket;
+import no.ntnu.idata2304.group1.clientapp.app.network.ClientSocket;
 import no.ntnu.idata2304.group1.data.Room;
 
 

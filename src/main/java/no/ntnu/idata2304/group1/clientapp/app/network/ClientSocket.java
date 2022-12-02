@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.clientapp.app2.network;
+package no.ntnu.idata2304.group1.clientapp.app.network;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

@@ -1,4 +1,4 @@
-package no.ntnu.idata2304.group1.clientapp.app2.ui;
+package no.ntnu.idata2304.group1.clientapp.app.ui;
 
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
