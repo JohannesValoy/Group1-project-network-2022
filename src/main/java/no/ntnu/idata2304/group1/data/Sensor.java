@@ -4,7 +4,6 @@ package no.ntnu.idata2304.group1.data;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Represents a sensor doing measurement. Sensor type is decided by string type.
@@ -16,7 +15,7 @@ public class Sensor implements Serializable {
     public enum Types {
         TEMPERATURE("Temperature"), HUMIDITY("Humidity"), UNDEFINED("Undefined");
 
-        private String name;
+        private final String name;
 
         /**
          * Creates a sensor type.
@@ -58,9 +57,9 @@ public class Sensor implements Serializable {
         }
     }
 
-    private List<SensorRecord> historyLog; // Log of all readings from the sensor
+    private final List<SensorRecord> historyLog; // Log of all readings from the sensor
     private final Types type; // Type of sensor
-    private String name; // ID of sensor
+    private final String name; // ID of sensor
 
     /**
      * Uses type as type of sensor and name as the name of the sensor
@@ -110,7 +109,7 @@ public class Sensor implements Serializable {
         return this.type;
     }
 
-    public boolean addRecord(SensorRecord roomRecord) {
-        return this.historyLog.add(roomRecord);
+    public void addRecord(SensorRecord roomRecord) {
+        this.historyLog.add(roomRecord);
     }
 }

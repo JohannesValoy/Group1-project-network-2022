@@ -16,8 +16,8 @@ public class DBConnector implements Closeable {
 
     private static final String DBDRIVE = "jdbc:sqlite:";
     private static final Logger LOGGER = Logger.getLogger(DBConnector.class.getName());
-    private Connection conn;
-    private String uri;
+    private final Connection conn;
+    private final String uri;
     private boolean busy = false;
 
     /**

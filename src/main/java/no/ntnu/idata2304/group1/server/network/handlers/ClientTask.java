@@ -7,7 +7,7 @@ import no.ntnu.idata2304.group1.server.network.clients.ClientRunnable;
  */
 public class ClientTask implements Runnable {
 
-    private ClientRunnable client;
+    private final ClientRunnable client;
 
     /**
      * Instantiates a new Client task.

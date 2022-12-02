@@ -13,8 +13,8 @@ import no.ntnu.idata2304.group1.server.network.clients.ClientRunnable;
 public class ClientHandler extends Thread {
     private static ClientHandler instance = null;
     private static final int TOTALTHREADS = 10;
-    private ArrayList<ClientRunnable> clients;
-    private ExecutorService pool;
+    private final ArrayList<ClientRunnable> clients;
+    private final ExecutorService pool;
 
     private ClientHandler() {
         this.setName("Client Handler");

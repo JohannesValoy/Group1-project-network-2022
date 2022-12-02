@@ -25,9 +25,9 @@ import no.ntnu.idata2304.group1.data.network.responses.OKMessage;
  */
 public class ClientSocket {
 
-    private SSLSocket socket;
-    private ObjectInputStream input;
-    private ObjectOutputStream output;
+    private final SSLSocket socket;
+    private final ObjectInputStream input;
+    private final ObjectOutputStream output;
 
     /**
      * Instantiates a new Client socket.

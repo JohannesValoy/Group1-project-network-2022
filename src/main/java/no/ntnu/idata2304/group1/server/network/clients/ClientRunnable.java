@@ -13,7 +13,7 @@ import no.ntnu.idata2304.group1.server.network.handlers.RequestHandler;
  * @author Mathias J. Kirkeby
  */
 public abstract class ClientRunnable implements Runnable {
-    private SSLSocket socket;
+    private final SSLSocket socket;
     private boolean running;
 
     private static final Logger logger = Logger.getLogger(ClientRunnable.class.getName());
