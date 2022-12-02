@@ -2,6 +2,7 @@ package no.ntnu.idata2304.group1.clientapp.app.ui;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -49,6 +50,7 @@ public class MultiInputDialog extends Dialog {
         username.setPromptText("Host");
         TextField password = new TextField();
         password.setPromptText("Port");
+        username.setOnAction(e -> password.requestFocus());
 
         grid.add(new Label("Host IP:"), 0, 0);
         grid.add(username, 1, 0);
@@ -60,10 +62,17 @@ public class MultiInputDialog extends Dialog {
         Node loginButton = dialog.getDialogPane().lookupButton(loginButtonType);
         loginButton.setDisable(true);
 
-        // Do some validation (using the Java 8 lambda syntax).
         username.textProperty().addListener((observable, oldValue, newValue) -> {
-            
-            loginButton.setDisable(newValue.trim().isEmpty());
+            if(!password.getText().isEmpty() && !newValue.isEmpty()) {
+                loginButton.setDisable(false);
+            }
+        });
+
+        //Checks if both fields are filled and if so, enables the button
+        password.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(!username.getText().isEmpty() && !newValue.isEmpty()) {
+                loginButton.setDisable(false);
+            }
         });
 
         dialog.getDialogPane().setContent(grid);
@@ -98,9 +107,8 @@ public class MultiInputDialog extends Dialog {
                 }
             }
         } catch (Exception e) {
-            new Alert(AlertType.ERROR, "Error: no port number entered; Port number is necessary in order to connect to the server\n" + e.getMessage()).showAndWait();
+            new Alert(AlertType.ERROR, "Error: no port number entered; Port number is necessary in order to connect to the server\n" + " " + e.getClass() + " " + e.getMessage()).showAndWait();
             getSocketConnectionV2(stage);
-            //MultiInputDialog.getSocketConnectionV2(stage);
         }
 
         return clientSocket;
