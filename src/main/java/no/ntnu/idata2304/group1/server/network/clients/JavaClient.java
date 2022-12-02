@@ -14,7 +14,6 @@ import no.ntnu.idata2304.group1.data.network.Message;
  * @author Mathias J. Kirkeby
  */
 public class JavaClient extends ClientRunnable {
-    private InputStream detectStream;
     private ObjectOutputStream output;
     private ObjectInputStream input;
 
@@ -26,8 +25,7 @@ public class JavaClient extends ClientRunnable {
      */
     public JavaClient(SSLSocket socket) throws IOException {
         super(socket);
-        this. detectStream = socket.getInputStream();
-        this.input = new ObjectInputStream(detectStream);
+        this.input = new ObjectInputStream(socket.getInputStream());
         this.input.setObjectInputFilter(ObjectInputFilter.Config.createFilter(Message.class.getName()));
         this.output = new ObjectOutputStream(socket.getOutputStream());
     }
