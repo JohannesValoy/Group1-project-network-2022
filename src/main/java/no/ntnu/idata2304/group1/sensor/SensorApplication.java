@@ -1,6 +1,7 @@
 package no.ntnu.idata2304.group1.sensor;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 import no.ntnu.idata2304.group1.data.Sensor;
 import no.ntnu.idata2304.group1.sensor.network.NodeSocket;
 import no.ntnu.idata2304.group1.sensor.sensors.BoundedSensor;
@@ -16,6 +17,7 @@ public class SensorApplication implements Runnable {
     private NodeSocket nodeSocket;
     private BoundedSensor sensor;
     private String apiKey;
+    private static final Logger logger = Logger.getLogger(SensorApplication.class.getName());
 
     /**
      * Creates a new sensor application.
@@ -45,7 +47,6 @@ public class SensorApplication implements Runnable {
             throw new IllegalArgumentException("Unknown sensor type");
         }
         this.apiKey = apiKey;
-
     }
 
 
@@ -64,7 +65,7 @@ public class SensorApplication implements Runnable {
 
 
     private void readAllSensors() {
-        System.out.println("Reading sensor data...");
+        logger.info("Reading sensor data...");
         lastTemperatureReading = sensor.readValue();
     }
 
@@ -76,9 +77,10 @@ public class SensorApplication implements Runnable {
         try {
             Thread.sleep(SLEEP_DURATION_MS);
         } catch (InterruptedException e) {
-            System.out.println("Ooops, someone woke us up in the middle of a nap");
+            logger.warning("Ooops, someone woke us up in the middle of a nap");
         }
     }
+
     public void setNapTime(long nappis) throws IllegalArgumentException {
         if (nappis < 500) {
             throw new IllegalArgumentException("NapTime can not be less than 500ms");
