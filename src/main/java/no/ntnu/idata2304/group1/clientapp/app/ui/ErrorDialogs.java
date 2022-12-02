@@ -23,4 +23,14 @@ public static void couldNotUpdateRoom(ClassNotFoundException e){
     new Alert(AlertType.ERROR, e.getMessage() + " - Could not update room data").showAndWait();
     System.exit(0);
 }
+
+public static void invalidPortNumber(String message) {
+    new Alert(AlertType.ERROR, "Invalid port number" + " " + message).showAndWait();
+    System.exit(0);
+}
+
+public static void generalError(Exception e) {
+    new Alert(AlertType.ERROR, e.getMessage()).showAndWait();
+    System.exit(0);
+}
 }

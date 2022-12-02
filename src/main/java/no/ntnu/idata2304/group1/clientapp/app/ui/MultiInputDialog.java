@@ -17,6 +17,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import no.ntnu.idata2304.group1.clientapp.app.network.ClientSocket;
 
+import static no.ntnu.idata2304.group1.clientapp.app.ui.ErrorDialogs.generalError;
+import static no.ntnu.idata2304.group1.clientapp.app.ui.ErrorDialogs.invalidPortNumber;
+
 public class MultiInputDialog extends Dialog<ClientSocket> {
 
     public MultiInputDialog() {
@@ -77,11 +80,18 @@ public class MultiInputDialog extends Dialog<ClientSocket> {
                 Stage stage2 = new Stage();
                 String cert = getCertFile(stage2);
                 if (cert != null) {
-                    int port = Integer.parseInt(password.getText());
                     try {
+                        int port = Integer.parseInt(password.getText());
                         returnValue = new ClientSocket(hostname, port, cert);
-                    } catch (IOException e) {
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid port number");
+                        invalidPortNumber(password.getText());
+                        System.exit(0);
+                    } catch (Exception e) {
+                        generalError(e);
+                        System.exit(0);
                     }
+
                 }
 
             }

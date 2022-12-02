@@ -45,15 +45,23 @@ public class MainController {
         this.roomWindowControllers = new ArrayList<>();
         this.rooms = new ArrayList<>();
         this.clientRooms = new ArrayList<>();
-        try {
-            this.clientSocket = multiInputDialog.showAndWait().get();
-            this.clientRooms = this.clientSocket.getRoomData(rooms);
-        } catch (IOException e) {
-            ErrorDialogs.couldNotConnectAlert(e);
-        } catch (ClassNotFoundException e) {
-            ErrorDialogs.couldNotUpdateRoom(e);
-        } catch (NullPointerException | NoSuchElementException e) {
-            System.exit(0);
+        while(this.clientSocket == null) {
+            try {
+                System.out.println("Connecting to server...");
+                this.clientSocket = multiInputDialog.showAndWait().get();
+                this.clientRooms = this.clientSocket.getRoomData(rooms);
+                System.out.println("Connected to server");
+            } catch (IOException e) {
+                ErrorDialogs.couldNotConnectAlert(e);
+            } catch (ClassNotFoundException e) {
+                ErrorDialogs.couldNotUpdateRoom(e);
+            } catch (NullPointerException | NoSuchElementException e) {
+                System.exit(0);
+            } catch (RuntimeException e) {
+                ErrorDialogs.invalidPortNumber(e.getMessage());
+            } catch (Exception e) {
+                ErrorDialogs.generalError(e);
+            }
         }
 
         autoUpdateRoomData();
