@@ -44,6 +44,7 @@ public class MultiInputDialog extends Dialog<ClientSocket> {
 
         TextField username = new TextField();
         username.setPromptText("Host");
+
         TextField password = new TextField();
         password.setPromptText("Port");
 
@@ -56,6 +57,7 @@ public class MultiInputDialog extends Dialog<ClientSocket> {
         // Enable/Disable login button depending on whether a username was entered.
         Node loginButton = this.getDialogPane().lookupButton(loginButtonType);
         loginButton.setDisable(true);
+        username.setOnAction(event -> password.requestFocus());
 
         // Do some validation (using the Java 8 lambda syntax).
         username.textProperty().addListener((observable, oldValue, newValue) -> {

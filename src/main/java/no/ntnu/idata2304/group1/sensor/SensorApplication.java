@@ -88,20 +88,20 @@ public class SensorApplication implements Runnable {
         try {
             Thread.sleep(SLEEP_DURATION_MS);
         } catch (InterruptedException e) {
-            logger.warning("Ooops, someone woke us up in the middle of a nap");
+            logger.warning("Failed to wake up");
         }
     }
 
     /**
      * Sets nap time.
      *
-     * @param nappis the nappis
+     * @param nap the nappis
      * @throws IllegalArgumentException the illegal argument exception
      */
-    public void setNapTime(long nappis) throws IllegalArgumentException {
-        if (nappis < 500) {
+    public void setNapTime(long nap) throws IllegalArgumentException {
+        if (nap < 500) {
             throw new IllegalArgumentException("NapTime can not be less than 500ms");
         }
-        this.SLEEP_DURATION_MS = nappis;
+        this.SLEEP_DURATION_MS = nap;
     }
 }

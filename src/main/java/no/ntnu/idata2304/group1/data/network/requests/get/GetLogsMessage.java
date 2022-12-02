@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Iterator;
 import no.ntnu.idata2304.group1.data.Sensor;
-import no.ntnu.idata2304.group1.data.SensorRecord;
 
 /**
  * The type Get logs message.

@@ -26,7 +26,7 @@ public class Main {
         String sensorType = args[0];
         String sensorId = args[1];
         String apiKey = args[2];
-        String serverAdresse = args[3];
+        String serverAdress = args[3]; //Changed the spelling of address
         if (args.length > 4) {
             port = Integer.parseInt(args[4]);
         }
@@ -35,7 +35,7 @@ public class Main {
         }
         SensorApplication sensor = null;
         try {
-            sensor = new SensorApplication(sensorId, apiKey, serverAdresse, port, certPath,
+            sensor = new SensorApplication(sensorId, apiKey, serverAdress, port, certPath,
                     Types.getTypeByName(sensorType));
         } catch (Exception e) {
             LOGGER.severe(e.getMessage());
