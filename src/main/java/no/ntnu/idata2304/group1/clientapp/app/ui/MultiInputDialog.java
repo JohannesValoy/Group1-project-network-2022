@@ -93,10 +93,13 @@ public class MultiInputDialog extends Dialog {
                 hostName = result.get().getKey();
                 portNumber = Integer.parseInt(result.get().getValue());
                 certPathStr = getCertFile(stage);
-                clientSocket = new ClientSocket(hostName, portNumber, certPathStr);
+                if (certPathStr != null) {
+                    clientSocket = new ClientSocket(hostName, portNumber, certPathStr);
+                }
             }
         } catch (Exception e) {
-            new Alert(AlertType.ERROR, "Error: no port number enterd; Port number is necessary in order to connect to the server\n" + e.getMessage()).showAndWait();
+            new Alert(AlertType.ERROR, "Error: no port number entered; Port number is necessary in order to connect to the server\n" + e.getMessage()).showAndWait();
+            getSocketConnectionV2(stage);
             //MultiInputDialog.getSocketConnectionV2(stage);
         }
 
@@ -108,11 +111,12 @@ public class MultiInputDialog extends Dialog {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Text Files", "*.cer"));
-        // fileChooser.setInitialDirectory(new
-        // java.io.File(System.getProperty("user.home") + "/Desktop"));
-        String str = fileChooser.showOpenDialog(stage).getAbsolutePath();
+                new FileChooser.ExtensionFilter("Certificate file ", "*.crt"), 
+                new FileChooser.ExtensionFilter("Certificate file ", "*.cer") ,
+                new FileChooser.ExtensionFilter("All Files", "*.*"));
+        String str = null;
         try {
+            str = fileChooser.showOpenDialog(stage).getAbsolutePath();
             Optional<String> certPath = Optional.of(str);
             System.out.println(certPath.get());
             if (certPath.isPresent()) {
@@ -120,11 +124,8 @@ public class MultiInputDialog extends Dialog {
                 certPathStr = certPath.get();
             }
         } catch (Exception e) {
-            new Alert(AlertType.ERROR, "Error: no certificate file selected; Certificate file is necessary in order to connect to the server\n" + e.getMessage()).showAndWait();
+            new Alert(AlertType.ERROR, "Error: no certificate file selected; Certificate file is necessary in order to connect to the server\n" + e.getMessage() + e.getClass()).showAndWait();
         }
-
-        System.out.println("im here");
-        System.out.println(certPathStr);
         return certPathStr;
 
     }
