@@ -18,11 +18,10 @@ public class Room implements Serializable {
 
     /**
      * creates a room with a name and a room number
-     * 
-     * @param name name of the room
+     *
      * @param roomNumber number of the room
-     * @deprecated use {@link #Room(String)} instead. The room number is gonna be removed in the
-     *             future
+     * @param name       name of the room
+     * @deprecated use {@link #Room(String)} instead. The room number is going to be removed in the future
      */
     @Deprecated
     public Room(int roomNumber, String name) {
@@ -30,18 +29,28 @@ public class Room implements Serializable {
         this.roomNumber = roomNumber;
     }
 
+    /**
+     * Instantiates a new Room.
+     *
+     * @param name the name
+     */
     public Room(String name) {
         this.name = name;
         this.roomNumber = 0;
     }
 
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
      * Returns the name of the room.
-     * 
+     *
      * @return String name.
      */
     public String getName() {
@@ -50,7 +59,7 @@ public class Room implements Serializable {
 
     /**
      * Returns the room number.
-     * 
+     *
      * @return int roomNumber.
      * @deprecated use {@link #getName()} instead. The room number is gonna be removed in the future
      */
@@ -61,7 +70,7 @@ public class Room implements Serializable {
 
     /**
      * Adds a sensor to the room.
-     * 
+     *
      * @param s the sensor to be added.
      */
     public void addSensor(Sensor s) {
@@ -70,7 +79,7 @@ public class Room implements Serializable {
 
     /**
      * Removes a sensor from the room.
-     * 
+     *
      * @param s the sensor to be removed from the room.
      */
     public void removeSensor(Sensor s) {
@@ -79,20 +88,25 @@ public class Room implements Serializable {
 
     /**
      * Returns a list of all sensors in the room.
-     * 
+     *
      * @return list of sensors.
      */
     public List<Sensor> getListOfSensors() {
         return sensorList;
     }
 
+    /**
+     * Sets sensor list.
+     *
+     * @param sensorList the sensor list
+     */
     public void setSensorList(List<Sensor> sensorList) {
         this.sensorList = sensorList;
     }
 
     /**
      * Returns the first sensor it finds with that name
-     * 
+     *
      * @param name the id of the sensor.
      * @return the sensor with the given name or null if it can't be found.
      */

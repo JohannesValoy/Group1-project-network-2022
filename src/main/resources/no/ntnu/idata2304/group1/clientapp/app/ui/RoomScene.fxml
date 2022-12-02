@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.chart.CategoryAxis?>
 <FlowPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:id="pane" fx:controller="no.ntnu.idata2304.group1.clientapp.app.ui.RoomWindowController">
         <Label fx:id="title" text="Example Sensor" textAlignment="CENTER" textFill="white">
             <font>
@@ -20,7 +19,6 @@
             </VBox.margin>
         </Label>
         <FlowPane alignment="CENTER"  fx:id="graphFlowPane">
-
             <LineChart fx:id="sensorChart" prefHeight="350" prefWidth="400" style="-fx-border-radius: 30;">
                 <xAxis>
                     <CategoryAxis side="BOTTOM" tickLabelFill="WHITE" />
@@ -29,6 +27,6 @@
                     <NumberAxis side="LEFT" tickLabelFill="WHITE" />
                 </yAxis>
             </LineChart>
-            <Label fx:id="lastTemperature" textAlignment="CENTER" />
+            <Label fx:id="lastTemperature" textAlignment="CENTER" textFill="red" />
         </FlowPane>
 </FlowPane>

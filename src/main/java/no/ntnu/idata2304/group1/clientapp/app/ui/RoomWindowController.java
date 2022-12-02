@@ -13,7 +13,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import no.ntnu.idata2304.group1.data.Room;
 import no.ntnu.idata2304.group1.data.SensorRecord;
-import no.ntnu.idata2304.group1.data.SortbyDate;
+import no.ntnu.idata2304.group1.data.SortByDate;
 import java.util.List;
 
 /**
@@ -64,6 +64,9 @@ public class RoomWindowController {
         update();
     }
 
+    /**
+     * Update.
+     */
     public void update(){
         updateChart(sensorChart, 0);
     }
@@ -72,7 +75,7 @@ public class RoomWindowController {
      * Expand room view.
      *
      * @param height the height
-     * @param width the width
+     * @param width  the width
      */
     public void expandRoomView(double height, double width) {
         sensorChart.setPrefSize(width * 10 / 21, height / 2);
@@ -106,7 +109,7 @@ public class RoomWindowController {
      * Update sensor chart.
      *
      * @param sensorChart the sensor chart
-     * @param sensorID the sensor id
+     * @param sensorID    the sensor id
      */
     @FXML
     public void updateSensorChart(LineChart<String, Number> sensorChart, int sensorID) {
@@ -155,7 +158,7 @@ public class RoomWindowController {
         series.setName(this.room.getListOfSensors().get(sensorID).getTypeName());
         this.title.setText("Room Number " + this.room.getName());
         List<SensorRecord> sensorReadings = this.room.getListOfSensors().get(sensorID).getHistoryLog();
-              sensorReadings.sort(new SortbyDate());
+              sensorReadings.sort(new SortByDate());
               lastTemperature.setText("Last temp: "+sensorReadings.get(sensorReadings.size() - 1).value());
         for (SensorRecord sensorReading : sensorReadings) {
             
@@ -173,6 +176,12 @@ public class RoomWindowController {
         return seriesList;
     }
 
+    /**
+     * Convert int to two digits string.
+     *
+     * @param number the number
+     * @return the string
+     */
     public String convertIntToTwoDigits(int number) {
         String numberStr = Integer.toString(number);
         if (number < 10) {
@@ -182,7 +191,7 @@ public class RoomWindowController {
     }
 
     /**
-     * Get pane pane.
+     * Get FlowPane pane.
      *
      * @return the pane
      */
@@ -201,7 +210,7 @@ public class RoomWindowController {
      * Update standard sensor chart.
      *
      * @param sensorChart the sensor chart
-     * @param sensorID the sensor id
+     * @param sensorID    the sensor id
      */
     public void updateStandardSensorChart(LineChart<String, Number> sensorChart, int sensorID) {
         updateSensorChart(sensorChart, sensorID);

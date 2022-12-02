@@ -22,7 +22,7 @@ public class DBConnector implements Closeable {
 
     /**
      * Creates a new database connector with the default database
-     * 
+     *
      * @param setup If true, the database will run a setup script
      * @throws SQLException
      */
@@ -51,8 +51,9 @@ public class DBConnector implements Closeable {
 
     /**
      * Creates a new database connector with a given database
-     * 
-     * @param path the path for the database
+     *
+     * @param path  the path for the database
+     * @param setup Boolean for setup
      */
     public DBConnector(String path, boolean setup) {
         if (path == null || path.isEmpty()) {
@@ -109,7 +110,7 @@ public class DBConnector implements Closeable {
 
     /**
      * Executes a SQL query and returns the result
-     * 
+     *
      * @param sqlStatement the SQL statement to execute
      * @return the result of the query or null if the query did not return anything
      * @throws SQLException if the query could not be executed
@@ -140,8 +141,10 @@ public class DBConnector implements Closeable {
 
     /**
      * Creates a prepared statement that can be used
-     * 
-     * @return
+     *
+     * @param query the query
+     * @return prepared statement
+     * @throws SQLException the sql exception
      */
     public synchronized PreparedStatement prepareStatement(String query) throws SQLException {
         return conn.prepareStatement(query);
@@ -150,7 +153,7 @@ public class DBConnector implements Closeable {
 
     /**
      * Gets the connection to the database
-     * 
+     *
      * @return the connection to the database
      */
     public String getPath() {
@@ -159,7 +162,7 @@ public class DBConnector implements Closeable {
 
     /**
      * Checks if the connector is busy
-     * 
+     *
      * @return boolean true if busy, false otherwise
      */
     public boolean isBusy() {
@@ -174,12 +177,14 @@ public class DBConnector implements Closeable {
     /**
      * Sets the Connector to busy. This is used to prevent the connector from being closed and used
      * while a query is being executed.
-     *
      */
     public void setBusy() {
         busy = true;
     }
 
+    /**
+     * Sets free.
+     */
     public void setFree() {
         busy = false;
     }

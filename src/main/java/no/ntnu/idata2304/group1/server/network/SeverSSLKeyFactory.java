@@ -10,6 +10,9 @@ import java.security.SecureRandom;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 
+/**
+ * The type Sever ssl key factory.
+ */
 public class SeverSSLKeyFactory {
 
     private static final Logger LOGGER = Logger.getLogger(SeverSSLKeyFactory.class.getName());
@@ -18,13 +21,13 @@ public class SeverSSLKeyFactory {
 
     /**
      * Creates a SSL context from the keystore This code is based on the example from this page:
-     * https://gpotter2.github.io/tutos/en/sslsockets
-     * 
-     * @param keyStorePath
-     * @param keyStorePassword
-     * @return
+     * <a href="https://gpotter2.github.io/tutos/en/sslsockets">...</a>
+     *
+     * @param keyStorePath     the key store path
+     * @param keyStorePassword the key store password
+     * @return ssl context
      */
-    // TODO: Add support for a pk1 file with another password on the key then the keystore
+// TODO: Add support for a pk1 file with another password on the key then the keystore
 
     public static SSLContext createSSLContext(String keyStorePath, String keyStorePassword) {
         SSLContext ctx = null;
@@ -47,7 +50,7 @@ public class SeverSSLKeyFactory {
 
     /**
      * Check that the file actually exists
-     * 
+     *
      * @param path The path to the file
      * @return true if the file exists, false otherwise
      */
@@ -62,8 +65,8 @@ public class SeverSSLKeyFactory {
 
     /**
      * Check that the file exists and can be loaded to a keystore
-     * 
-     * @param keyStorePath The path to the file
+     *
+     * @param keyStorePath     The path to the file
      * @param keyStorePassword The password to the file
      * @return true if the file exists and can be loaded, false otherwise
      */

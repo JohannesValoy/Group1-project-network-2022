@@ -9,33 +9,56 @@ public abstract class Message implements Serializable {
     /**
      * The type different classifications of messages
      */
-    public enum Types {
-        GET(), ADD(), REMOVE(), UPDATE(), ERROR(), OK();
+    public enum Type {
+        /**
+         * Get type.
+         */
+        GET(),
+        /**
+         * Add type.
+         */
+        ADD(),
+        /**
+         * Remove type.
+         */
+        REMOVE(),
+        /**
+         * Update type.
+         */
+        UPDATE(),
+        /**
+         * Error type.
+         */
+        ERROR(),
+        /**
+         * Ok type.
+         */
+        OK();
 
-        private Types() {}
+        private Type() {}
 
     }
 
     /**
      * The type of message
      */
-    private final Types type;
+    private final Type type;
 
     /**
      * Creates a new Message
-     * 
+     *
      * @param type The type of message
      */
-    protected Message(Types type) {
+    protected Message(Type type) {
         this.type = type;
     }
 
     /**
      * Gets the type of message
-     * 
+     *
      * @return The type of message
      */
-    public Message.Types getType() {
+    public Type getType() {
         return type;
     }
 

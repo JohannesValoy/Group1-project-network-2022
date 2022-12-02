@@ -2,7 +2,7 @@ package no.ntnu.idata2304.group1.data;
 
 import java.util.Comparator;
 
-public class SortbyDate implements Comparator<SensorRecord> {
+public class SortByDate implements Comparator<SensorRecord> {
 
 
     @Override

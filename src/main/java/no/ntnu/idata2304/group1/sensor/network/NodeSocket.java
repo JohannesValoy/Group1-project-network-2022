@@ -28,7 +28,7 @@ public class NodeSocket {
      * Instantiates a new Node socket.
      *
      * @param hostname the hostname
-     * @param port the port
+     * @param port     the port
      * @throws IOException the io exception
      */
     public NodeSocket(String hostname, int port) throws IOException {
@@ -42,8 +42,8 @@ public class NodeSocket {
     /**
      * Instantiates a new Node socket.
      *
-     * @param hostname the hostname
-     * @param port the port
+     * @param hostname            the hostname
+     * @param port                the port
      * @param folderForCustomCert the folder for custom cert
      * @throws IOException the io exception
      */
@@ -63,7 +63,7 @@ public class NodeSocket {
      * Response message.
      *
      * @return the message
-     * @throws IOException the io exception
+     * @throws IOException            the io exception
      * @throws ClassNotFoundException the class not found exception
      */
     public Message response() throws IOException, ClassNotFoundException {
@@ -84,7 +84,7 @@ public class NodeSocket {
      * Send data.
      *
      * @param lastTemperatureReading the last temperature reading
-     * @param apiKey the api key
+     * @param apiKey                 the api key
      */
     public void sendData(double lastTemperatureReading, String apiKey) {
         try {

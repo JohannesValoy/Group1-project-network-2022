@@ -12,6 +12,8 @@ public class RoomHumiditySensor extends BoundedSensor {
 
     /**
      * Create a sensor which will imitate humidity readings within a room
+     *
+     * @param name the name
      */
     public RoomHumiditySensor(String name) {
         super(Sensor.Types.HUMIDITY, name, NORMAL_ROOM_HUMIDITY, MIN_ROOM_HUMIDITY,

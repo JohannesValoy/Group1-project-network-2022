@@ -35,10 +35,8 @@ public class MainController {
     private ArrayList<Room> clientRooms;
 
 
-
     /**
      * starts the application.
-     *
      */
     @FXML
     public void initialize() {
@@ -80,6 +78,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Auto update room data.
+     */
     public void autoUpdateRoomData() {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -90,6 +91,9 @@ public class MainController {
         }, 1, 5000);
     }
 
+    /**
+     * Update room data.
+     */
     public void updateRoomData() {
         try {
             for (Room clientRoom : clientSocket.getRoomData(rooms)) {
@@ -111,10 +115,10 @@ public class MainController {
     }
 
 
-
     /**
      * Loads the rooms into the main window
      *
+     * @param room the room
      * @throws IOException if the fxml file could not be loaded;
      */
     public void addRoom(Room room) throws IOException {

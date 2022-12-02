@@ -7,17 +7,25 @@ import no.ntnu.idata2304.group1.data.network.Message;
  */
 public class OKMessage extends Message {
 
+    /**
+     * If it contains data.
+     */
     boolean containsData = false;
 
     /**
      * Instantiates a new Ok message.
      */
     public OKMessage() {
-        super(Message.Types.OK);
+        super(Type.OK);
     }
 
-    public OKMessage(boolean containsData) {
-        super(Message.Types.OK);
+    /**
+     * Instantiates a new Ok message.
+     *
+     * @param containsData the contains data
+     */
+    protected OKMessage(boolean containsData) {
+        super(Type.OK);
         this.containsData = containsData;
     }
 

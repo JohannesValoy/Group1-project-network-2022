@@ -7,7 +7,7 @@ import no.ntnu.idata2304.group1.server.network.clients.ClientRunnable;
 
 /**
  * This class is responsible for handling all the clients.
- * 
+ *
  * @author Mathias J. Kirkeby
  */
 public class ClientHandler extends Thread {
@@ -24,7 +24,7 @@ public class ClientHandler extends Thread {
 
     /**
      * Creates a new ClientHandler and starts it
-     * 
+     *
      * @return The new ClientHandler
      */
     public static ClientHandler getInstance() {
@@ -38,7 +38,7 @@ public class ClientHandler extends Thread {
 
     /**
      * Adds a new client to the list of clients
-     * 
+     *
      * @param client The client to add
      */
     public synchronized void addClient(ClientRunnable client) {
@@ -50,7 +50,7 @@ public class ClientHandler extends Thread {
 
     /**
      * Removes a client from the list of clients
-     * 
+     *
      * @param client The client to remove
      */
     public synchronized void removeClient(ClientTask client) {

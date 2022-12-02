@@ -26,11 +26,11 @@ public class AddMessage extends Message {
      * Instantiates a new Add message.
      *
      * @param command the command
-     * @param apiKey the api key
-     * @param value the value
+     * @param apiKey  the api key
+     * @param value   the value
      */
     public AddMessage(Command command, String apiKey, double value) {
-        super(Message.Types.ADD);
+        super(Type.ADD);
         this.command = command;
         this.apiKey = apiKey;
         this.value = value;
