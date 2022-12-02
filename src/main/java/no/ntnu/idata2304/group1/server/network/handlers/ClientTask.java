@@ -8,7 +8,7 @@ import no.ntnu.idata2304.group1.server.network.clients.ClientRunnable;
 public class ClientTask implements Runnable {
 
     private ClientRunnable client;
-    private boolean running;
+
     /**
      * Instantiates a new Client task.
      *
@@ -16,17 +16,14 @@ public class ClientTask implements Runnable {
      */
     public ClientTask(ClientRunnable client) {
         this.client = client;
-        running = false;
     }
 
     @Override
     public void run() {
-        running = true;
         client.run();
         if (client.isClosed()) {
-            ClientHandler.getInstance().removeClient(this);
+            ClientHandler.getInstance().removeClient(client);
         }
-        running = false;
     }
 
     /**
@@ -36,10 +33,6 @@ public class ClientTask implements Runnable {
      */
     public ClientRunnable getClient() {
         return client;
-    }
-
-    public boolean isRunning() {
-        return running;
     }
 }
 

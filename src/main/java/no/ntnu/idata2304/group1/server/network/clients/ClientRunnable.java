@@ -14,6 +14,7 @@ import no.ntnu.idata2304.group1.server.network.handlers.RequestHandler;
  */
 public abstract class ClientRunnable implements Runnable {
     private SSLSocket socket;
+    private boolean running;
 
     private static final Logger logger = Logger.getLogger(ClientRunnable.class.getName());
 
@@ -25,7 +26,7 @@ public abstract class ClientRunnable implements Runnable {
      */
     protected ClientRunnable(SSLSocket socket) throws IOException {
         this.socket = socket;
-
+        this.running = false;
     }
 
     /**
@@ -33,7 +34,7 @@ public abstract class ClientRunnable implements Runnable {
      */
     @Override
     public void run() {
-
+        running = true;
         if (socket.isConnected()) {
             try {
                 Message request = getRequest();
@@ -57,7 +58,7 @@ public abstract class ClientRunnable implements Runnable {
                 }
             }
         }
-
+        running = false;
     }
 
 
@@ -89,5 +90,19 @@ public abstract class ClientRunnable implements Runnable {
         return socket.isClosed();
     }
 
+    /**
+     * Checks if the client is running
+     *
+     * @return True if the client is running
+     */
+    public boolean isRunning() {
+        return running;
+    }
 
+    /**
+     * Set as running.
+     */
+    public synchronized void setAsRunning() {
+        running = true;
+    }
 }
