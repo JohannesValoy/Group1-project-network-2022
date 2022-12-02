@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.chart.CategoryAxis?>
+<FlowPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:id="pane" fx:controller="no.ntnu.idata2304.group1.clientapp.app.ui.RoomWindowController">
+        <Label fx:id="title" text="Example Sensor" textAlignment="CENTER" textFill="white">
+            <font>
+                <Font size="20.0" />
+            </font>
+            <VBox.margin>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </VBox.margin>
+        </Label>
+        <FlowPane alignment="CENTER" BorderPane.alignment="CENTER" fx:id="HBox">
+
+            <LineChart fx:id="sensorChart" prefHeight="350" prefWidth="400" style="-fx-border-radius: 30;">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" tickLabelFill="WHITE" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" tickLabelFill="WHITE" />
+                </yAxis>
+            </LineChart>
+            <Label fx:id="CurrentTemperature" textAlignment="CENTER" />
+        </FlowPane>
+</FlowPane>
