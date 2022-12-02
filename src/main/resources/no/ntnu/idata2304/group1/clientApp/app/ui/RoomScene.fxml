@@ -8,9 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.chart.CategoryAxis?>
 <FlowPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:id="pane" fx:controller="no.ntnu.idata2304.group1.clientapp.app.ui.RoomWindowController">
         <Label fx:id="title" text="Example Sensor" textAlignment="CENTER" textFill="white">
@@ -21,7 +19,7 @@
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
             </VBox.margin>
         </Label>
-        <FlowPane alignment="CENTER" BorderPane.alignment="CENTER" fx:id="HBox">
+        <FlowPane alignment="CENTER"  fx:id="graphFlowPane">
 
             <LineChart fx:id="sensorChart" prefHeight="350" prefWidth="400" style="-fx-border-radius: 30;">
                 <xAxis>
