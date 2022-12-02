@@ -10,7 +10,7 @@ public class ErrorDialogs123{
 
 
 
-public static void couldNotConnectAlert(IOException e) {
+public static void couldNotConnectAlert(Exception e) {
     Alert alert = new Alert(AlertType.ERROR);
     alert.setTitle("Error");
     alert.setHeaderText("Could not connect to server");

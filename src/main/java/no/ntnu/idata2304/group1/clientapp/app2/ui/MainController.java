@@ -51,6 +51,8 @@ public class MainController extends Application {
             ErrorDialogs123.couldNotConnectAlert(e);
         } catch (ClassNotFoundException e) {
             ErrorDialogs123.couldNotUpdateRoom(e);
+        } catch (NullPointerException e) {
+            System.exit(0);
         }
 
         autoUpdateRoomData();

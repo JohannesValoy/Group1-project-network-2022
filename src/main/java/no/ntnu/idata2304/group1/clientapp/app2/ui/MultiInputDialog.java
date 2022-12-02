@@ -89,21 +89,22 @@ public class MultiInputDialog extends Dialog {
 
         String hostName = "localhost";
         int portNumber = 6008;
+        ClientSocket clientSocket = null;
 
         try {
             Optional<Pair<String, String>> result = dialog.showAndWait();
             if (result.isPresent()) {
                 hostName = result.get().getKey();
                 portNumber = Integer.parseInt(result.get().getValue());
+                certPathStr = getCertFile(stage);
+                clientSocket = new ClientSocket(hostName, portNumber, certPathStr);
             }
-
-        certPathStr = getCertFile(stage);
         } catch (Exception e) {
             new Alert(AlertType.ERROR, "Error: no port number enterd; Port number is necessary in order to connect to the server\n" + e.getMessage()).showAndWait();
             //MultiInputDialog.getSocketConnectionV2(stage);
         }
 
-        return new ClientSocket(hostName, portNumber, certPathStr);
+        return clientSocket;
     }
 
     private static String getCertFile(Stage stage) {

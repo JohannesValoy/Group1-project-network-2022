@@ -5,42 +5,6 @@ The project is part of our evaluation within the course with a 40% weight on out
 
 ## Abstract
 
-Temperature is something that effects us every day.
-
---------------------------------------------------------------------------------
-This is the shortest version of your project's description. Think of a busy
-person who has 1 minute to get familiar with what this is about. The abstract
-should be short but descriptive.
-Suggested content in the abstract:
-
-* Describe the background and importance of the situation, 1-2 sentences
-* Describe a problem, 1-2 sentences
-* Describe your proposed solution, 1-3 sentences
-* Describe the results you have achieved, 1-3 sentences
-* Describe the experiments or evaluation you have done
-* Conclusions and possible future work
-
-Here is an example abstract of an imaginary project:
-Modern urban lifestyle has high demands on the individuals. We have busy
-schedules and need to remember many things. One of the most irritating things in
-a hectic morning is the inability to find your keys or wallet. In this
-project we propose a novel solution for tracking of daily-life objects, such as
-your wallet or keychain. Users attach smart chips with Bluetooth communication
-to each important asset they want to track. This gives the ability to use a
-smartphone to locate the missing item. We have created a prototype system,
-described in this report. We have performed a user study with 20 participants
-who were given the task to locate a wallet inside a living room.
-The results show that our solution helps the users to locate their items within
-2 minutes the first time, and within 45 seconds when they are using the app
-repeatedly. Possible future research directions include design of a robust and
-lightweight RFID tag, and possibilities to locate ones items using a mobile
-phone of a family member.
-
-Note: in your project you may not have user tests. Describe the analysis and
-evaluation you have had.
-
---------------------------------------------------------------------------------
-
 In modern society sleeping problems is a common problem. Sleep problems might
 have many causes, but two of the most common causes is the room
 temperature and humidity. To avoid this problem, we have made a temperature
@@ -53,21 +17,6 @@ and the ability to rate your sleep to see better what makes the sleep quality
 increase, and what makes it decrease.
 
 ## Introduction
-
-Here you introduce your project in more detail. Include the following:
-
-* Introduction of the context, the domain. Where will your solution work? Is
-  this the maritime domain, finance, private homes?
-* Introduction of the problem. What is problematic in this environment? What
-  will you solve? Why is this relevant?
-* Short introduction in the rest of the report, preferably with links to the
-  other chapters. For example, "We propose an Internet-of-Things system using
-  temperature and humidity sensors. First we describe the used
-  protocols, ["theory and technology"]. Then we describe our work process
-  in ["Methodology"]. Then the obtained [results] are presented, followed by
-  [reflection and discussion of possible improvements]." Note: don't copy this
-  text, write your own!
-
 In a world where more and more people struggle with sleep problems, it's
 important to do research and make products that can help people
 fixing these problems to increase their quality of life. As a part of
