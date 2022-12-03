@@ -17,7 +17,7 @@
    </center>
    <top>
       <HBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
-         <Label alignment="CENTER" contentDisplay="CENTER" text="Weather station 1.0" textAlignment="CENTER">
+         <Label alignment="CENTER" contentDisplay="CENTER" text="Weather station" textAlignment="CENTER" style="-fx-font-weight: bold;">
             <font>
                <Font name="Calibri" size="24.0"/>
             </font>

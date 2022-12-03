@@ -60,7 +60,7 @@ public class RoomWindowController {
         this.room = room;
         
         pane.setPrefSize(420, 420);
-        pane.setStyle("-fx-background-color: grey;" + "-fx-border-radius: 150px;");
+        pane.setStyle("-fx-background-color: grey; -fx-background-radius: 10px; -fx-padding: 10px;");
         update();
     }
 
@@ -159,9 +159,8 @@ public class RoomWindowController {
         this.title.setText("Room Number " + this.room.getName());
         List<SensorRecord> sensorReadings = this.room.getListOfSensors().get(sensorID).getHistoryLog();
               sensorReadings.sort(new SortByDate());
-              lastTemperature.setText("Last temp: "+sensorReadings.get(sensorReadings.size() - 1).value());
+              lastTemperature.setText("Last temp: "+Math.rint(sensorReadings.get(sensorReadings.size() - 1).value()));
         for (SensorRecord sensorReading : sensorReadings) {
-
             series.getData()
                     .add(new XYChart.Data<>(
                             convertIntToTwoDigits(sensorReading.date().getHour()) + "."
@@ -169,6 +168,7 @@ public class RoomWindowController {
                             sensorReading.value()));
 
         }
+
         ObservableList<XYChart.Series<String, Number>> seriesList =
                 FXCollections.observableArrayList();
         seriesList.add(series);

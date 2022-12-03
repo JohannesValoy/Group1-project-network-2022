@@ -16,7 +16,7 @@ public class TestSensors {
 
     // Folder for the test certs
     private static String CUSTOMCERTS =
-            ".\\src\\test\\resources\\no\\ntnu\\idata2304\\group1\\clientapp\\app2\\network\\trustedCerts";
+            ".\\src\\test\\resources\\no\\ntnu\\idata2304\\group1\\server\\network\\listener\\certificate.crt";
 
 
 
