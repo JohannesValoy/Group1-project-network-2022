@@ -69,7 +69,7 @@ Since we build our own server and the client were also written in java we decide
 
 The message object that we are sending was highly inspired by the HTTP standard. There was 1 major benefits for doing it this way. It would allow for a good and fast implementation of allowing the HTTP protocols.
 
-The project is highly reliant of the TCP protocol because we needed the reliability for the packages not becoming lost or corrupted. UDP was not a alternative since the data would heavily fluxuate based on the customers preferences as well as the amount of sensors. The only case  where UDP would be applicable is if you had enough sensors in a room to where inaccurate data would not be a problem anymore. We also wanted to implement the use of HTTP also within the project. This would allow for clients or code not running native java, like a arduino, to communicate with the server using JSON objects. Since both standards are well known, it would also be easier for other developers to create sensors by giving them some requirements of what they had to send.
+The project is highly reliant of the TCP protocol because we needed the reliability for the packages not becoming lost or corrupted. UDP was not a alternative since the data would heavily fluctuate based on the customers preferences as well as the amount of sensors. The only case  where UDP would be applicable is if you had enough sensors in a room to where inaccurate data would not be a problem anymore. We also wanted to implement the use of HTTP also within the project. This would allow for clients or code not running native java, like a arduino, to communicate with the server using JSON objects. Since both standards are well known, it would also be easier for other developers to create sensors by giving them some requirements of what they had to send.
 
 The encryption method we decided on was the use of TLS. This was with the anticipation of allowing for web browsers to take contact with the server by using the HTTP protocol. We decided against letting the java client trust everything and instead add functionality to fetch different self-signed certificates from a folder or a file. This allows us to take the full functionality of TLS to verify that the source is trustworthy, while also encrypting the content and ensuring that it is not tampered with.
 
@@ -97,7 +97,7 @@ When the server receives a request trough the JavaListener it creates a new Java
 
 Every time the ClientRunnable finds a response, it uses the RequestHandler to process and create the proper response message. The RequestHandler's job is to process the message-object received from the getRequest method in ClientRunnable. It starts by filtering the message-object into the different kinds of available message-types and calls on the methods responsible. It will ultimately call the SQLCommandFactory that will create the right SQL statement and convert it to a java object through the SQLConverter. If any of the methods that the RequestHandler is calling throws an error, it will be logged within the respected class and the RequestHandler will use the error to create a errorMessage that the ClientRunnable sends.
 
-The reason for creating the ClientHandler and DBConnector pool is to allow for small optimizations. The responsibility of the DBConnector pool is to avoid having to make a new connector per new client, but instead have a bunch of connectors already available to allow for a smoother user experience as well as saving resources. This precemts the need for opening and closing connections on the databases whenever a client connects or disconnects. This also creates a better environment for the connector because it avoids unnecessary RAM usage due to inactive connectors. This goes for the clientHandler as well. Instead of designating a thread per client, although it would be faster, it is not necessary. Since the probability of every client sending requests at the same time is very low, we could just check when we go through the list. This reduces the amount of thread necessary from x clients to (1+pool size) times (1 + Clients/LimitOnClientHandler) rounded down. This makes the the amount of threads the server needs scale much better
+The reason for creating the ClientHandler and DBConnector pool is to allow for small optimizations. The responsibility of the DBConnector pool is to avoid having to make a new connector per new client, but instead have a bunch of connectors already available to allow for a smoother user experience as well as saving resources. This prevents the need for opening and closing connections on the databases whenever a client connects or disconnects. This also creates a better environment for the connector because it avoids unnecessary RAM usage due to inactive connectors. This goes for the clientHandler as well. Instead of designating a thread per client, although it would be faster, it is not necessary. Since the probability of every client sending requests at the same time is very low, we could just check when we go through the list. This reduces the amount of thread necessary from x clients to (1+pool size) times (1 + Clients/LimitOnClientHandler) rounded down. This makes the the amount of threads the server needs scale much better
 
 ### Clients
 
@@ -105,29 +105,29 @@ The current working Java client uses the following implementation:
 
 ![A UML Diagram of the current working client solution.](Images/clientappClassDiagram.png)
 
-The application for clients is a JavaFX application. The application is split into three parts. The first part is the connection screen. The connection screen is used to connect to the server. The second part the send and receive screen. The send and recive screen is used to send and recive data and certificate to and from the server. The third is the main screen. The main screen is used to view the different rooms and sensors.
+The application for clients is a JavaFX application. The application is split into three parts. The first part is the connection screen. The connection screen is used to connect to the server. The second part the send and receive screen. The send and receive screen is used to send and receive data and certificate to and from the server. The third is the main screen. The main screen is used to view the different rooms and sensors.
 
-The ClientSocket class is used for comunication with the server.
+The ClientSocket class is used for communication with the server.
 
 ### Sensors
 
-The sensors are a modified version of the one given by us from <https://github.com/ntnu-datakomm/project-resources/tree/main/sensor-node-example>. This was done because we originally wanted to use microcontrollers, but prioritized other stuff like optimizing the server. The modifications we made to it were linking it to the already created sensor version we had in the data folder and adding a nodeSocket.
+The sensors are a modified version of the one given by us from <https://github.com/ntnu-datakomm/project-resources/tree/main/sensor-node-example>. This was done because we originally wanted to use micro controllers, but prioritized other stuff like optimizing the server. The modifications we made to it were linking it to the already created sensor version we had in the data folder and adding a nodeSocket.
 
 We wanted to restrict the sensor nodes that could send information. Therefore, we have listed the different nodes within the database with API-keys as well as the type of sensor. That way the sensor only needs to send its key to be identified within the system, so that the database knows what kind of data it is. This allows us to track what each sensor is sending while also restricting the sensors that are allowed to register it in the database.
 
 ## Discussion
 
+We have successfully created a minimal viable product where the components are working as intended. There is a limited amount of bugs that we found during testing and the different components are designed to be able to me easily add, remove or modify current features. This allows the projects to be able to expand and/or customize after different specifications.
 
-Here you can reflect on the result. What is working well? What is not working
-well and why?
+The different things we see that can be improved is the amount of functionality within the project. For example allow for modifications on sensors or rooms within the database. The UI could also be more user friendly for example adding a way to focus on one room or sensor. This could be done by adding a side tab with the different rooms and sensors. The UI is also lagging quite bit because of unknown reasons. This could be the way we are generating the graph or a general issue within JavaFX.
 
-The ui could be improved by adding a way to add new rooms and sensors. This would be done by adding a new screen that would allow for the user to add a new room or sensor. This would be done by sending a request to the server with the information about the new room or sensor. The server would then add the new room or sensor to the database and send a response to the client. The client would then update the ui with the new room or sensor.
+While we did not work much on the sensor simulation, it is working. We wished that we could allow for a physical sensor to take it's place because it would allow to demonstrate it in the real world. It could also allow us to work on adding other protocols to communicate to the server like HTTP. The reason is that not every micro controller allows support towards java, like the arduino.
 
 ## Conclusion and future work
 
-Although the project ended up not have all the functionality we wanted, it was still an interesting and cool project to work on. We were able to create a product containing the milimal requirements from scratch, and code that we could hopefully use in further projects that contains network.
+Although the project ended up not have all the functionality we wanted, it was still an interesting and cool project to work on. We were able to create a product containing the minimal requirements from scratch, and code that we could hopefully use in further projects that contains network.
 
-Although we have created product with the minimal requirements, we still feel like the project has a lot more potential. For one, we originally wanted to use HTTP to communicate with the sensors to allow for small microcontrollers, like arduino that run different languages, to communicate with the server.
+If we could work on the project in the further we would focus on making the sensor applicable in the real world using for example a raspberry and then the extra functionality. Much of the backbone within the project is finished so it's not missing anything critical that would allow it to expand.
 
 ## References
 
