@@ -39,7 +39,7 @@ public class MainController {
      * starts the application.
      */
     @FXML
-    public void initialize() {
+    private void initialize() {
         this.roomWindowControllers = new ArrayList<>();
         this.rooms = new ArrayList<>();
         this.clientRooms = new ArrayList<>();
@@ -81,7 +81,7 @@ public class MainController {
     /**
      * Auto update room data.
      */
-    public void autoUpdateRoomData() {
+    private void autoUpdateRoomData() {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -94,7 +94,7 @@ public class MainController {
     /**
      * Update room data.
      */
-    public void updateRoomData() {
+    private void updateRoomData() {
         try {
             for (Room clientRoom : clientSocket.getRoomData(rooms)) {
                 for (RoomWindowController roomWindowController : roomWindowControllers) {
@@ -121,7 +121,7 @@ public class MainController {
      * @param room the room
      * @throws IOException if the fxml file could not be loaded;
      */
-    public void addRoom(Room room) throws IOException {
+    private void addRoom(Room room) throws IOException {
         FXMLLoader roomWindowLoader =
                 new FXMLLoader(MainController.class.getResource("RoomScene.fxml"));
         this.flowPane.getChildren().add(roomWindowLoader.load());

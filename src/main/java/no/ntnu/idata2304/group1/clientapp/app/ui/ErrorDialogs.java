@@ -1,7 +1,5 @@
 package no.ntnu.idata2304.group1.clientapp.app.ui;
 
-import java.io.IOException;
-
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
