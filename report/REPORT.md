@@ -135,6 +135,8 @@ Although we have created product with the minimal requirements, we still feel li
 
 [Site: The Sleep Charity, Article: Sleep Environment, Desember 2022](https://thesleepcharity.org.uk/information-support/adults/sleep-environment/)
 
+[Site: Geisinger, Article: Is mold making you sick?, September 2018](https://www.geisinger.org/health-and-wellness/wellness-articles/2018/09/19/15/02/is-mold-making-you-sick/)
+
 
 Here you provide sources of information. In a written report you typically
 include list of references in the end and have only links to those in the text,
