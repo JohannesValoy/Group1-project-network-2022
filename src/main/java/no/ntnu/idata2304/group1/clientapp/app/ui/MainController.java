@@ -86,6 +86,7 @@ public class MainController {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+                Runtime. getRuntime().gc();
                 Platform.runLater(MainController.this::updateRoomData);
             }
         }, 1, 5000);
@@ -122,6 +123,7 @@ public class MainController {
      * @throws IOException if the fxml file could not be loaded;
      */
     private void addRoom(Room room) throws IOException {
+
         FXMLLoader roomWindowLoader =
                 new FXMLLoader(MainController.class.getResource("RoomScene.fxml"));
         this.flowPane.getChildren().add(roomWindowLoader.load());
