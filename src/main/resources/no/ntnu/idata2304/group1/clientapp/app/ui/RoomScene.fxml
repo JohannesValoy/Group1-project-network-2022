@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 
 <FlowPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:id="pane" fx:controller="no.ntnu.idata2304.group1.clientapp.app.ui.RoomWindowController">
-        <Label fx:id="title" text="Example Sensor" textAlignment="CENTER" textFill="white">
+        <Label fx:id="title" text="Example Sensor" textAlignment="CENTER" textFill="white" style="-fx-font-weight: bold;">
             <font>
                 <Font size="20.0" />
             </font>
@@ -19,7 +19,7 @@
             </VBox.margin>
         </Label>
         <FlowPane alignment="CENTER"  fx:id="graphFlowPane">
-            <LineChart fx:id="sensorChart" prefHeight="350" prefWidth="400" style="-fx-border-radius: 30;">
+            <LineChart fx:id="sensorChart" prefHeight="350" prefWidth="400" >
                 <xAxis>
                     <CategoryAxis side="BOTTOM" tickLabelFill="WHITE" />
                 </xAxis>
@@ -27,6 +27,6 @@
                     <NumberAxis side="LEFT" tickLabelFill="WHITE" />
                 </yAxis>
             </LineChart>
-            <Label fx:id="lastTemperature" textAlignment="CENTER" textFill="red" />
+            <Label fx:id="lastTemperature" textAlignment="CENTER" textFill="white" style="-fx-font-weight: bold;"/>
         </FlowPane>
 </FlowPane>
