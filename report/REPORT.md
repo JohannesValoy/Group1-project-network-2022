@@ -107,9 +107,9 @@ The current working Java client uses the following implementation:
 
 ![A UML Diagram of the current working client solution.](Images/clientappClassDiagram.png)
 
-The application for clients is a JavaFX application. The application is split into three parts. The first part is the conection screen. The connection screen is used to connect to the server. The second part the send and recive screen. The send and recive screen is used to send and recive data and certificate from and to the server. The third is the main screen. The main screen is used to view the different rooms and sensors.
+The application for clients is a JavaFX application. The application is split into three parts. The first part is the connection screen. The connection screen is used to connect to the server. The second part the send and recive screen. The send and recive screen is used to send and recive data and certificate from and to the server. The third is the main screen. The main screen is used to view the different rooms and sensors.
 
-The ClientSocket class is used for comunication with the server.
+The ClientSocket class is used for communication with the server.
 
 ### Sensors
 
@@ -139,7 +139,7 @@ continued (by your group or by others)?
 
 [Site: National Library of medicine, Article: Planting Healthier Indoor, Author: Luz Claudio, October 2011](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3230460/)
 
-[Site: The Sleep Charity, Article: Sleep Environment, Desember 2022](https://thesleepcharity.org.uk/information-support/adults/sleep-environment/)
+[Site: The Sleep Charity, Article: Sleep Environment, December 2022](https://thesleepcharity.org.uk/information-support/adults/sleep-environment/)
 
 
 Here you provide sources of information. In a written report you typically
