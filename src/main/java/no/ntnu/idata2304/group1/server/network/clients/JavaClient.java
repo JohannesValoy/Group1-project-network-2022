@@ -26,14 +26,13 @@ public class JavaClient extends ClientRunnable {
      */
     public JavaClient(SSLSocket socket) throws IOException {
         super(socket);
-        //this. detectStream = socket.getInputStream();
         this.input = new ObjectInputStream(socket.getInputStream());
         this.input.setObjectInputFilter(ObjectInputFilter.Config.createFilter(Message.class.getName()));
         this.output = new ObjectOutputStream(socket.getOutputStream());
     }
 
     @Override
-    public void sendResponse(Message response) throws IOException {
+    public synchronized void sendResponse(Message response) throws IOException {
         boolean notSent = true;
         for (int i = 0; i < 3 && notSent; i++) {
             try {
@@ -48,7 +47,7 @@ public class JavaClient extends ClientRunnable {
     }
 
     @Override
-    protected Message getRequest() throws IOException {
+    protected synchronized Message getRequest() throws IOException {
         Message request = null;
             try {
                 request = (Message) input.readObject();

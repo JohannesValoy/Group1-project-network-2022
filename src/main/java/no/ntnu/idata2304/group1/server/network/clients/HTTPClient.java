@@ -28,13 +28,13 @@ public class HTTPClient extends ClientRunnable {
     }
 
     @Override
-    public void sendResponse(Message response) throws IllegalArgumentException, IOException {
+    public synchronized void sendResponse(Message response) throws IllegalArgumentException, IOException {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    protected Message getRequest() throws IllegalArgumentException, IOException {
+    protected synchronized Message getRequest() throws IllegalArgumentException, IOException {
         // TODO Auto-generated method stub
         return null;
     }

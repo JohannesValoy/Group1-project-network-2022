@@ -13,7 +13,7 @@ import no.ntnu.idata2304.group1.server.network.clients.ClientRunnable;
 public class ClientHandler extends Thread {
     private static ClientHandler instance = null;
     private static final int TOTALTHREADS = 10;
-    private ArrayList<ClientRunnable> clients;
+    private ArrayList<ClientTask> clients;
     private ExecutorService pool;
 
     private ClientHandler() {
@@ -42,8 +42,9 @@ public class ClientHandler extends Thread {
      * @param client The client to add
      */
     public synchronized void addClient(ClientRunnable client) {
-        if (client != null && !clients.contains(client)) {
-            clients.add(client);
+        if (client != null) {
+            ClientTask clientTask = new ClientTask(client);
+            clients.add(clientTask);
         }
     }
 
@@ -52,8 +53,8 @@ public class ClientHandler extends Thread {
      * 
      * @param client The client to remove
      */
-    public synchronized void removeClient(ClientRunnable client) {
-        if (client != null && clients.contains(client)) {
+    public synchronized void removeClient(ClientTask client) {
+        if (client != null) {
             clients.remove(client);
         }
     }
@@ -62,12 +63,11 @@ public class ClientHandler extends Thread {
     public void run() {
         while (true) {
             // While clone complains, we already know that this is a ArrayList.
-            ArrayList<ClientRunnable> clients = (ArrayList<ClientRunnable>) this.clients.clone();
-            for (ClientRunnable client : clients) {
+            ArrayList<ClientTask> clients = (ArrayList<ClientTask>) this.clients.clone();
+            for (ClientTask client : clients) {
                 if (!client.isRunning()) {
                     client.setAsRunning();
-                    ClientTask task = new ClientTask(client);
-                    pool.execute(task);
+                    pool.execute(client);
                 }
             }
         }
