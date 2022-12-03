@@ -1,8 +1,10 @@
 package no.ntnu.idata2304.group1.server.network.handlers;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 import no.ntnu.idata2304.group1.server.network.clients.ClientRunnable;
 
 /**
@@ -13,8 +15,9 @@ import no.ntnu.idata2304.group1.server.network.clients.ClientRunnable;
 public class ClientHandler extends Thread {
     private static ClientHandler instance = null;
     private static final int TOTALTHREADS = 10;
-    private ArrayList<ClientTask> clients;
-    private ExecutorService pool;
+    private final ArrayList<ClientTask> clients;
+    private final ExecutorService pool;
+    private static final Logger LOGGER = Logger.getLogger(ClientHandler.class.getName());
 
     private ClientHandler() {
         this.setName("Client Handler");
@@ -30,7 +33,6 @@ public class ClientHandler extends Thread {
     public static ClientHandler getInstance() {
         if (instance == null) {
             instance = new ClientHandler();
-
             instance.start();
         }
         return instance;
@@ -63,14 +65,20 @@ public class ClientHandler extends Thread {
     public void run() {
         while (true) {
             // While clone complains, we already know that this is a ArrayList.
-            ArrayList<ClientTask> clients = (ArrayList<ClientTask>) this.clients.clone();
-            for (ClientTask client : clients) {
-                if (!client.isRunning()) {
-                    client.setAsRunning();
-                    pool.execute(client);
+            ArrayList<ClientTask> clientsCopy = null;
+            try {
+                clientsCopy = new ArrayList<>(this.clients);
+            } catch (Exception e) {
+                LOGGER.warning("Wrong with cloning the ArrayList: " + e.getMessage());
+            }
+            if (clients != null) {
+                for (ClientTask clientTask : clientsCopy) {
+                    if (clientTask != null && !clientTask.isRunning()) {
+                        clientTask.setAsRunning();
+                        pool.execute(clientTask);
+                    }
                 }
             }
         }
     }
 }
-
