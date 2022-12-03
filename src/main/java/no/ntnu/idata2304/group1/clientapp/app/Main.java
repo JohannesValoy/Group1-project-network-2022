@@ -31,6 +31,7 @@ public class Main extends Application {
         primaryStage.setTitle("Room Manager");
         primaryStage.setScene(scene);
         primaryStage.show();
+        primaryStage.setOnCloseRequest(event -> System.exit(0));
     }
 
 }
