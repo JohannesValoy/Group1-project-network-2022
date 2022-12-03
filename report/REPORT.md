@@ -1,7 +1,7 @@
 # IDATA2304 Temperature Logger
 
-This is a school project in the course IDATA2304 Computer Networks for the students within the computer engineering course 2022 on NTNU.
-The project is part of our evaluation within the course with a 40% weight on out grades.  
+This is a school project in the course IDATA2304 Computer Networks by the students taking the computer engineering course 2022 on NTNU.
+The project is part of our evaluation within the course, and has a 40% weight on the total grade.  
 
 ## Abstract
 
@@ -11,22 +11,22 @@ temperature and humidity. To avoid this problem, we have made a temperature
 logger that measures the temperature in a room and sends the data to a database.
 The data is then visualized in an application. This way the user can see what
 temperature makes for the best sleep quality, and if the humidity is on the
-best levels for good sleep and good health. Possible future work could be
-adding the ability to see the average temperature and humidity at any time of day,
-and the ability to rate your sleep to see better what makes the sleep quality
+optimal level for good sleep and good health. Possible future work could be
+adding the ability to see the average temperature and humidity at any given time of day,
+and the ability to rate your sleep to get a better view of what makes the sleep quality
 increase, and what makes it decrease.
 
 ### Alternative 2
 
-Temperature and humidity is something that effects us every day. In some cases can it cause drastic changes to our life, like bad sleep or hy
+Temperature and humidity is something that effects us every day. In some cases can it cause drastic changes to our life, like bad sleep or hypothermia.
 
 ## Introduction
 In a world where more and more people struggle with sleep problems, it's
 important to do research and make products that can help people
-fixing these problems to increase their quality of life. As a part of
-the solution, our temperature sensor, is designed to be placed in the
+fix these problems to increase their quality of life. As a part of
+the solution, we made our very own temperature sensor. It is designed to be placed in the
 bedroom of a user, tracking the temperature and humidity of the room.
-Methodology contains the method we used to get to the result, how we
+The Methodology-segment of the report contains the method we used to get to the result, how we
 worked in groups, how distributed the, tasks, how we got passed obstacles
 and how we evaluated the result.
 
@@ -36,7 +36,7 @@ define important terms used in the report and the specific technology in use in 
 We have made an application that measures and records the temperature and humidity
 in a room throughout the day via a temperature- and humidity-sensor.
 There are many benefits to monitoring your indoor environmental conditions with an application such as this.
-One of the most important reasons to use a sensor like this,
+One of the most important reasons to use a sensor such as this,
 is to make sure that you are maintaining a healthy indoor air quality in the various rooms in your house,
 such as your living room, bedroom, and bathroom.
 Because if you don’t, you may risk affecting your, and others’, health.
@@ -65,27 +65,27 @@ and what problems in our every-day lives it can help to solve.
 
 ## Theory and technology
 
-Since we build our own server and the client were also written in java we decided to use the ObjectInput and ObjectOutput streams, so we could send objects back and forth. This was so the implementation of both sides could be easier done, and since it already was created it saved us for some work.
+Since we build our own server and the client were also written in java we decided to use the ObjectInput and ObjectOutput streams, so we could send objects back and forth. This was so that the implementation of both sides could be easier done, and since it was already created it saved us some work.
 
 The message object that we are sending was highly inspired by the HTTP standard. There was 1 major benefits for doing it this way. It would allow for a good and fast implementation of allowing the HTTP protocols.
 
-The project is highly reliant of the TCP protocol because we needed the reliability for the packages not becoming lost or corrupted. UDP was not a alternative since we were not "sending enough packages often enough". The only case within the project were that would be "good enough" was if you had enough sensors in a room to where inaccurate data would not be a problem anymore. We also wanted to implement the use of HTTP also within the project. This would allow for clients or code not running native java, like a arduino, to communicate with the server using JSON objects. Since both standards are well known, it would also be both easier for other developers to create sensors by giving them some requirements of what they had to send.
+The project is highly reliant of the TCP protocol because we needed the reliability for the packages not becoming lost or corrupted. UDP was not a alternative since the data would heavily fluxuate based on the customers preferences as well as the amount of sensors. The only case  where UDP would be applicable is if you had enough sensors in a room to where inaccurate data would not be a problem anymore. We also wanted to implement the use of HTTP also within the project. This would allow for clients or code not running native java, like a arduino, to communicate with the server using JSON objects. Since both standards are well known, it would also be easier for other developers to create sensors by giving them some requirements of what they had to send.
 
-The encryption method we decided on was the use of TLS. This was with the anticipation of allowing for web browsers to take contact with the server by using the HTTP protocol. While the solution in Java was "tricky" to implement it (Java does not have a "easy" solution for this) was worth it in the end. We decided against letting the java client trust everything and instead add functionality to fetch different self-signed certificate from a folder. This allows us to take the full functionality of TLS to verify the source was trustworthy while also encrypting the content and ensuring it is not tampered with.
+The encryption method we decided on was the use of TLS. This was with the anticipation of allowing for web browsers to take contact with the server by using the HTTP protocol. We decided against letting the java client trust everything and instead add functionality to fetch different self-signed certificates from a folder or a file. This allows us to take the full functionality of TLS to verify that the source is trustworthy, while also encrypting the content and ensuring that it is not tampered with.
 
-The only other subject we ended up implementing was IDATA2303, Data modeling and database application. This was to store the sensors, rooms and the log data. We take in the use of the database by using "connectors" to read and write data on the database file whenever the server gets a request.
+The only other subject we ended up implementing was IDATA2303, Data modeling and database application. This was to store the sensors, rooms and the log data. We implement the use of the database by using "connectors" to read and write data on the database file whenever the server gets a request.
 
 ## Methodology
 
-We have focused on working individually by splitting the different parts of the projects. We had mostly two people working on the client side and one working on the server side. Meeting up often has allowed us for opening discussions or asking questions between the different group members. This has allowed us to keep up to date on what the other group members are doing and give either insight, advice or ask about implementation of their code.
+We focused on working individually by splitting up the different parts of the projects. We had mostly two people working on the client side and one working on the server side. Meeting up often has allowed us to have open discussions, ask questions among the group members, keep ourselves up to date on what the other group members are doing, give either insight or advice, as well as ask about implementation of each others' code.
 
-We as a group did not have a "standard" way of doing things. This is because of different visions, insight and experiences between the different group members. While some created branches to label their code task others pushed straight to main with belief that the commit messages was a good enough description. This has both caused negative effects, like unfinished code would be pushed to main causing errors to show up in others code and positive effects, like getting out code faster and in some cases more reliable because of the coder being caution that the code actually works.
+As a group, we did not have a set way of doing things. This is because of different visions, insight and experiences between the different group members. While some created branches to label their code task others pushed straight to main with belief that the commit messages was a good enough description. This has both caused negative effects, like unfinished code being pushed to main causing errors to show up in others' code, but also some positive effects like getting out code faster, and in some cases it has actually made the process more reliable due to the coder being cautious that the code actually works before pushing.
 
-We have next to none "user test" since the program was very late finished within the project period. Some other types of tests we conducted was with the use of JUnit on some classes where we found it necessary to ensure that the code stilled worked after modification. This could have been done more often as there were multiple times when we had the need to modify finished code and it either reported wrong or failed after testing when communicating with clients or sensor nodes over the internet.
+We have next-to-no user-tests simply because we finished the program very close to the final deadline. We conducted some test using JUnit on some classes where we found it necessary, to ensure that the code still worked after modification. This could have been done more often as there were several occations where we had to modify finished code because it reported incorrectly, or failed after testing when communicating with clients or sensor nodes over the internet.
 
 ## Results
 
-While we hade big ambition, we only managed to create a minimal viable product. The product is able to allow for temperature/humidity sensors to send data as long as it is registered in the database and allow for the clients to view the different rooms and sensors. We allowed for the traffic to be sent with TLS to validate and encrypt the packages.
+We had big ambitions, but we only managed to create a minimally viable product. The product allows for temperature/humidity sensors to send data as long as it is registered in the database, as well as allows for the clients to view the data of the different rooms and their sensors. The program also allows for the traffic to be sent with TLS to validate and encrypt the packages.
 
 ### Server
 
@@ -93,7 +93,7 @@ The current working Java server uses the following implementation:
 
 ![A UML Diagram of the current working server solution](Images/JavaServer.png)
 
-When the server receives a request trough the JavaListener it creates a new JavaClient and adds it to the ClientHandler. The JavaListener is a extension of the TCPListener that will add the client to the ClientHandler. The reason for using different specific classes to the communication is to allow for a faster and cleaner implementation of other protocols. Theoretically everything that needs to be done to implement another service to just create another listener based on the TCPListener an another Client class form ClientRunnable.
+When the server receives a request trough the JavaListener it creates a new JavaClient and adds it to the ClientHandler. The JavaListener is a extension of the TCPListener that will add the client to the ClientHandler. The reason we use different specific classes for communication is to allow for faster and cleaner implementation of other protocols. Theoretically, everything that needs to be done to implement another service is to just create another listener based on the TCPListener and another Client class from ClientRunnable.
 
 Every time the ClientRunnable finds a response, it uses the RequestHandler to process and create the proper response message. The requestHandler's job is to process the message object received from the getRequest method in the ClientRunnable. It starts by filtering the message object into the different kinds of available message types and further calls methods responsible for those kinds. It will in the end call the SQLCommandFactory that will create the right SQL statement and convert it to a java object trough the SQLConverter. If any of the methods that the requestsHandler is calling throws a error it will be logged within the respected class and the requestsHandler will use the error to create a errorMessage that the ClientRunnable will need to send.
 
