@@ -95,11 +95,9 @@ The current working Java server uses the following implementation:
 
 When the server receives a request trough the JavaListener it creates a new JavaClient and adds it to the ClientHandler. The JavaListener is a extension of the TCPListener that will add the client to the ClientHandler. The reason we use different specific classes for communication is to allow for faster and cleaner implementation of other protocols. Theoretically, everything that needs to be done to implement another service is to just create another listener based on the TCPListener and another Client class from ClientRunnable.
 
-Every time the ClientRunnable finds a response, it uses the RequestHandler to process and create the proper response message. The requestHandler's job is to process the message object received from the getRequest method in the ClientRunnable. It starts by filtering the message object into the different kinds of available message types and further calls methods responsible for those kinds. It will in the end call the SQLCommandFactory that will create the right SQL statement and convert it to a java object trough the SQLConverter. If any of the methods that the requestsHandler is calling throws a error it will be logged within the respected class and the requestsHandler will use the error to create a errorMessage that the ClientRunnable will need to send.
+Every time the ClientRunnable finds a response, it uses the RequestHandler to process and create the proper response message. The RequestHandler's job is to process the message-object received from the getRequest method in ClientRunnable. It starts by filtering the message-object into the different kinds of available message-types and calls on the methods responsible. It will ultimately call the SQLCommandFactory that will create the right SQL statement and convert it to a java object through the SQLConverter. If any of the methods that the RequestHandler is calling throws an error, it will be logged within the respected class and the RequestHandler will use the error to create a errorMessage that the ClientRunnable sends.
 
-The reason for creating the clientHandler and DBConnector pool is to allow for small optimization. The DBConnector is to already have a bunch of connectors available instead of designating one DBConnector per client. This removes the opening and closing connection on the databases whenever a client connects or disconnects. This also creates a better environment for the connector since a model where every client has it's own will work, but the connector may not be in use and only use space within the ram. The same within the clientHandler. Instead of designating a thread per client, that would be faster, it's not necessary. Since the probability of every client sending requests at the same time is very low, we could instead just check it one per time we go trough the list. This reduces the amount of thread necessarily from x clients to (1+pool size) times (1 + Clients/LimitOnClientHandler) rounded down. This makes the the amount of threads the server needs scale much better.
-
-There is still a bunch of features the server can do, but needs to implement like adding new nodes and rooms. While it is missing these features the skeleton of the server application is finished.
+The reason for creating the ClientHandler and DBConnector pool is to allow for small optimizations. The responsibility of the DBConnector pool is to avoid having to make a new connector per new client, but instead have a bunch of connectors already available to allow for a smoother user experience as well as saving resources. This precemts the need for opening and closing connections on the databases whenever a client connects or disconnects. This also creates a better environment for the connector because it avoids unnecessary RAM usage due to inactive connectors. This goes for the clientHandler as well. Instead of designating a thread per client, although it would be faster, it is not necessary. Since the probability of every client sending requests at the same time is very low, we could just check when we go through the list. This reduces the amount of thread necessary from x clients to (1+pool size) times (1 + Clients/LimitOnClientHandler) rounded down. This makes the the amount of threads the server needs scale much better
 
 ### Clients
 
@@ -107,15 +105,15 @@ The current working Java client uses the following implementation:
 
 ![A UML Diagram of the current working client solution.](Images/clientappClassDiagram.png)
 
-The application for clients is a JavaFX application. The application is split into three parts. The first part is the connection screen. The connection screen is used to connect to the server. The second part the send and recive screen. The send and recive screen is used to send and recive data and certificate from and to the server. The third is the main screen. The main screen is used to view the different rooms and sensors.
+The application for clients is a JavaFX application. The application is split into three parts. The first part is the connection screen. The connection screen is used to connect to the server. The second part the send and receive screen. The send and recive screen is used to send and recive data and certificate to and from the server. The third is the main screen. The main screen is used to view the different rooms and sensors.
 
-The ClientSocket class is used for communication with the server.
+The ClientSocket class is used for comunication with the server.
 
 ### Sensors
 
-The sensors is a modified version of the one given by us from <https://github.com/ntnu-datakomm/project-resources/tree/main/sensor-node-example>. This was done because we originally wanted to use microcontrollers but prioritized other stuff like optimizing the server. The things we modified was linking it to the already created sensor version we had in the data folder and adding a nodeSocket, quite similar to the clientSocket.
+The sensors are a modified version of the one given by us from <https://github.com/ntnu-datakomm/project-resources/tree/main/sensor-node-example>. This was done because we originally wanted to use microcontrollers, but prioritized other stuff like optimizing the server. The modifications we made to it were linking it to the already created sensor version we had in the data folder and adding a nodeSocket.
 
-We wanted to restrict what sensor nodes that could send information. Therefor we have listed the different nodes within the database with api-keys and the type of sensor it is. That way the sensor need only to send it's key to be identified within the system and the database could be able to distinguish when fetching the data to know what kind it is. This allows us to track what each sensor is sending but also restricts so that we must have the sensor within the database to allow it.
+We wanted to restrict the sensor nodes that could send information. Therefore, we have listed the different nodes within the database with API-keys as well as the type of sensor. That way the sensor only needs to send its key to be identified within the system, so that the database knows what kind of data it is. This allows us to track what each sensor is sending while also restricting the sensors that are allowed to register it in the database.
 
 ## Discussion
 
@@ -127,19 +125,15 @@ The ui could be improved by adding a way to add new rooms and sensors. This woul
 
 ## Conclusion and future work
 
-While the project did not have all the functionality we wanted it was still an interesting and cool project to work on. We were able to create a minimal required product from scratch, and code that we could hopefully use in further projects that uses network.
+Although the project ended up not have all the functionality we wanted, it was still an interesting and cool project to work on. We were able to create a product containing the milimal requirements from scratch, and code that we could hopefully use in further projects that contains network.
 
-While we have created the minimal required product we still feel like the project has more potential. For example one, we originally wanted to use HTTP to communicate with the sensors to allow small microcontrollers, like arduino that run different languages, to allow for communication with the server.
-
-Here you summarize the work shortly, the status. Also, here you identify the
-potential work in the future. Note: think in general - how could this work be
-continued (by your group or by others)?
+Although we have created product with the minimal requirements, we still feel like the project has a lot more potential. For one, we originally wanted to use HTTP to communicate with the sensors to allow for small microcontrollers, like arduino that run different languages, to communicate with the server.
 
 ## References
 
 [Site: National Library of medicine, Article: Planting Healthier Indoor, Author: Luz Claudio, October 2011](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3230460/)
 
-[Site: The Sleep Charity, Article: Sleep Environment, December 2022](https://thesleepcharity.org.uk/information-support/adults/sleep-environment/)
+[Site: The Sleep Charity, Article: Sleep Environment, Desember 2022](https://thesleepcharity.org.uk/information-support/adults/sleep-environment/)
 
 
 Here you provide sources of information. In a written report you typically
