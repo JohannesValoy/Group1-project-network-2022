@@ -81,7 +81,7 @@ We focused on working individually by splitting up the different parts of the pr
 
 As a group, we did not have a set way of doing things. This is because of different visions, insight and experiences between the different group members. While some created branches to label their code task others pushed straight to main with belief that the commit messages was a good enough description. This has both caused negative effects, like unfinished code being pushed to main causing errors to show up in others' code, but also some positive effects like getting out code faster, and in some cases it has actually made the process more reliable due to the coder being cautious that the code actually works before pushing.
 
-We have next-to-no user-tests simply because we finished the program very close to the final deadline. We conducted some test using JUnit on some classes where we found it necessary, to ensure that the code still worked after modification. This could have been done more often as there were several occations where we had to modify finished code because it reported incorrectly, or failed after testing when communicating with clients or sensor nodes over the internet.
+We have next-to-no user-tests simply because we finished the program very close to the final deadline. We conducted some test using JUnit on some classes where we found it necessary, to ensure that the code still worked after modification. This could have been done more often as there were several occasions where we had to modify finished code because it reported incorrectly, or failed after testing when communicating with clients or sensor nodes over the internet.
 
 ## Results
 
@@ -119,7 +119,7 @@ We wanted to restrict the sensor nodes that could send information. Therefore, w
 
 We have successfully created a minimal viable product where the components are working as intended. There is a limited amount of bugs that we found during testing and the different components are designed to be able to me easily add, remove or modify current features. This allows the projects to be able to expand and/or customize after different specifications.
 
-The different things we see that can be improved is the amount of functionality within the project. For example allow for modifications on sensors or rooms within the database. The UI could also be more user friendly for example adding a way to focus on one room or sensor. This could be done by adding a side tab with the different rooms and sensors. The UI is also lagging quite bit because of unknown reasons. This could be the way we are generating the graph or a general issue within JavaFX.
+The different things we see that can be improved is the amount of functionality within the project. For example allow for modifications on sensors or rooms within the database. The UI could also be more user-friendly for example adding a way to focus on one room or sensor. This could be done by adding a side tab with the different rooms and sensors. The UI is also lagging quite bit because of unknown reasons. This could be the way we are generating the graph or a general issue within JavaFX.
 
 While we did not work much on the sensor simulation, it is working. We wished that we could allow for a physical sensor to take it's place because it would allow to demonstrate it in the real world. It could also allow us to work on adding other protocols to communicate to the server like HTTP. The reason is that not every micro controller allows support towards java, like the arduino.
 
@@ -133,7 +133,7 @@ If we could work on the project in the further we would focus on making the sens
 
 [Site: National Library of medicine, Article: Planting Healthier Indoor, Author: Luz Claudio, October 2011](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3230460/)
 
-[Site: The Sleep Charity, Article: Sleep Environment, Desember 2022](https://thesleepcharity.org.uk/information-support/adults/sleep-environment/)
+[Site: The Sleep Charity, Article: Sleep Environment, December 2022](https://thesleepcharity.org.uk/information-support/adults/sleep-environment/)
 
 [Site: Geisinger, Article: Is mold making you sick?, September 2018](https://www.geisinger.org/health-and-wellness/wellness-articles/2018/09/19/15/02/is-mold-making-you-sick/)
 
