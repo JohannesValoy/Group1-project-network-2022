@@ -5,13 +5,19 @@ The project is part of our evaluation within the course, and has a 40% weight on
 
 ## Abstract
 
-Having unhealthy temperature and humidity quality in your house, could cause serious problems in your day-to-day life. Respiratory issues, induced stress, reduced social skills and most commonly sleeping problems. To avoid problems like these, we have made a temperature
+In modern society sleeping problems is a common problem. Sleep problems might
+have many causes, but two of the most common causes is the room
+temperature and humidity. To avoid this problem, we have made a temperature
 logger that measures the temperature in a room and sends the data to a database.
-The data is then visualized in an application. This way the user can see the
-temperatures of the different rooms, as well as if the humidity is on the
-optimal level for good health. This raises the users awareness of their indoor conditions to hopefully assist in increasing their health and overall quality of life.
+The data is then visualized in an application. This way the user can see what
+temperature makes for the best sleep quality, and if the humidity is on the
+optimal level for good sleep and good health. Possible future work could be
+adding the ability to see the average temperature and humidity at any given time of day,
+and the ability to rate your sleep to get a better view of what makes the sleep quality
+increase, and what makes it decrease.
 
 ## Introduction
+
 In a world where more and more people struggle with sleep problems, it's
 important to do research and make products that can help people
 fix these problems to increase their quality of life. As a part of
@@ -49,11 +55,6 @@ but should be around 50% in the winter and a little higher in the summer, but no
 Using our temperature and humidity sensor could assist greatly in making sure your sleep conditions are optimal,
 so that you wake up rested and can live a healthy and happy life.
 
-# Above this needs to have references
-
-These are just a few examples of the importance of our project
-and what problems in our every-day lives it can help to solve.
-
 ## Theory and technology
 
 Since we build our own server and the client were also written in java we decided to use the ObjectInput and ObjectOutput streams, so we could send objects back and forth. This was so that the implementation of both sides could be easier done, and since it was already created it saved us some work.
@@ -72,7 +73,7 @@ We focused on working individually by splitting up the different parts of the pr
 
 As a group, we did not have a set way of doing things. This is because of different visions, insight and experiences between the different group members. While some created branches to label their code task others pushed straight to main with belief that the commit messages was a good enough description. This has both caused negative effects, like unfinished code being pushed to main causing errors to show up in others' code, but also some positive effects like getting out code faster, and in some cases it has actually made the process more reliable due to the coder being cautious that the code actually works before pushing.
 
-We have next-to-no user-tests simply because we finished the program very close to the final deadline. We conducted some test using JUnit on some classes where we found it necessary, to ensure that the code still worked after modification. This could have been done more often as there were several occasions where we had to modify finished code because it reported incorrectly, or failed after testing when communicating with clients or sensor nodes over the internet.
+We have next-to-no user-tests simply because we finished the program very close to the final deadline. We conducted some test using JUnit on some classes where we found it necessary, to ensure that the code still worked after modification. This could have been done more often as there were several occations where we had to modify finished code because it reported incorrectly, or failed after testing when communicating with clients or sensor nodes over the internet.
 
 ## Results
 
@@ -110,7 +111,7 @@ We wanted to restrict the sensor nodes that could send information. Therefore, w
 
 We have successfully created a minimal viable product where the components are working as intended. There is a limited amount of bugs that we found during testing and the different components are designed to be able to me easily add, remove or modify current features. This allows the projects to be able to expand and/or customize after different specifications.
 
-The different things we see that can be improved is the amount of functionality within the project. For example allow for modifications on sensors or rooms within the database. The UI could also be more user-friendly for example adding a way to focus on one room or sensor. This could be done by adding a side tab with the different rooms and sensors. The UI is also lagging quite bit because of unknown reasons. This could be the way we are generating the graph or a general issue within JavaFX.
+The different things we see that can be improved is the amount of functionality within the project. For example allow for modifications on sensors or rooms within the database. The UI could also be more user friendly for example adding a way to focus on one room or sensor. This could be done by adding a side tab with the different rooms and sensors. The UI is also lagging quite bit because of unknown reasons. This could be the way we are generating the graph or a general issue within JavaFX.
 
 While we did not work much on the sensor simulation, it is working. We wished that we could allow for a physical sensor to take it's place because it would allow to demonstrate it in the real world. It could also allow us to work on adding other protocols to communicate to the server like HTTP. The reason is that not every micro controller allows support towards java, like the arduino.
 
@@ -122,21 +123,6 @@ If we could work on the project in the further we would focus on making the sens
 
 ## References
 
-[Site: National Library of medicine, Article: Planting Healthier Indoor, Author: Luz Claudio, October 2011](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3230460/)
-
-[Site: The Sleep Charity, Article: Sleep Environment, December 2022](https://thesleepcharity.org.uk/information-support/adults/sleep-environment/)
+[Site: The Sleep Charity, Article: Sleep Environment, Desember 2022](https://thesleepcharity.org.uk/information-support/adults/sleep-environment/)
 
 [Site: Geisinger, Article: Is mold making you sick?, September 2018](https://www.geisinger.org/health-and-wellness/wellness-articles/2018/09/19/15/02/is-mold-making-you-sick/)
-
-
-Here you provide sources of information. In a written report you typically
-include list of references in the end and have only links to those in the text,
-such as [1], [2], [3]. In markdown (as this document will be) you can include
-most of the links directly in the text. Here in this section you should list the
-sources of information you have used - books, articles, Wikipedia articles,
-other online articles. For each of them you should specify at least the title,
-the author. If available: web link and year when this was published.
-
-Note: YouTube videos are not a good source for information... Some of them are
-very good, but in general YouTube is a large trash bin, where some things turn
-out to be "edible".
