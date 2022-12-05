@@ -5,20 +5,11 @@ The project is part of our evaluation within the course, and has a 40% weight on
 
 ## Abstract
 
-In modern society sleeping problems is a common problem. Sleep problems might
-have many causes, but two of the most common causes is the room
-temperature and humidity. To avoid this problem, we have made a temperature
+Having unhealthy temperature and humidity quality in your house, could cause serious problems in your day-to-day life. Respiratory issues, induced stress, reduced social skills and most commonly sleeping problems. To avoid problems like these, we have made a temperature
 logger that measures the temperature in a room and sends the data to a database.
-The data is then visualized in an application. This way the user can see what
-temperature makes for the best sleep quality, and if the humidity is on the
-optimal level for good sleep and good health. Possible future work could be
-adding the ability to see the average temperature and humidity at any given time of day,
-and the ability to rate your sleep to get a better view of what makes the sleep quality
-increase, and what makes it decrease.
-
-### Alternative 2
-
-Temperature and humidity is something that effects us every day. In some cases can it cause drastic changes to our life, like bad sleep or hypothermia.
+The data is then visualized in an application. This way the user can see the
+temperatures of the different rooms, as well as if the humidity is on the
+optimal level for good health. This raises the users awareness of their indoor conditions to hopefully assist in increasing their health and overall quality of life.
 
 ## Introduction
 In a world where more and more people struggle with sleep problems, it's
