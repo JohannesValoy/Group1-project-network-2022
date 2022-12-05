@@ -123,6 +123,8 @@ If we could work on the project in the further we would focus on making the sens
 
 ## References
 
-[Site: The Sleep Charity, Article: Sleep Environment, Desember 2022](https://thesleepcharity.org.uk/information-support/adults/sleep-environment/)
+[Site: The Sleep Charity, Article: Sleep Environment, December 2022](https://thesleepcharity.org.uk/information-support/adults/sleep-environment/)
 
 [Site: Geisinger, Article: Is mold making you sick?, September 2018](https://www.geisinger.org/health-and-wellness/wellness-articles/2018/09/19/15/02/is-mold-making-you-sick/)
+
+[Site: Centre for Sustainable Energy, Article: Cold homes and health, 2019] (https://www.cse.org.uk/advice/advice-and-support/heat-and-health)
