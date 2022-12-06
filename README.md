@@ -30,7 +30,7 @@ Since the application is reliant on the server side, you can start the server wi
 
 There is 2 ways of injecting the test data to the server [database](target\classes\no\ntnu\idata2304\group1\server\database\data.db) (NB: the database is created when none is found when the server boots up, so you need to start server before):
 
-1. Replacing the data.db file with a copy of the test.db file found [here](src\test\resources\no\ntnu\idata2304\group1\server\database\test.db).
+1. Replacing the data.db file with a copy of the data.db file found [here](src\test\resources\no\ntnu\idata2304\group1\server\database\data.db).
 
 2. Running the sql file found [here](src\test\resources\no\ntnu\idata2304\group1\server\database\fillDummData.sql) into the the data.db file.
 

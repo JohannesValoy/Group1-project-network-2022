@@ -70,7 +70,6 @@ public class NodeSocket {
 
         Message messageResponse = (Message) input.readObject();
 
-
         return switch (messageResponse.getType()) {
             case OK -> (OKMessage) messageResponse;
             case ERROR -> (ErrorMessage) messageResponse;
@@ -96,4 +95,3 @@ public class NodeSocket {
     }
 
 }
-
