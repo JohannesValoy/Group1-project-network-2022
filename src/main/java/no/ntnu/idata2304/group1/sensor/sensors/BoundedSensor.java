@@ -52,7 +52,8 @@ public abstract class BoundedSensor extends Sensor {
     }
 
     /**
-     * Generate a random delta, which is a small fraction of the allowed value range.
+     * Generate a random delta, which is a small fraction of the allowed value
+     * range.
      *
      * @return The delta value. Note: it can be negative
      */
@@ -67,8 +68,8 @@ public abstract class BoundedSensor extends Sensor {
 
     private void roundCurrentValueToOneDecimal() {
         // Code adapted from https://stackoverflow.com/a/21596413/1703497
-        // Note: this won't work, as it will round the number down: (int) (currentValue * 10) / 10.0
-        currentValue =
-                BigDecimal.valueOf(currentValue).setScale(1, RoundingMode.HALF_UP).doubleValue();
+        // Note: this won't work, as it will round the number down: (int) (currentValue
+        // * 10) / 10.0
+        currentValue = BigDecimal.valueOf(currentValue).setScale(1, RoundingMode.HALF_UP).doubleValue();
     }
 }

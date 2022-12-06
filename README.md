@@ -12,9 +12,8 @@ We chose to work with a temperature sensor using a arduino, building our own TCP
 
 The documentation of the application can be found through the [wiki](https://github.com/JohannesValoy/Group1-project-network-2022/wiki). It will consist of
 
-- The full task received from the teachers
-- How the application works
-- The server API documentation
+- The task received from the teachers
+- The documentation for each package
 
 ## Report
 
@@ -28,17 +27,17 @@ To run a demonstration of the application you need to compile the project using 
 
 Since the application is reliant on the server side, you can start the server with the test script that is found [here](./src/test/java/no/ntnu/idata2304/group1/server/startTestServer.sh). 
 
-There is 2 ways of injecting the test data to the server [database](target\classes\no\ntnu\idata2304\group1\server\database\data.db) (NB: the database is created when none is found when the server boots up, so you need to start server before):
+There is 2 ways of injecting the test data to the [server](./target/classes/no/ntnu/idata2304/group1/server/database/) (NB: the database is created when none is found when the server boots up, so you need to start server before):
 
-1. Replacing the data.db file with a copy of the test.db file found [here](src\test\resources\no\ntnu\idata2304\group1\server\database\test.db).
+1. Copying the [data.db](./src/test/resources/no/ntnu/idata2304/group1/server/database/data.db) before the server starts or replacing the target database with the the test database.
 
-2. Running the sql file found [here](src\test\resources\no\ntnu\idata2304\group1\server\database\fillDummData.sql) into the the data.db file.
+2. Running the sql file found [here](./src/test/resources/no/ntnu/idata2304/group1/server/database/fillDummData.sql) into the the data.db file.
 
 
 ### Application
 
-The application by running the main function found in the [MainController](src\main\java\no\ntnu\idata2304\group1\clientapp\app2\ui\MainController.java).
+The application by running the main function found in the [Main](./src/main/java/no/ntnu/idata2304/group1/clientapp/app/Main.java).
 
 ### Sensor
 
-You can run one sensor manually trough the [Main](src\main\java\no\ntnu\idata2304\group1\sensor\Main.java) by passing it arguments or using the [TestSensors](src\test\java\no\ntnu\idata2304\group1\sensors\TestSensors.java) function to use the test arguments.
+You can run one sensor manually trough the [Main](./src/main/java/no/ntnu/idata2304/group1/sensor/Main.java) by passing it arguments or using the [TestSensors](./src/test/java/no/ntnu/idata2304/group1/sensors/TestSensors.java) function to use the test arguments.
