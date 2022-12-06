@@ -36,7 +36,7 @@ There is 2 ways of injecting the test data to the server [database](target\class
 
 ### Application
 
-The application by running the main function found in the [MainController](src\main\java\no\ntnu\idata2304\group1\clientapp\app2\ui\MainController.java).
+The application by running the main function found in the [Main](src\main\java\no\ntnu\idata2304\group1\clientapp\app\Main.java).
 
 ### Sensor
 
