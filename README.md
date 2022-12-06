@@ -40,4 +40,4 @@ The application by running the main function found in the [Main](./src/main/java
 
 ### Sensor
 
-You can run one sensor manually trough the [Main](./src/main/java/no/ntnu/idata2304/group1/sensor/Main.java) by passing it arguments or using the [TestSensors](./src/test/java/no/ntnu/idata2304/group1/sensors/TestSensors.java) function to use the test arguments.
+You can run one sensor manually trough the [Main](./src/main/java/no/ntnu/idata2304/group1/sensor/Main.java) by passing it arguments or using the [TestSensors](./src/test/java/no/ntnu/idata2304/group1/sensor/TestSensors.java) function to use the test arguments.
