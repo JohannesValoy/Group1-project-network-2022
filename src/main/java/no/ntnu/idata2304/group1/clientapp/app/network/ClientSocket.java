@@ -73,8 +73,11 @@ public class ClientSocket {
      */
     public Message response() throws IOException, ClassNotFoundException {
 
-        Message messageResponse = (Message) input.readObject();
 
+        Message messageResponse = (Message) input.readObject();
+        if(messageResponse == null) {
+            throw new IOException("Input stream is null");
+        }
 
         return switch (messageResponse.getType()) {
             case OK -> (OKMessage) messageResponse;

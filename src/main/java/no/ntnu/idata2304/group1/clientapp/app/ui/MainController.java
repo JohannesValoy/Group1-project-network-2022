@@ -9,7 +9,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
@@ -28,8 +27,6 @@ public class MainController {
     private FlowPane flowPane;
     @FXML
     private BorderPane borderPane;
-    @FXML
-    private ScrollPane scrollPane;
     private ArrayList<String> rooms;
     private ClientSocket clientSocket;
     private ArrayList<Room> clientRooms;
@@ -65,7 +62,6 @@ public class MainController {
         autoUpdateRoomData();
 
         // Binds the flowPane to the stage dimensions
-
         this.flowPane.prefWidthProperty().bind(borderPane.widthProperty());
         this.flowPane.prefHeightProperty().bind(borderPane.heightProperty());
 
@@ -101,17 +97,16 @@ public class MainController {
                 for (RoomWindowController roomWindowController : roomWindowControllers) {
                     if (roomWindowController.getRoom().getName().equals(clientRoom.getName())) {
                         roomWindowController.setRoom(clientRoom);
-                        roomWindowController.update();
                     }
                 }
-                this.scrollPane.setFitToWidth(true);
-                this.scrollPane.setFitToHeight(true);
             }
         } catch (IOException e) {
             ErrorDialogs.couldNotConnectAlert(e);
 
         } catch (ClassNotFoundException e) {
             ErrorDialogs.couldNotUpdateRoom(e);
+        } catch (Exception e) {
+            ErrorDialogs.generalError(e);
         }
     }
 
@@ -156,5 +151,7 @@ public class MainController {
         for (RoomWindowController roomWindowController : roomWindowControllers)
             roomWindowController.contractRoomView();
     }
+
+
 
 }
